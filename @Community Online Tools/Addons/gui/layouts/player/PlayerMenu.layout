@@ -67,7 +67,7 @@ PanelWidgetClass PlayerMenu {
      vexactpos 1
      hexactsize 0
      vexactsize 1
-     text "Player List"
+     text "#STR_PLAYER_MANAGEMENT_LIST_TITLE"
      font "gui/fonts/sdf_MetronLight24"
      "exact text" 1
      "exact text size" 16
@@ -143,7 +143,7 @@ PanelWidgetClass PlayerMenu {
        vexactpos 1
        hexactsize 0
        vexactsize 1
-       text "Player Actions"
+       text "#STR_PLAYER_MANAGEMENT_ACTIONS_TITLE"
        font "gui/fonts/sdf_MetronLight24"
        "exact text" 1
        "exact text size" 16
@@ -207,7 +207,7 @@ PanelWidgetClass PlayerMenu {
        vexactpos 1
        hexactsize 0
        vexactsize 1
-       text "Player Permissions"
+       text "#STR_PLAYER_MANAGEMENT_PERMISSIONS_TITLE"
        font "gui/fonts/sdf_MetronLight24"
        "exact text" 1
        "exact text size" 16
@@ -228,7 +228,7 @@ PanelWidgetClass PlayerMenu {
          style Light
          "text halign" center
          "text valign" center
-         text "Back"
+         text "#STR_PLAYER_MANAGEMENT_PERMISSIONS_BACK"
          font "gui/fonts/sdf_MetronLight24"
          "exact text" 1
          "exact text size" 14
@@ -251,7 +251,7 @@ PanelWidgetClass PlayerMenu {
          style Light
          "text halign" center
          "text valign" center
-         text "Apply Permissions"
+         text "#STR_PLAYER_MANAGEMENT_SET_PERMISSIONS"
          font "gui/fonts/sdf_MetronLight24"
          "exact text" 1
          "exact text size" 14

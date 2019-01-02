@@ -81,7 +81,7 @@ class PlayerMenu extends Form
 
     override string GetTitle()
     {
-        return "Player Management";
+        return "#STR_PLAYER_MANAGEMENT_TITLE";
     }
     
     override string GetIconName()
@@ -107,53 +107,53 @@ class PlayerMenu extends Form
         m_ActionsForm = layoutRoot.FindAnyWidget("actions_form");
         m_ActionsWrapper = layoutRoot.FindAnyWidget("actions_wrapper");
         
-        m_GUID = UIActionManager.CreateText( m_ActionsWrapper, "GUID: ", "" );
-        m_Name = UIActionManager.CreateText( m_ActionsWrapper, "Name: ", "" );
-        m_Steam64ID = UIActionManager.CreateText( m_ActionsWrapper, "Steam64: ", "" );
+        m_GUID = UIActionManager.CreateText( m_ActionsWrapper, "#STR_PLAYER_MANAGEMENT_GUID", "" );
+        m_Name = UIActionManager.CreateText( m_ActionsWrapper, "#STR_PLAYER_MANAGEMENT_NAME", "" );
+        m_Steam64ID = UIActionManager.CreateText( m_ActionsWrapper, "#STR_PLAYER_MANAGEMENT_STEAM", "" );
 
         ref Widget playerPosition = UIActionManager.CreateGridSpacer( m_ActionsWrapper, 1, 3 );
-        m_PosX = UIActionManager.CreateText( playerPosition, "Pos X: ", "" );
-        m_PosY = UIActionManager.CreateText( playerPosition, "Pos Y: ", "" );
-        m_PosZ = UIActionManager.CreateText( playerPosition, "Pos Z: ", "" );
+        m_PosX = UIActionManager.CreateText( playerPosition, "#STR_PLAYER_MANAGEMENT_POS_X", "" );
+        m_PosY = UIActionManager.CreateText( playerPosition, "#STR_PLAYER_MANAGEMENT_POS_Y", "" );
+        m_PosZ = UIActionManager.CreateText( playerPosition, "#STR_PLAYER_MANAGEMENT_POS_Z", "" );
 
         ref Widget pings = UIActionManager.CreateGridSpacer( m_ActionsWrapper, 1, 3 );
-        m_PingMin = UIActionManager.CreateText( pings, "Ping Min: ", "" );
-        m_PingMax = UIActionManager.CreateText( pings, "Ping Max: ", "" );
-        m_PingAvg = UIActionManager.CreateText( pings, "Ping Avg: ", "" );
+        m_PingMin = UIActionManager.CreateText( pings, "#STR_PLAYER_MANAGEMENT_PING_MIN", "" );
+        m_PingMax = UIActionManager.CreateText( pings, "#STR_PLAYER_MANAGEMENT_PING_MAX", "" );
+        m_PingAvg = UIActionManager.CreateText( pings, "#STR_PLAYER_MANAGEMENT_PING_AVERAGE", "" );
         pings.Show( false ); // because this doesn't work
 
         ref Widget playerActions = UIActionManager.CreateGridSpacer( m_ActionsWrapper, 3, 2 );
-        m_Health = UIActionManager.CreateEditableText( playerActions, "Health: ", this, "Click_SetHealth", "", "Set" );
-        m_Shock = UIActionManager.CreateEditableText( playerActions, "Shock: ", this, "Click_SetShock", "", "Set" );
-        m_Blood = UIActionManager.CreateEditableText( playerActions, "Blood: ", this, "Click_SetBlood", "", "Set" );
-        m_Energy = UIActionManager.CreateEditableText( playerActions, "Energy: ", this, "Click_SetEnergy", "", "Set" );
-        m_Water = UIActionManager.CreateEditableText( playerActions, "Water: ", this, "Click_SetWater", "", "Set" );
-        //m_HeatComfort = UIActionManager.CreateEditableText( playerActions, "Temp Change: ", this, "Click_SetHeatComfort", "", "Set" );
-        //m_Wet = UIActionManager.CreateEditableText( playerActions, "Wet: ", this, "Click_SetWet", "", "Set" );
-        //m_Tremor = UIActionManager.CreateEditableText( playerActions, "Tremor: ", this, "Click_SetTremor", "", "Set" );
-        m_Stamina = UIActionManager.CreateEditableText( playerActions, "Stamina: ", this, "Click_SetStamina", "", "Set" );
+        m_Health = UIActionManager.CreateEditableText( playerActions, "#STR_PLAYER_MANAGEMENT_HEALTH", this, "Click_SetHealth", "", "Set" );
+        m_Shock = UIActionManager.CreateEditableText( playerActions, "#STR_PLAYER_MANAGEMENT_SHOCK", this, "Click_SetShock", "", "Set" );
+        m_Blood = UIActionManager.CreateEditableText( playerActions, "#STR_PLAYER_MANAGEMENT_BLOOD", this, "Click_SetBlood", "", "Set" );
+        m_Energy = UIActionManager.CreateEditableText( playerActions, "#STR_PLAYER_MANAGEMENT_ENERGY", this, "Click_SetEnergy", "", "Set" );
+        m_Water = UIActionManager.CreateEditableText( playerActions, "#STR_PLAYER_MANAGEMENT_WATER", this, "Click_SetWater", "", "Set" );
+        //m_HeatComfort = UIActionManager.CreateEditableText( playerActions, "#STR_PLAYER_MANAGEMENT_TEMPERATURE_CHANGE", this, "Click_SetHeatComfort", "", "Set" );
+        //m_Wet = UIActionManager.CreateEditableText( playerActions, "#STR_PLAYER_MANAGEMENT_WETNESS", this, "Click_SetWet", "", "Set" );
+        //m_Tremor = UIActionManager.CreateEditableText( playerActions, "#STR_PLAYER_MANAGEMENT_TREMOR", this, "Click_SetTremor", "", "Set" );
+        m_Stamina = UIActionManager.CreateEditableText( playerActions, "#STR_PLAYER_MANAGEMENT_STAMINA", this, "Click_SetStamina", "", "Set" );
 
         ref array< string > lifeSpanOptions = new ref array< string >;
-        lifeSpanOptions.Insert( "No" );
-        lifeSpanOptions.Insert( "Medium " );
-        lifeSpanOptions.Insert( "Large" );
-        lifeSpanOptions.Insert( "Extra" );
+        lifeSpanOptions.Insert( "#STR_PLAYER_MANAGEMENT_BEARD_NONE" );
+        lifeSpanOptions.Insert( "#STR_PLAYER_MANAGEMENT_BEARD_MEDIUM " );
+        lifeSpanOptions.Insert( "#STR_PLAYER_MANAGEMENT_BEARD_LARGE" );
+        lifeSpanOptions.Insert( "#STR_PLAYER_MANAGEMENT_BEARD_EXTRA" );
 
-        // m_LastShaved = UIActionManager.CreateSelectionBox( playerActions, "Beard: ", lifeSpanOptions, this, "Click_SetLifeSpanState" );
-        m_BloodyHands = UIActionManager.CreateCheckbox( playerActions, "Bloody Hands: ", this, "Click_SetBloodyHands", false );
-        // m_KickTransport = UIActionManager.CreateButton( playerActions, "Kick Transport", this, "Click_KickTransport" );
-        m_RepairTransport = UIActionManager.CreateButton( playerActions, "Repair Transport", this, "Click_RepairTransport" );
-        m_TeleportToMe = UIActionManager.CreateButton( playerActions, "Teleport To Me", this, "Click_TeleportToMe" );
-        m_TeleportMeTo = UIActionManager.CreateButton( playerActions, "Teleport Me To", this, "Click_TeleportMeTo" );
+        // m_LastShaved = UIActionManager.CreateSelectionBox( playerActions, "#STR_PLAYER_MANAGEMENT_BEARD", lifeSpanOptions, this, "Click_SetLifeSpanState" );
+        m_BloodyHands = UIActionManager.CreateCheckbox( playerActions, "STR_PLAYER_MANAGEMENT_BLOODY_HANDS", this, "Click_SetBloodyHands", false );
+        // m_KickTransport = UIActionManager.CreateButton( playerActions, "#STR_PLAYER_MANAGEMENT_KICK_TRANSPORT", this, "Click_KickTransport" );
+        m_RepairTransport = UIActionManager.CreateButton( playerActions, "#STR_PLAYER_MANAGEMENT_REPAIR_TRANSPORT", this, "Click_RepairTransport" );
+        m_TeleportToMe = UIActionManager.CreateButton( playerActions, "#STR_PLAYER_MANAGEMENT_TELEPORT_TO_ME", this, "Click_TeleportToMe" );
+        m_TeleportMeTo = UIActionManager.CreateButton( playerActions, "#STR_PLAYER_MANAGEMENT_TELEPORT_ME_TO", this, "Click_TeleportMeTo" );
 
         ref Widget serverActions = UIActionManager.CreateGridSpacer( m_ActionsWrapper, 1, 2 );
-        m_ModifyPermissions = UIActionManager.CreateButton( serverActions, "Modify Permissions", this, "Click_ModifyPermissions" );
-        //m_Freecam = UIActionManager.CreateCheckbox( serverActions, "Freecam", this, "Click_ToggleFreecam", false );
-        // m_GodMode = UIActionManager.CreateCheckbox( serverActions, "Godmode", this, "Click_GodMode", false );
-        m_SpectatePlayer = UIActionManager.CreateButton( serverActions, "Spectate Player", this, "Click_SpectatePlayer" );
+        m_ModifyPermissions = UIActionManager.CreateButton( serverActions, "#STR_PLAYER_MANAGEMENT_MODIFY_PERMISSIONS", this, "Click_ModifyPermissions" );
+        //m_Freecam = UIActionManager.CreateCheckbox( serverActions, "#STR_PLAYER_MANAGEMENT_FREECAM", this, "Click_ToggleFreecam", false );
+        // m_GodMode = UIActionManager.CreateCheckbox( serverActions, "#STR_PLAYER_MANAGEMENT_GODMODE", this, "Click_GodMode", false );
+        m_SpectatePlayer = UIActionManager.CreateButton( serverActions, "#STR_PLAYER_MANAGEMENT_SPECTATE_PLAYER", this, "Click_SpectatePlayer" );
 
-        //m_BanPlayer = UIActionManager.CreateButton( serverActions, "Ban Player", this, "Click_BanPlayer" );
-        //m_KickPlayer = UIActionManager.CreateButton( serverActions, "Kick Player", this, "Click_KickPlayer" );
+        //m_BanPlayer = UIActionManager.CreateButton( serverActions, "#STR_PLAYER_MANAGEMENT_BAN_PLAYER", this, "Click_BanPlayer" );
+        //m_KickPlayer = UIActionManager.CreateButton( serverActions, "#STR_PLAYER_MANAGEMENT_KICK_PLAYER", this, "Click_KickPlayer" );
 
         m_PermissionsWrapper = layoutRoot.FindAnyWidget("permissions_wrapper");
         m_PermsContainer = layoutRoot.FindAnyWidget("permissions_container");

@@ -1,0 +1,41 @@
+﻿Language,original,english,czech,german,russian,polish,hungarian,italian,spanish,french,japanese,portuguese
+STR_PLAYER_MANAGEMENT_TITLE,Player Management,Player Management,Player Management,Player Management,Player Management,Player Management,Player Management,Player Management,Player Management,Player Management,Player Management,Player Management
+STR_PLAYER_MANAGEMENT_GUID,GUID: ,GUID: ,GUID: ,GUID: ,GUID: ,GUID: ,GUID: ,GUID: ,GUID: ,GUID: ,GUID: ,GUID: 
+STR_PLAYER_MANAGEMENT_NAME,Name: ,Name: ,Name: ,Name: ,Name: ,Name: ,Name: ,Name: ,Name: ,Name: ,Name: ,Name: 
+STR_PLAYER_MANAGEMENT_STEAM,Steam64ID: ,Steam64ID: ,Steam64ID: ,Steam64ID: ,Steam64ID: ,Steam64ID: ,Steam64ID: ,Steam64ID: ,Steam64ID: ,Steam64ID: ,Steam64ID: ,Steam64ID: 
+STR_PLAYER_MANAGEMENT_POS_X,Pos X:,Pos X:,Pos X:,Pos X:,Pos X:,Pos X:,Pos X:,Pos X:,Pos X:,Pos X:,Pos X:,Pos X:
+STR_PLAYER_MANAGEMENT_POS_Y,Pos Y:,Pos Y:,Pos Y:,Pos Y:,Pos Y:,Pos Y:,Pos Y:,Pos Y:,Pos Y:,Pos Y:,Pos Y:,Pos Y:
+STR_PLAYER_MANAGEMENT_POS_Z,Pos Z:,Pos Z:,Pos Z:,Pos Z:,Pos Z:,Pos Z:,Pos Z:,Pos Z:,Pos Z:,Pos Z:,Pos Z:,Pos Z:
+STR_PLAYER_MANAGEMENT_PING_MIN,Ping Min: ,Ping Min: ,Ping Min: ,Ping Min: ,Ping Min: ,Ping Min: ,Ping Min: ,Ping Min: ,Ping Min: ,Ping Min: ,Ping Min: ,Ping Min: 
+STR_PLAYER_MANAGEMENT_PING_MAX,Ping Max:,Ping Max:,Ping Max:,Ping Max:,Ping Max:,Ping Max:,Ping Max:,Ping Max:,Ping Max:,Ping Max:,Ping Max:,Ping Max:
+STR_PLAYER_MANAGEMENT_PING_AVERAGE,Ping Avg: ,Ping Avg: ,Ping Avg: ,Ping Avg: ,Ping Avg: ,Ping Avg: ,Ping Avg: ,Ping Avg: ,Ping Avg: ,Ping Avg: ,Ping Avg: ,Ping Avg: 
+STR_PLAYER_MANAGEMENT_HEALTH,Health: ,Health: ,Health: ,Health: ,Health: ,Health: ,Health: ,Health: ,Health: ,Health: ,Health: ,Health: 
+STR_PLAYER_MANAGEMENT_SHOCK,Shock:,Shock:,Shock:,Shock:,Shock:,Shock:,Shock:,Shock:,Shock:,Shock:,Shock:,Shock:
+STR_PLAYER_MANAGEMENT_BLOOD,Blood:,Blood:,Blood:,Blood:,Blood:,Blood:,Blood:,Blood:,Blood:,Blood:,Blood:,Blood:
+STR_PLAYER_MANAGEMENT_ENERGY,Energy:,Energy:,Energy:,Energy:,Energy:,Energy:,Energy:,Energy:,Energy:,Energy:,Energy:,Energy:
+STR_PLAYER_MANAGEMENT_WATER,Water:,Water:,Water:,Water:,Water:,Water:,Water:,Water:,Water:,Water:,Water:,Water:
+STR_PLAYER_MANAGEMENT_TEMPERATURE_CHANGE,Temperature Change:,Temperature Change:,Temperature Change:,Temperature Change:,Temperature Change:,Temperature Change:,Temperature Change:,Temperature Change:,Temperature Change:,Temperature Change:,Temperature Change:,Temperature Change:
+STR_PLAYER_MANAGEMENT_WETNESS,Wetness:,Wetness:,Wetness:,Wetness:,Wetness:,Wetness:,Wetness:,Wetness:,Wetness:,Wetness:,Wetness:,Wetness:
+STR_PLAYER_MANAGEMENT_TREMOR,Tremor:,Tremor:,Tremor:,Tremor:,Tremor:,Tremor:,Tremor:,Tremor:,Tremor:,Tremor:,Tremor:,Tremor:
+STR_PLAYER_MANAGEMENT_STAMINA,Stamina:,Stamina:,Stamina:,Stamina:,Stamina:,Stamina:,Stamina:,Stamina:,Stamina:,Stamina:,Stamina:,Stamina:
+STR_PLAYER_MANAGEMENT_BEARD,Beard:,Beard:,Beard:,Beard:,Beard:,Beard:,Beard:,Beard:,Beard:,Beard:,Beard:,Beard:
+STR_PLAYER_MANAGEMENT_BEARD_NONE,Beard None:,Beard None:,Beard None:,Beard None:,Beard None:,Beard None:,Beard None:,Beard None:,Beard None:,Beard None:,Beard None:,Beard None:
+STR_PLAYER_MANAGEMENT_BEARD_MEDIUM,Beard Medium:,Beard Medium:,Beard Medium:,Beard Medium:,Beard Medium:,Beard Medium:,Beard Medium:,Beard Medium:,Beard Medium:,Beard Medium:,Beard Medium:,Beard Medium:
+STR_PLAYER_MANAGEMENT_BEARD_LARGE,Beard Large:,Beard Large:,Beard Large:,Beard Large:,Beard Large:,Beard Large:,Beard Large:,Beard Large:,Beard Large:,Beard Large:,Beard Large:,Beard Large:
+STR_PLAYER_MANAGEMENT_BEARD_EXTRA,Beard Extra:,Beard Extra:,Beard Extra:,Beard Extra:,Beard Extra:,Beard Extra:,Beard Extra:,Beard Extra:,Beard Extra:,Beard Extra:,Beard Extra:,Beard Extra:
+STR_PLAYER_MANAGEMENT_BLOODY_HANDS,Bloody Hands:,Bloody Hands:,Bloody Hands:,Bloody Hands:,Bloody Hands:,Bloody Hands:,Bloody Hands:,Bloody Hands:,Bloody Hands:,Bloody Hands:,Bloody Hands:,Bloody Hands:
+STR_PLAYER_MANAGEMENT_KICK_TRANSPORT,Kick Transport:,Kick Transport:,Kick Transport:,Kick Transport:,Kick Transport:,Kick Transport:,Kick Transport:,Kick Transport:,Kick Transport:,Kick Transport:,Kick Transport:,Kick Transport:
+STR_PLAYER_MANAGEMENT_REPAIR_TRANSPORT,Repair Transport:,Repair Transport:,Repair Transport:,Repair Transport:,Repair Transport:,Repair Transport:,Repair Transport:,Repair Transport:,Repair Transport:,Repair Transport:,Repair Transport:,Repair Transport:
+STR_PLAYER_MANAGEMENT_TELEPORT_TO_ME,Teleport To Me:,Teleport To Me:,Teleport To Me:,Teleport To Me:,Teleport To Me:,Teleport To Me:,Teleport To Me:,Teleport To Me:,Teleport To Me:,Teleport To Me:,Teleport To Me:,Teleport To Me:
+STR_PLAYER_MANAGEMENT_TELEPORT_ME_TO,Teleport Me To:,Teleport Me To:,Teleport Me To:,Teleport Me To:,Teleport Me To:,Teleport Me To:,Teleport Me To:,Teleport Me To:,Teleport Me To:,Teleport Me To:,Teleport Me To:,Teleport Me To:
+STR_PLAYER_MANAGEMENT_MODIFY_PERMISSIONS,Modify Permissions:,Modify Permissions:,Modify Permissions:,Modify Permissions:,Modify Permissions:,Modify Permissions:,Modify Permissions:,Modify Permissions:,Modify Permissions:,Modify Permissions:,Modify Permissions:,Modify Permissions:
+STR_PLAYER_MANAGEMENT_FREECAM,Freecam:,Freecam:,Freecam:,Freecam:,Freecam:,Freecam:,Freecam:,Freecam:,Freecam:,Freecam:,Freecam:,Freecam:
+STR_PLAYER_MANAGEMENT_GODMODE,Godmode:,Godmode:,Godmode:,Godmode:,Godmode:,Godmode:,Godmode:,Godmode:,Godmode:,Godmode:,Godmode:,Godmode:
+STR_PLAYER_MANAGEMENT_SPECTATE_PLAYER,Spectate Player:,Spectate Player:,Spectate Player:,Spectate Player:,Spectate Player:,Spectate Player:,Spectate Player:,Spectate Player:,Spectate Player:,Spectate Player:,Spectate Player:,Spectate Player:
+STR_PLAYER_MANAGEMENT_BAN_PLAYER,Ban Player:,Ban Player:,Ban Player:,Ban Player:,Ban Player:,Ban Player:,Ban Player:,Ban Player:,Ban Player:,Ban Player:,Ban Player:,Ban Player:
+STR_PLAYER_MANAGEMENT_KICK_PLAYER,Kick Player:,Kick Player:,Kick Player:,Kick Player:,Kick Player:,Kick Player:,Kick Player:,Kick Player:,Kick Player:,Kick Player:,Kick Player:,Kick Player:
+STR_PLAYER_MANAGEMENT_SET_PERMISSIONS,Set Permissions:,Set Permissions:,Set Permissions:,Set Permissions:,Set Permissions:,Set Permissions:,Set Permissions:,Set Permissions:,Set Permissions:,Set Permissions:,Set Permissions:,Set Permissions:
+STR_PLAYER_MANAGEMENT_PERMISSIONS_BACK,Back:,Back:,Back:,Back:,Back:,Back:,Back:,Back:,Back:,Back:,Back:,Back:
+STR_PLAYER_MANAGEMENT_PERMISSIONS_TITLE,Player Permissions,Player Permissions,Player Permissions,Player Permissions,Player Permissions,Player Permissions,Player Permissions,Player Permissions,Player Permissions,Player Permissions,Player Permissions,Player Permissions
+STR_PLAYER_MANAGEMENT_ACTIONS_TITLE,Player Actions,Player Actions,Player Actions,Player Actions,Player Actions,Player Actions,Player Actions,Player Actions,Player Actions,Player Actions,Player Actions,Player Actions
+STR_PLAYER_MANAGEMENT_LIST_TITLE,Player List,Player List,Player List,Player List,Player List,Player List,Player List,Player List,Player List,Player List,Player List,Player List
