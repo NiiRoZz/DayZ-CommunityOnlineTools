@@ -108,8 +108,8 @@ class CameraTool: EditorModule
 
             if ( human )
             {
-                //human.Save();
-                //human.Delete();
+                // human.Save();
+                // human.Delete();
 
                 position = human.GetBonePositionWS( human.GetBoneIndexByName("Head") );
             }
@@ -134,7 +134,11 @@ class CameraTool: EditorModule
             if ( CurrentActiveCamera )
             {
                 CurrentActiveCamera.SetActive( true );
-                GetPlayer().GetInputController().SetDisabled( true );
+                
+                if ( GetPlayer() )
+                {
+                    GetPlayer().GetInputController().SetDisabled( true );
+                }
             }
         }
     }
@@ -168,7 +172,10 @@ class CameraTool: EditorModule
             
             PPEffects.ResetDOFOverride();
 
-            GetPlayer().GetInputController().SetDisabled( false );
+            if ( GetPlayer() )
+            {
+                GetPlayer().GetInputController().SetDisabled( false );
+            }
         }
     }
 
