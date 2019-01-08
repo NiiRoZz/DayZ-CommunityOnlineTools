@@ -737,13 +737,16 @@ class PlayerMenu extends Form
             m_RolesList[k].SetChecked( false );
         }
 
-        for ( int j = 0; j < roles.Count(); j++ )
+        if ( roles != NULL )
         {
-            for ( int i = 0; i < m_RolesList.Count(); i++ )
+            for ( int j = 0; j < roles.Count(); j++ )
             {
-                if ( m_RolesList[i].Name == roles[j] )
+                for ( int i = 0; i < m_RolesList.Count(); i++ )
                 {
-                    m_RolesList[i].SetChecked( true );
+                    if ( m_RolesList[i].Name == roles[j] )
+                    {
+                        m_RolesList[i].SetChecked( true );
+                    }
                 }
             }
         }
@@ -852,7 +855,7 @@ class PlayerMenu extends Form
         {
             m_PlayerRowList[i].SetPlayer( players[i] );
 
-            if ( COTMenuOpen )
+            if ( COT_ESP_Toggled )
             {
                 m_PlayerBoxList[i].SetPlayer( players[i] );
             }
@@ -875,14 +878,6 @@ class PlayerMenu extends Form
             UpdateActionsFields( GetSelectedPlayers()[0].Data );
         }
 
-        int playerCount = players.Count();
-
-        if ( playerCount == 1 )
-        {
-            m_PlayerCount.SetText( "1 Online" );
-        } else 
-        {
-            m_PlayerCount.SetText( "" + playerCount + " Online" );
-        }
+        m_PlayerCount.SetText( "" + players.Count() + " Online" );
     }
 }
