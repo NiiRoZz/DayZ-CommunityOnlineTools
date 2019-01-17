@@ -400,12 +400,6 @@ class PlayerMenu extends Form
         {
             SetSize( awidth, plheight );
 
-            if ( m_DataJustUpdated )
-            {
-                m_DataJustUpdated = false;
-                return;
-            }
-
             m_GUID.SetText( data.SGUID );
             m_Name.SetText( data.SName );
             m_Steam64ID.SetText( data.SSteam64ID );
@@ -472,17 +466,25 @@ class PlayerMenu extends Form
 
     void UpdateList()
     {
-        if ( m_CanUpdateList )
-        {
-            m_CanUpdateList = false;
-            UpdatePlayerList();
-            RefreshRolesUI();
-            m_CanUpdateList = true;
+        UpdatePlayerList();
+        RefreshRolesUI();
 
-            if ( GetSelectedPlayers().Count() > 0 )
-            {
-                GetRPCManager().SendRPC( "PermissionsFramework", "UpdatePlayerData", new Param1< string >( GetSelectedPlayers()[0].GetGUID() ), true );
-            }
+        if ( GetSelectedGUIDs().Count() > 0 )
+        {
+            GetRPCManager().SendRPC( "PermissionsFramework", "UpdatePlayerData", new Param1< string >( GetSelectedGUIDs()[0] ), true );
+        }
+
+        if ( m_DataJustUpdated )
+        {
+            m_DataJustUpdated = false;
+            return;
+        }
+
+        if (GetSelectedPlayers().Count() > 0 )
+        {
+            UpdateActionsFields( GetSelectedPlayers()[0].Data );
+            LoadPermissions( GetSelectedPlayers()[0].Data.APermissions );
+            LoadRoles( GetSelectedPlayers()[0].Data.ARoles );
         }
     }
 
@@ -543,6 +545,7 @@ class PlayerMenu extends Form
             UpdateActionsFields( NULL );
 
             GetSelectedPlayers().Clear();
+            GetSelectedGUIDs().Clear();
 
             for ( int i = 0; i < m_PlayerRowList.Count(); i++ )
             {
@@ -844,11 +847,7 @@ class PlayerMenu extends Form
         for ( int k = 0; k < m_PlayerRowList.Count(); k++ )
         {
             m_PlayerRowList[k].SetPlayer( NULL );
-        }
-
-        for ( int j = 0; j < m_PlayerBoxList.Count(); j++ )
-        {
-            m_PlayerBoxList[j].SetPlayer( NULL );
+            m_PlayerBoxList[k].SetPlayer( NULL );
         }
 
         for ( int i = 0; i < players.Count(); i++ )
@@ -867,11 +866,6 @@ class PlayerMenu extends Form
                 m_PlayerRowList[i].Checkbox.SetChecked( false );
                 m_PlayerBoxList[i].Checkbox.SetChecked( false );
             }
-        }
-
-        if (GetSelectedPlayers().Count() > 0 )
-        {
-            UpdateActionsFields( GetSelectedPlayers()[0].Data );
         }
 
         m_PlayerCount.SetText( "" + players.Count() + " Online" );

@@ -17,6 +17,11 @@ class PlayerBox extends ScriptedWidgetEventHandler
     float FOV;
     vector ScreenPos;
 
+    float BoxWidth;
+    float BoxHeight;
+
+    bool UseSyncedPosition;
+
     void OnWidgetScriptInit( Widget w )
     {
         layoutRoot = w;
@@ -35,6 +40,7 @@ class PlayerBox extends ScriptedWidgetEventHandler
         Button = ButtonWidget.Cast(layoutRoot.FindAnyWidget("button"));
         Checkbox = CheckBoxWidget.Cast(layoutRoot.FindAnyWidget("checkbox"));
 
+        layoutRoot.GetScreenSize( BoxWidth, BoxHeight );
     }
 
     void Show()
@@ -69,41 +75,62 @@ class PlayerBox extends ScriptedWidgetEventHandler
         return Math.Asin( a ) / Math.Acos( a );
     }
 
+    vector GetPosition()
+    {
+        if ( Player.PlayerObject && !UseSyncedPosition )
+        {
+            if ( Player.PlayerObject.IsInTransport() )
+            {
+                return Player.PlayerObject.GetPosition() + "0 1.1 0";
+            } else 
+            {
+                vector position = Player.PlayerObject.GetPosition() + "0 1.85 0";
+
+                int bone = Player.PlayerObject.GetBoneIndexByName( "Head" );
+
+                if ( bone != -1 )
+                {
+                    position = Player.PlayerObject.GetBonePositionWS( bone ) + "0 0.2 0";
+                }
+
+                return position;
+            }
+        } else 
+        {
+            return Player.Data.VPosition + "0 1.85 0";
+        }
+    }
+
     void Update() 
     {
-        vector normalize = ( Player.PlayerObject.GetPosition() - GetGame().GetCurrentCameraPosition() );
+        vector position = GetPosition();
+
+        vector normalize = ( position - GetGame().GetCurrentCameraPosition() );
         float dot = vector.Dot( normalize.Normalized(), GetGame().GetCurrentCameraDirection().Normalized() );
         
         float limit = FOV / 1.5;
 
         if ( dot < limit )
         {
-            Hide();
             ShowOnScreen = false;
         } else
         {
             ShowOnScreen = true;
         }
             
-        ScreenPos = GetGame().GetScreenPos( Player.PlayerObject.GetPosition() + "0 2 0");
+        ScreenPos = GetGame().GetScreenPos( position );
 
         if ( ShowOnScreen )
         {
             if ( ScreenPos[2] > 1000 )
             {
-                Hide();
                 ShowOnScreen = false;
-            }
-            
-            if ( !layoutRoot.IsVisible() )
-            {
-                Show();
             }
         }
 
         if ( ShowOnScreen && Player )
         {
-            layoutRoot.SetPos( ScreenPos[0], ScreenPos[1] - ( Height / 2 ), true );
+            layoutRoot.SetPos( ScreenPos[0] - ( BoxWidth / 8 ), ScreenPos[1] - ( Height / 2 ) - ( BoxHeight / 2 ), true );
         }
     }
 
@@ -134,8 +161,6 @@ class PlayerBox extends ScriptedWidgetEventHandler
 
             Name.SetText( Player.GetName() );
 
-            if ( GetGame().GetPlayer() == NULL ) return;
-
             if ( !GetGame().IsMultiplayer() )
             {
                 ShowOnScreen = false;
@@ -144,22 +169,35 @@ class PlayerBox extends ScriptedWidgetEventHandler
                 return;
             }
 
-            if ( Player.GetGUID() == GetGame().GetPlayer().GetIdentity().GetId() )
+            PlayerBase controllingPlayer = PlayerBase.Cast( GetGame().GetPlayer() );
+
+            if ( controllingPlayer && Player.GetGUID() == controllingPlayer.GetIdentity().GetId() )
             {
-                if ( CurrentActiveCamera == NULL )
+                Name.SetColor( 0xFF2ECC71 );
+
+                bool cameraExists = controllingPlayer.GetCurrentCamera() != NULL;
+
+                if ( cameraExists && controllingPlayer.GetCurrentCamera().IsInherited( DayZPlayerCamera3rdPerson ) )
                 {
-                    ShowOnScreen = false
+                    ShowOnScreen = true;
+                } else if ( cameraExists && controllingPlayer.GetCurrentCamera().IsInherited( DayZPlayerCamera3rdPersonVehicle ) )
+                {
+                    ShowOnScreen = true;
+                } else if ( CurrentActiveCamera )
+                {
+                    ShowOnScreen = true;
+                } else 
+                {
+                    ShowOnScreen = false;
                     Hide();
                 }
-
-                Name.SetColor( 0xFF2ECC71 );
             } 
 
             if ( ShowOnScreen )
             {
                 Name.SetColor( 0xFFFFFFFF );
             
-                ScreenPos = GetGame().GetScreenPos( Player.PlayerObject.GetPosition() );
+                ScreenPos = GetGame().GetScreenPos( GetPosition() );
 
                 if ( ScreenPos[2] > 1000 )
                 {
@@ -167,6 +205,16 @@ class PlayerBox extends ScriptedWidgetEventHandler
                     ShowOnScreen = false;
                 } else 
                 {
+                    if ( ScreenPos[2] > 100 )
+                    {
+                        UseSyncedPosition = true;
+                    } else
+                    {
+                        UseSyncedPosition = false;
+                    }
+
+                    Show();
+
                     ShowOnScreen = true;
 
                     GetScreenSize( Width, Height );

@@ -67,9 +67,18 @@ class TeleportModule: EditorModule
             return;
         }
 
+        vector currentPosition = "0 0 0";
         vector hitPos = GetCursorPos();
 
-        float distance = vector.Distance( GetGame().GetPlayer().GetPosition(), hitPos );
+        if ( CurrentActiveCamera && CurrentActiveCamera.IsActive() )
+        {
+            currentPosition = CurrentActiveCamera.GetPosition();
+        } else 
+        {
+            currentPosition = GetPlayer().GetPosition();
+        }
+
+        float distance = vector.Distance( currentPosition, hitPos );
 
         if ( distance < 5000 )
         {
