@@ -174,7 +174,7 @@ class TeleportModule: EditorModule
                     player.SetPosition( position );
                 }
                 
-                COTLog( sender, "Teleported player " + players[j].GetGUID() );
+                COTLog( sender, "Teleported " + players[j].GetSteam64ID() + " to " + location.Name );
             }
         }
     }

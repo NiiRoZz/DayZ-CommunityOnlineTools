@@ -364,26 +364,6 @@ static ref PlayerBase GetPlayer()
     return PlayerBase.Cast( GetGame().GetPlayer() );
 }
 
-static bool SHIFT()
-{
-    return( ( KeyState( KeyCode.KC_LSHIFT ) > 0 ) || ( KeyState( KeyCode.KC_RSHIFT ) > 0 ) );
-}
-
-static bool CTRL()
-{
-    return( ( KeyState( KeyCode.KC_LCONTROL ) > 0 ) || ( KeyState( KeyCode.KC_RCONTROL ) > 0 ) );
-}
-
-static bool ALT()
-{
-    return( ( KeyState( KeyCode.KC_LMENU ) > 0 ) || ( KeyState( KeyCode.KC_RMENU ) > 0 ) );
-}
-
-static bool WINKEY()
-{
-    return( ( KeyState( KeyCode.KC_LWIN ) > 0 ) || ( KeyState( KeyCode.KC_RWIN ) > 0 ) );
-}
-
 static ZombieBase SpawnInfected(vector pos)
 {
     return ZombieBase.Cast(GetGame().CreateObject( WorkingZombieClasses().GetRandomElement(), pos, false, true ));

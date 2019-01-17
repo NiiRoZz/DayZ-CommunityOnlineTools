@@ -854,13 +854,9 @@ class PlayerMenu extends Form
         for ( int i = 0; i < players.Count(); i++ )
         {
             m_PlayerRowList[i].SetPlayer( players[i] );
+            m_PlayerBoxList[i].SetPlayer( players[i] );
 
-            if ( COT_ESP_Toggled )
-            {
-                m_PlayerBoxList[i].SetPlayer( players[i] );
-            }
-
-            if ( PlayerAlreadySelected( players[i] ) )
+            if ( GUIDAlreadySelected( players[i].GetGUID() ) )
             {
                 OnPlayerSelected( players[i], true );
                 m_PlayerRowList[i].Checkbox.SetChecked( true );

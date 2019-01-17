@@ -96,7 +96,7 @@ class PlayerModule: EditorModule
 
                 player.SetHealth( "GlobalHealth", "Health", data.param1 );
 
-                COTLog( sender, "Set health to " + data.param1 + " for " + players[i].GetGUID() );
+                COTLog( sender, "Set health to " + data.param1 + " for " + players[i].GetSteam64ID() );
             }
         }
     }
@@ -121,7 +121,7 @@ class PlayerModule: EditorModule
 
                 player.SetHealth( "GlobalHealth", "Blood", data.param1 );
 
-                COTLog( sender, "Set blood to " + data.param1 + " for " + players[i].GetGUID() );
+                COTLog( sender, "Set blood to " + data.param1 + " for " + players[i].GetSteam64ID() );
             }
         }
     }
@@ -146,7 +146,7 @@ class PlayerModule: EditorModule
 
                 player.GetStatEnergy().Set( data.param1 );
 
-                COTLog( sender, "Set energy to " + data.param1 + " for " + players[i].GetGUID() );
+                COTLog( sender, "Set energy to " + data.param1 + " for " + players[i].GetSteam64ID() );
             }
         }
     }
@@ -171,7 +171,7 @@ class PlayerModule: EditorModule
 
                 player.GetStatWater().Set( data.param1 );
 
-                COTLog( sender, "Set water to " + data.param1 + " for " + players[i].GetGUID() );
+                COTLog( sender, "Set water to " + data.param1 + " for " + players[i].GetSteam64ID() );
             }
         }
     }
@@ -196,7 +196,7 @@ class PlayerModule: EditorModule
 
                 player.SetHealth( "GlobalHealth", "Shock", data.param1 );
 
-                COTLog( sender, "Set shock to " + data.param1 + " for " + players[i].GetGUID() );
+                COTLog( sender, "Set shock to " + data.param1 + " for " + players[i].GetSteam64ID() );
             }
         }
     }
@@ -221,7 +221,7 @@ class PlayerModule: EditorModule
 
                 player.GetStatHeatComfort().Set( data.param1 );
 
-                COTLog( sender, "Set heat comfort to " + data.param1 + " for " + players[i].GetGUID() );
+                COTLog( sender, "Set heat comfort to " + data.param1 + " for " + players[i].GetSteam64ID() );
             }
         }
     }
@@ -246,7 +246,7 @@ class PlayerModule: EditorModule
 
                 player.GetStatWet().Set( data.param1 );
 
-                COTLog( sender, "Set wetness to " + data.param1 + " for " + players[i].GetGUID() );
+                COTLog( sender, "Set wetness to " + data.param1 + " for " + players[i].GetSteam64ID() );
             }
         }
     }
@@ -271,7 +271,7 @@ class PlayerModule: EditorModule
 
                 player.GetStatTremor().Set( data.param1 );
 
-                COTLog( sender, "Set tremor to " + data.param1 + " for " + players[i].GetGUID() );
+                COTLog( sender, "Set tremor to " + data.param1 + " for " + players[i].GetSteam64ID() );
             }
         }
     }
@@ -296,7 +296,7 @@ class PlayerModule: EditorModule
 
                 player.GetStatStamina().Set( data.param1 );
 
-                COTLog( sender, "Set stamina to " + data.param1 + " for " + players[i].GetGUID() );
+                COTLog( sender, "Set stamina to " + data.param1 + " for " + players[i].GetSteam64ID() );
             }
         }
     }
@@ -324,7 +324,7 @@ class PlayerModule: EditorModule
                     player.SetLifeSpanStateVisible( data.param1 );
                 }
 
-                COTLog( sender, "Set beard state to " + data.param1 + " for " + players[i].GetGUID() );
+                COTLog( sender, "Set beard state to " + data.param1 + " for " + players[i].GetSteam64ID() );
             }
         }
     }
@@ -349,7 +349,7 @@ class PlayerModule: EditorModule
 
                 player.SetBloodyHands( data.param1 );
 
-                COTLog( sender, "Set bloody hands to " + data.param1 + " for " + players[i].GetGUID() );
+                COTLog( sender, "Set bloody hands to " + data.param1 + " for " + players[i].GetSteam64ID() );
             }
         }
     }
@@ -393,7 +393,7 @@ class PlayerModule: EditorModule
                             vehCommand.JumpOutVehicle();
                         }
 
-                        COTLog( sender, "Kicked " + players[i].GetGUID() + " out of transport" );
+                        COTLog( sender, "Kicked " + players[i].GetSteam64ID() + " out of transport" );
                     }
                 }
             }
@@ -448,7 +448,7 @@ class PlayerModule: EditorModule
 
                     completedTransports.Insert( transport );
 
-                    COTLog( sender, "Repaired transport for " + players[i].GetGUID() );
+                    COTLog( sender, "Repaired transport for " + players[i].GetSteam64ID() );
                 }
             }
         }
@@ -476,7 +476,7 @@ class PlayerModule: EditorModule
 
                 player.SetPosition( data.param1 );
 
-                COTLog( sender, "Teleported " + players[i].GetGUID() + " to self" );
+                COTLog( sender, "Teleported " + players[i].GetSteam64ID() + " to self" );
             }
         }
     }
@@ -505,7 +505,7 @@ class PlayerModule: EditorModule
 
             senderPlayer.SetPosition( player.GetPosition() );
 
-            COTLog( sender, "Teleported self to " + players[0].GetGUID() );
+            COTLog( sender, "Teleported self to " + players[0].GetSteam64ID() );
         }
     }
 
@@ -542,7 +542,7 @@ class PlayerModule: EditorModule
 
             GetRPCManager().SendRPC( "COT_Admin", "SpectatePlayer", new Param, true, sender, player );
 
-            COTLog( sender, "Spectating " + players[0].GetGUID() );
+            COTLog( sender, "Spectating " + players[0].GetSteam64ID() );
         }    
 
         if( type == CallType.Client )
@@ -583,7 +583,7 @@ class PlayerModule: EditorModule
 
                 // player.SetGodMode( data.param1 );
  
-                COTLog( sender, "Set god mode to " + data.param1 + " for " + players[i].GetGUID() );
+                COTLog( sender, "Set god mode to " + data.param1 + " for " + players[i].GetSteam64ID() );
             }
         }
     }
@@ -691,7 +691,7 @@ class PlayerModule: EditorModule
             for ( int i = 0; i < auPlayers.Count(); i++ )
             {
                 auPlayers[i].Kick();
-                COTLog( sender, "Kicked " + auPlayers[i].GetGUID() );
+                COTLog( sender, "Kicked " + auPlayers[i].GetSteam64ID() );
             }
         }
     }
@@ -711,7 +711,7 @@ class PlayerModule: EditorModule
             for ( int i = 0; i < auPlayers.Count(); i++ )
             {
                 auPlayers[i].Ban();
-                COTLog( sender, "Banned " + auPlayers[i].GetGUID() );
+                COTLog( sender, "Banned " + auPlayers[i].GetSteam64ID() );
             }
         }
     }

@@ -49,7 +49,7 @@ class WeatherModule: EditorModule
 
             GetGame().GetWorld().SetDate( data.param1, data.param2, data.param3, data.param4, data.param5 );
 
-            COTLog( sender, "Set the date to " + data.param1 + "/" + data.param2 + "/" + data.param3 + " " + data.param4 + ":" + data.param5 );
+            COTLog( sender, "Set date to " + data.param1 + "/" + data.param2 + "/" + data.param3 + " " + data.param4 + ":" + data.param5 );
         }
     }
 

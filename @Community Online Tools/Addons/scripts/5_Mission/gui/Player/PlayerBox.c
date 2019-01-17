@@ -116,7 +116,7 @@ class PlayerBox extends ScriptedWidgetEventHandler
     {
         Player = player;
         
-        if ( Player == NULL ) 
+        if ( Player == NULL || !COT_ESP_Toggled ) 
         {
             ShowOnScreen = false;
             Hide();

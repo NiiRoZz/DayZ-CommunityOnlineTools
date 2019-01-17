@@ -154,6 +154,8 @@ class GameModule: EditorModule
 
             autoptr PhysicsGeomDef geoms[] = { PhysicsGeomDef("", dGeomCreateSphere( 0.1 ), "material/default", 0xffffffff )};
             dBodyCreateDynamicEx( physicsObj, "0 0 0", 1.0, geoms );
+
+            COTLog( sender, "Spawned apple throwing test at " + position );
         }
     }
 
@@ -208,7 +210,7 @@ class GameModule: EditorModule
             #endif
 
 
-            COTLog( sender, "Spawned vehicle " + data.param1 + " at " + data.param2.ToString() );
+            COTLog( sender, "Spawned vehicle " + oCar.GetDisplayName() + " (" + data.param1 + ") at " + data.param2.ToString() );
         }
     }
 
@@ -345,7 +347,7 @@ class GameModule: EditorModule
                     chest = SpawnItemInSeaChest( players[i].PlayerObject, chest, parts[j].Item, parts[j].NumberOfStacks, parts[j].StackSize );
                 }
 
-                COTLog( sender, "Spawned basebuilding " + data.param1 + " on " + players[i].GetGUID() );
+                COTLog( sender, "Loot chest " + data.param1 + " spawned on " + players[i].GetSteam64ID() );
             }
 
         }

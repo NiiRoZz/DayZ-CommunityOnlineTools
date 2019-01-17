@@ -71,7 +71,7 @@ class ObjectModule: EditorModule
 
             entity.PlaceOnSurface();
 
-            COTLog( sender, "Spawned object " + data.param1 + " at " + data.param2.ToString() + " with amount " + data.param3 );
+            COTLog( sender, "Spawned object " + entity.GetDisplayName() + " (" + data.param1 + ") at " + data.param2.ToString() + " with amount " + data.param3 );
         }
     }
 
@@ -115,7 +115,7 @@ class ObjectModule: EditorModule
                     oItem.SetQuantity(quantity);
                 }
 
-                COTLog( sender, "Spawned object " + data.param1 + " on " + players[i].GetGUID() + " with amount " + data.param3 );
+                COTLog( sender, "Spawned object " + entity.GetDisplayName() + " (" + data.param1 + ") on " + players[i].GetSteam64ID() + " with amount " + data.param3 );
             }
         }
     }
@@ -127,6 +127,10 @@ class ObjectModule: EditorModule
         
         if( type == CallType.Server )
         {
+            string obtype;
+            GetGame().ObjectGetType( target, obtype );
+
+            COTLog( sender, "Deleted object " + target.GetDisplayName() + " (" + obtype + ") at " + target.GetPosition() );
             GetGame().ObjectDelete( target );
         }
     }
