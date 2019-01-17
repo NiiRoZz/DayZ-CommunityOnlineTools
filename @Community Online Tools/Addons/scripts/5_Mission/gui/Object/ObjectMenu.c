@@ -193,7 +193,7 @@ class ObjectMenu extends Form
     {
         if ( eid != UIEvent.CLICK ) return;
 
-        GetRPCManager().SendRPC( "COT_Object", "SpawnObjectInventory", new Param3< string, string, ref array< string > >( GetCurrentSelection(), m_QuantityItem.GetText(), SerializePlayersID( GetSelectedPlayers() ) ), true );
+        GetRPCManager().SendRPC( "COT_Object", "SpawnObjectInventory", new Param3< string, string, ref array< string > >( GetCurrentSelection(), m_QuantityItem.GetText(), GetSelectedGUIDs() ), true );
     }
 
     void DeleteOnCursor( UIEvent eid, ref UIActionButton action )
