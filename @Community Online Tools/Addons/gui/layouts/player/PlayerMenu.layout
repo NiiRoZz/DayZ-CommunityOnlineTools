@@ -81,7 +81,7 @@ PanelWidgetClass PlayerMenu {
      vexactpos 1
      hexactsize 0
      vexactsize 1
-     text "00 PLAYERS"
+     text "N/A Online"
      font "gui/fonts/sdf_MetronLight24"
      "exact text" 1
      "exact text size" 16

@@ -292,7 +292,7 @@ class PlayerMenu extends Form
 
     void Click_TeleportMeTo( UIEvent eid, ref UIActionButton action )
     {
-        if ( GetSelectedPlayers().Count() != 1 ) return;
+        if ( GetSelectedGUIDs().Count() != 1 ) return;
 
         if ( eid != UIEvent.CLICK ) return;
         m_DataJustUpdated = true;
@@ -480,12 +480,7 @@ class PlayerMenu extends Form
             return;
         }
 
-        if (GetSelectedPlayers().Count() > 0 )
-        {
-            UpdateActionsFields( GetSelectedPlayers()[0].Data );
-            LoadPermissions( GetSelectedPlayers()[0].Data.APermissions );
-            LoadRoles( GetSelectedPlayers()[0].Data.ARoles );
-        }
+        UpdateFirstUIData();
     }
 
     override bool OnClick( Widget w, int x, int y, int button )
@@ -515,86 +510,99 @@ class PlayerMenu extends Form
 
     bool OnPlayer_Checked( ref AuthPlayer player, bool isChecked = true )
     {
-        return OnPlayerSelected( player, isChecked );
+        if ( isChecked )
+        {
+            SelectPlayer( player );
+        } else 
+        {
+            DeselectPlayer( player );
+        }
+
+        return true;
     }
 
     bool OnPlayer_Button( ref AuthPlayer player )
     {
-        if ( player == NULL )
-        {
-            return OnPlayerSelected( NULL );
-        }
+        bool wasSelected = false;
 
         if ( GetSelectedPlayers().Count() == 1 )
         {
             if ( GetSelectedPlayers()[0] == player )
             {
-                return OnPlayerSelected( NULL );
+                wasSelected = true;
             }
         }
 
-        OnPlayerSelected( NULL );
+        DeselectAll();
 
-        return OnPlayerSelected( player );
+        if ( !wasSelected )
+        {
+            SelectPlayer( player );
+        }
+
+        if ( GetSelectedPlayers().Count() > 0 )
+        {
+            return true;
+        }
+
+        return false;
     }
 
-    bool OnPlayerSelected( ref AuthPlayer player, bool select = true )
+    void DeselectAll( bool clearAll = true )
     {
-        if ( player == NULL )
+        GetSelectedPlayers().Clear();
+        
+        if ( clearAll )
         {
-            UpdateActionsFields( NULL );
-
-            GetSelectedPlayers().Clear();
             GetSelectedGUIDs().Clear();
+        }
 
-            for ( int i = 0; i < m_PlayerRowList.Count(); i++ )
-            {
-                m_PlayerRowList[i].Checkbox.SetChecked( false );
-                m_PlayerBoxList[i].Checkbox.SetChecked( false );
-            }
+        for ( int i = 0; i < m_PlayerRowList.Count(); i++ )
+        {
+            m_PlayerRowList[i].Checkbox.SetChecked( false );
+            m_PlayerBoxList[i].Checkbox.SetChecked( false );
+        }
 
-            LoadPermissions( NULL );
-            LoadRoles( NULL );
+        UpdateActionsFields( NULL );
+        LoadPermissions( NULL );
+        LoadRoles( NULL );
+    }
 
-            return false;
+    void DeselectPlayer( ref AuthPlayer player )
+    {
+        RemoveSelectedPlayer( player );
+        UpdateFirstUIData();
+    }
+
+    void SelectPlayer( ref AuthPlayer player )
+    {
+        AddSelectedPlayer( player );
+        UpdateFirstUIData();
+    }
+
+    bool UpdateFirstUIData()
+    {
+        if ( GetSelectedPlayers().Count() > 0 )
+        {
+            UpdateActionsFields( GetSelectedPlayers()[0].Data );
+            LoadPermissions( GetSelectedPlayers()[0].Data.APermissions );
+            LoadRoles( GetSelectedPlayers()[0].Data.ARoles );
+            return true;
         } else 
         {
-            int position = -1;
+            return false;
+        }
+    }
 
-            if ( select )
-            {
-                position = AddSelectedPlayer( player );
+    void UpdateUIData( ref AuthPlayer player )
+    {
+        if ( player == NULL ) return;
 
-                if ( GetSelectedPlayers().Count() == 1 )
-                {
-                    UpdateActionsFields( player.Data );
-
-                    LoadPermissions( GetSelectedPlayers()[0].Data.APermissions );
-                    LoadRoles( GetSelectedPlayers()[0].Data.ARoles );
-                }
-
-                return true;
-            } else
-            {
-                position = RemoveSelectedPlayer( player );
-
-                if ( position == 0 )
-                {
-                    if (GetSelectedPlayers().Count() > 0 )
-                    {
-                        UpdateActionsFields( GetSelectedPlayers()[0].Data );
-                        LoadPermissions( GetSelectedPlayers()[0].Data.APermissions );
-                        LoadRoles( GetSelectedPlayers()[0].Data.ARoles );
-                    } else 
-                    {
-                        UpdateActionsFields( NULL );
-                        LoadPermissions( NULL );
-                        LoadRoles( NULL );
-                    }
-                }
-
-                return true;
-            }
+        if ( !UpdateFirstUIData() )
+        {
+            UpdateActionsFields( NULL );
+            LoadPermissions( NULL );
+            LoadRoles( NULL );
         }
     }
 
@@ -842,12 +850,25 @@ class PlayerMenu extends Form
     {
         array< ref AuthPlayer > players = GetPermissionsManager().GetPlayers();
 
-        if ( players == NULL ) return;
+        bool hasPlayers = true;
         
-        for ( int k = 0; k < m_PlayerRowList.Count(); k++ )
+        if ( players == NULL )
         {
-            m_PlayerRowList[k].SetPlayer( NULL );
-            m_PlayerBoxList[k].SetPlayer( NULL );
+            hasPlayers = false;
+        }
+
+        if ( hasPlayers )
+        {
+            hasPlayers = players.Count() > 0;
+        }
+
+        DeselectAll( !hasPlayers );
+
+        if ( !hasPlayers ) 
+        {
+            m_PlayerCount.SetText( "0 Online" );
+
+            return;
         }
 
         for ( int i = 0; i < players.Count(); i++ )
@@ -857,12 +878,12 @@ class PlayerMenu extends Form
 
             if ( GUIDAlreadySelected( players[i].GetGUID() ) )
             {
-                OnPlayerSelected( players[i], true );
+                SelectPlayer( players[i] );
                 m_PlayerRowList[i].Checkbox.SetChecked( true );
                 m_PlayerBoxList[i].Checkbox.SetChecked( true );
             } else
             {
-                OnPlayerSelected( players[i], false );
+                DeselectPlayer( players[i] );
                 m_PlayerRowList[i].Checkbox.SetChecked( false );
                 m_PlayerBoxList[i].Checkbox.SetChecked( false );
             }
