@@ -34,6 +34,11 @@ class Form extends ScriptedWidgetEventHandler
         
     }
 
+    bool IsVisible()
+    {
+        return window.IsVisible();
+    }
+
     void Show()
     {
         if ( HasBeenInitialized )

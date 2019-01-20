@@ -67,7 +67,6 @@ class PlayerBox extends ScriptedWidgetEventHandler
 
     void OnHide() 
     {
-        GetGame().GetUpdateQueue(CALL_CATEGORY_GUI).Remove( this.Update );
     }
 
     float ATan( float a )
@@ -122,7 +121,7 @@ class PlayerBox extends ScriptedWidgetEventHandler
 
         if ( ShowOnScreen )
         {
-            if ( ScreenPos[2] > 1000 )
+            if ( ScreenPos[2] > 1000 || ScreenPos[2] < 0 )
             {
                 ShowOnScreen = false;
             }
@@ -131,6 +130,10 @@ class PlayerBox extends ScriptedWidgetEventHandler
         if ( ShowOnScreen && Player )
         {
             layoutRoot.SetPos( ScreenPos[0] - ( BoxWidth / 8 ), ScreenPos[1] - ( Height / 2 ) - ( BoxHeight / 2 ), true );
+            Show();
+        } else 
+        {
+            Hide();
         }
     }
 
@@ -156,6 +159,7 @@ class PlayerBox extends ScriptedWidgetEventHandler
             {
                 Hide();
                 ShowOnScreen = false;
+                GetGame().GetUpdateQueue(CALL_CATEGORY_GUI).Remove( this.Update );
                 return;
             }
 
@@ -199,7 +203,7 @@ class PlayerBox extends ScriptedWidgetEventHandler
             
                 ScreenPos = GetGame().GetScreenPos( GetPosition() );
 
-                if ( ScreenPos[2] > 1000 )
+                if ( ScreenPos[2] > 1000 || ScreenPos[2] < 0 )
                 {
                     Hide();
                     ShowOnScreen = false;

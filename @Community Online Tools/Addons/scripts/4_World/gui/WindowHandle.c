@@ -37,6 +37,11 @@ class WindowHandle extends ScriptedWidgetEventHandler
         layoutRoot.SetSize( w, h + 25 );
     }
 
+    bool IsVisible()
+    {
+        return layoutRoot.IsVisible();
+    }
+    
     void Show()
     {
         layoutRoot.Show( true );

@@ -396,7 +396,9 @@ class PlayerMenu extends Form
 
     void UpdateActionsFields( ref PlayerData data )
     {
-        if ( data )
+        // if ( IsVisible() == false ) return;
+
+        if ( data != NULL )
         {
             SetSize( awidth, plheight );
 
@@ -404,15 +406,15 @@ class PlayerMenu extends Form
             m_Name.SetText( data.SName );
             m_Steam64ID.SetText( data.SSteam64ID );
 
-            m_Health.SetText( data.FHealth.ToString() );
-            m_Blood.SetText( data.FBlood.ToString() );
-            m_Energy.SetText( data.FEnergy.ToString() );
-            m_Water.SetText( data.FWater.ToString() );
-            m_Shock.SetText( data.FShock.ToString() );
+            m_Health.SetText( "" + data.FHealth.ToString() );
+            m_Blood.SetText( "" + data.FBlood.ToString() );
+            m_Energy.SetText( "" + data.FEnergy.ToString() );
+            m_Water.SetText( "" + data.FWater.ToString() );
+            m_Shock.SetText( "" + data.FShock.ToString() );
             //m_HeatComfort.SetText( data.FHeatComfort.ToString() );
             //m_Wet.SetText( data.FWet.ToString() );
             //m_Tremor.SetText( data.FTremor.ToString() );
-            m_Stamina.SetText( data.FStamina.ToString() );
+            m_Stamina.SetText( "" + data.FStamina.ToString() );
             //m_LastShaved.SetSelection( data.ILifeSpanState );
             m_BloodyHands.SetChecked( data.BBloodyHands );
 
@@ -420,9 +422,9 @@ class PlayerMenu extends Form
             m_PosY.SetText( "" + data.VPosition[1] );
             m_PosZ.SetText( "" + data.VPosition[2] );
 
-            m_PingMin.SetText( data.IPingMin.ToString() );
-            m_PingMax.SetText( data.IPingMax.ToString() );
-            m_PingAvg.SetText( data.IPingAvg.ToString() );
+            m_PingMin.SetText( "" + data.IPingMin.ToString() );
+            m_PingMax.SetText( "" + data.IPingMax.ToString() );
+            m_PingAvg.SetText( "" + data.IPingAvg.ToString() );
 
             m_ActionsForm.FindAnyWidget( "disabled" ).Show( false );
         } else 
@@ -451,7 +453,7 @@ class PlayerMenu extends Form
     {
         Click_ShowActions();
 
-        if ( GetSelectedPlayers().Count() != 0 )
+        if ( GetSelectedPlayers().Count() > 0 )
         {
             UpdateActionsFields( GetSelectedPlayers()[0].Data );
         } else
@@ -479,8 +481,6 @@ class PlayerMenu extends Form
             m_DataJustUpdated = false;
             return;
         }
-
-        UpdateFirstUIData();
     }
 
     override bool OnClick( Widget w, int x, int y, int button )
@@ -584,12 +584,18 @@ class PlayerMenu extends Form
     {
         if ( GetSelectedPlayers().Count() > 0 )
         {
-            UpdateActionsFields( GetSelectedPlayers()[0].Data );
-            LoadPermissions( GetSelectedPlayers()[0].Data.APermissions );
-            LoadRoles( GetSelectedPlayers()[0].Data.ARoles );
+            PlayerData data = NULL;
+            data = GetSelectedPlayers()[0].Data;
+
+            UpdateActionsFields( data );
+            LoadPermissions( data.APermissions );
+            LoadRoles( data.ARoles );
             return true;
         } else 
         {
+            UpdateActionsFields( NULL );
+            LoadPermissions( NULL );
+            LoadRoles( NULL );
             return false;
         }
     }
@@ -660,6 +666,11 @@ class PlayerMenu extends Form
 
     void LoadPermissions( ref array< string > permissions = NULL )
     {
+        if ( m_PermissionsWrapper.IsVisible() )
+        {
+            return;
+        }
+
         if ( permissions == NULL )
         {
             for ( int i = 0; i < m_PermissionsList.Count(); i++ )
