@@ -4,6 +4,10 @@ class ESPModule: EditorModule
 	protected ref array< ref ESPBox > m_ESPBoxes;
 	protected ref array< ref ESPBox > m_SelectedBoxes;
 
+	protected ref array< Object > m_Objects;
+	protected int m_CurrentIndex;
+	protected bool m_FinishedLooping;
+
 	protected bool m_CanViewPlayers;
 	protected bool m_CanViewBaseBuilding;
 	protected bool m_CanViewVehicles;
@@ -251,14 +255,11 @@ class ESPModule: EditorModule
 		m_UserID = 0;
 	}
 
-	void UpdateESP()
+	override void OnUpdate( float timeslice ) 
 	{
-		HideESP( true );
+		super.OnUpdate( timeslice );
 
-		IsShowing = true;
-
-		ref array<Object> objects = new ref array<Object>;
-		GetGame().GetObjectsAtPosition( GetCurrentPosition(), ESPRadius, objects, NULL );
+		if ( m_FinishedLooping || m_Objects == NULL ) return;
 
 		Object obj;
 		EntityAI entity;
@@ -272,10 +273,19 @@ class ESPModule: EditorModule
 		string filter = Filter + "";
 		filter.ToLower();
 
-		for (int i = 0; i < objects.Count(); ++i)
+		int end = m_CurrentIndex + 100;
+
+		while ( m_CurrentIndex < end )
 		{
-			obj = Object.Cast( objects.Get(i) );
+			if ( m_CurrentIndex >= m_Objects.Count() )
+			{
+				m_FinishedLooping = true;
+			}
+
+			obj = Object.Cast( m_Objects[ m_CurrentIndex ] );
 			entity = EntityAI.Cast( obj );
+			
+			m_CurrentIndex++;
 			
 			if ( obj == NULL )
 				continue;
@@ -409,9 +419,22 @@ class ESPModule: EditorModule
 				continue;
 			} 
 		}
+	}
 
-		objects.Clear();
-		delete objects;
+	void UpdateESP()
+	{
+		HideESP( true );
+
+		IsShowing = true;
+
+		if ( m_Objects )
+		{
+			m_Objects.Clear();
+			delete m_Objects;
+		}
+
+		m_Objects = new ref array<Object>;
+		GetGame().GetObjectsAtPosition( GetCurrentPosition(), ESPRadius, m_Objects, NULL );
 
 		GetGame().GetCallQueue( CALL_CATEGORY_SYSTEM ).Remove( this.UpdateESP );
 
@@ -419,6 +442,9 @@ class ESPModule: EditorModule
 		{
 			GetGame().GetCallQueue( CALL_CATEGORY_SYSTEM ).CallLater( this.UpdateESP, ESPUpdateTime * 1000.0 );
 		}
+
+		m_CurrentIndex = 0;
+		m_FinishedLooping = false;
 	}
 
 	void RequestPlayerESPData( CallType type, ref ParamsReadContext ctx, ref PlayerIdentity sender, ref Object target )
