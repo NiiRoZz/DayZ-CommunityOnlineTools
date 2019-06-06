@@ -94,6 +94,15 @@ class AuthPlayer: Managed
 		m_HasPermissions = false;
 	}
 
+	void ClearRoles()
+	{
+		Roles.Clear();
+
+		AddStringRole( "everyone", false );
+
+		m_HasPlayerData = false;
+	}
+
 	void AddPermission( string permission, PermissionType type = PermissionType.INHERIT )
 	{
 		RootPermission.AddPermission( permission, type );
@@ -132,15 +141,18 @@ class AuthPlayer: Managed
 		return false;
 	}
 
-	void AddStringRole( string role )
+	void AddStringRole( string role, bool shouldSerialize = true )
 	{
 		ref Role r = GetPermissionsManager().RolesMap.Get( role );
 
-		GetLogger().Log( "Adding role " + role + ": " + r, "JM_COT_PermissionFramework" );
-
 		if ( Roles.Find( r ) < 0 ) 
 		{
+			GetLogger().Log( "Adding role " + role + ": " + r, "JM_COT_PermissionFramework" );
+
 			Roles.Insert( r );
+
+			if ( shouldSerialize )
+				m_HasPlayerData = true;
 		}
 	}
 
@@ -232,12 +244,9 @@ class AuthPlayer: Managed
 
 		m_PlayerFile = PlayerFile.Load( Data, m_HasPlayerData );
 
-		Print( m_HasPlayerData );
-		Print( m_PlayerFile.Roles );
-
 		for ( int j = 0; j < m_PlayerFile.Roles.Count(); j++ )
 		{
-			AddStringRole( m_PlayerFile.Roles[j] );
+			AddStringRole( m_PlayerFile.Roles[j], false );
 		}
 
 		string filename = FileReadyStripName( Data.SSteam64ID );

@@ -241,17 +241,20 @@ class PermissionsFramework
 
 	void UpdatePlayerData( CallType type, ref ParamsReadContext ctx, ref PlayerIdentity sender, ref Object target )
 	{
+		
+		AuthPlayer player;
+
 		if ( type == CallType.Server )
 		{
 			if ( !GetPermissionsManager().HasPermission( "Admin.Player.Read", sender ) )
 				return;
 
-			ref Param1< string > data;
+			Param1< string > data;
 			if ( !ctx.Read( data ) ) return;
 
 			if ( GetGame().IsMultiplayer() )
 			{
-				ref AuthPlayer player = GetPermissionsManager().GetPlayerByGUID( data.param1 );
+				player = GetPermissionsManager().GetPlayerByGUID( data.param1 );
 				if ( !player ) return;
 
 				GetRPCManager().SendRPC( "PermissionsFramework", "UpdatePlayerData", new Param1< ref PlayerData >( SerializePlayer( player ) ), true, sender );
@@ -262,13 +265,14 @@ class PermissionsFramework
 		{
 			if ( GetGame().IsMultiplayer() )
 			{
-				ref Param1< ref PlayerData > cdata;
+				Param1< ref PlayerData > cdata;
 				if ( !ctx.Read( cdata ) ) return;
 
-				DeserializePlayer( cdata.param1 );
+				player = DeserializePlayer( cdata.param1 );
 
 				if ( cdata.param1.SGUID == ClientAuthPlayer.Data.SGUID )
 				{
+					ClientAuthPlayer = player;
 					GetModuleManager().OnClientPermissionsUpdated();
 				}
 			}
