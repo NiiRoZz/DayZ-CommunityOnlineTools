@@ -1,4 +1,4 @@
-class PlayerFile: Managed
+class PlayerFile
 {
 	[NonSerialized()]
 	string m_FileName;

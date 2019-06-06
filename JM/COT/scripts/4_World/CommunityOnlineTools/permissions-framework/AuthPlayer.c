@@ -1,4 +1,4 @@
-class AuthPlayer: Managed
+class AuthPlayer
 {
 	ref Permission RootPermission;
 	ref array< Role > Roles;

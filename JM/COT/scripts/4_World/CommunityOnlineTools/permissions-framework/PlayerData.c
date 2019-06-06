@@ -1,6 +1,6 @@
 // STORE ALL PLAYERS DATA HERE FOR OUTSIDE NETWORK BUBBLE!
 
-class PlayerData: Managed
+class PlayerData
 {
 	string SName;
 	string SGUID;
