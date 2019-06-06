@@ -109,7 +109,7 @@ class PermissionManager
 
 		PlayerBase player = GetPlayerObjectByIdentity( identity );
 
-		if ( player != NULL )
+		if ( player != NULL && player.authenticatedPlayer != NULL )
 		{
 			return player.authenticatedPlayer.HasPermission( permission );
 		}
