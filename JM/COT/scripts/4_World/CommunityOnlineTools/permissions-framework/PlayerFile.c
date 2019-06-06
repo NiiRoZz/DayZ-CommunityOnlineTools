@@ -15,41 +15,48 @@ class PlayerFile: Managed
 		playerFile = new ref PlayerFile;
 
 		playerFile.m_FileName = PERMISSION_FRAMEWORK_DIRECTORY + "Players\\" + data.SSteam64ID + ".json";
-		
 		if ( FileExist( playerFile.m_FileName ) )
 		{
 			JsonFileLoader<PlayerFile>.JsonLoadFile( playerFile.m_FileName, playerFile );
+			
 			playerFile.Save();
 			return true;
 		}
 		
 		playerFile.m_FileName = PERMISSION_FRAMEWORK_DIRECTORY + "Players\\" + data.SGUID + ".json";
-
 		if ( FileExist( playerFile.m_FileName ) )
 		{
 			JsonFileLoader<PlayerFile>.JsonLoadFile( playerFile.m_FileName, playerFile );
+
 			playerFile.Save();
 			return true;
 		}
 
 		playerFile.m_FileName = PERMISSION_FRAMEWORK_DIRECTORY + "Players\\" + data.SSteam64ID + ".json.txt";
-		
 		if ( FileExist( playerFile.m_FileName ) )
 		{
 			JsonFileLoader<PlayerFile>.JsonLoadFile( playerFile.m_FileName, playerFile );
+
+			playerFile.m_FileName = PERMISSION_FRAMEWORK_DIRECTORY + "Players\\" + data.SSteam64ID + ".json";
+			DeleteFile( playerFile.m_FileName );
+
 			playerFile.Save();
 			return true;
 		}
 		
 		playerFile.m_FileName = PERMISSION_FRAMEWORK_DIRECTORY + "Players\\" + data.SGUID + ".json.txt";
-
 		if ( FileExist( playerFile.m_FileName ) )
 		{
 			JsonFileLoader<PlayerFile>.JsonLoadFile( playerFile.m_FileName, playerFile );
+
+			playerFile.m_FileName = PERMISSION_FRAMEWORK_DIRECTORY + "Players\\" + data.SGUID + ".json";
+			DeleteFile( playerFile.m_FileName );
+
 			playerFile.Save();
 			return true;
 		}
 
+		playerFile.m_FileName = PERMISSION_FRAMEWORK_DIRECTORY + "Players\\" + data.SSteam64ID + ".json";
 		playerFile.Roles.Insert( "everyone" );
 		return false;
 	}
