@@ -10,9 +10,9 @@ class PlayerFile: Managed
 		Roles = new ref array< string >;
 	}
 
-	static PlayerFile Load( PlayerData data, out bool exists )
+	static bool Load( PlayerData data, out PlayerFile playerFile )
 	{
-		ref PlayerFile playerFile = new ref PlayerFile;
+		playerFile = new ref PlayerFile;
 
 		playerFile.m_FileName = PERMISSION_FRAMEWORK_DIRECTORY + "Players\\" + data.SSteam64ID + ".json";
 		
@@ -20,8 +20,7 @@ class PlayerFile: Managed
 		{
 			JsonFileLoader<PlayerFile>.JsonLoadFile( playerFile.m_FileName, playerFile );
 			playerFile.Save();
-			exists = true;
-			return playerFile;
+			return true;
 		}
 		
 		playerFile.m_FileName = PERMISSION_FRAMEWORK_DIRECTORY + "Players\\" + data.SGUID + ".json";
@@ -30,8 +29,7 @@ class PlayerFile: Managed
 		{
 			JsonFileLoader<PlayerFile>.JsonLoadFile( playerFile.m_FileName, playerFile );
 			playerFile.Save();
-			exists = true;
-			return playerFile;
+			return true;
 		}
 
 		playerFile.m_FileName = PERMISSION_FRAMEWORK_DIRECTORY + "Players\\" + data.SSteam64ID + ".json.txt";
@@ -40,8 +38,7 @@ class PlayerFile: Managed
 		{
 			JsonFileLoader<PlayerFile>.JsonLoadFile( playerFile.m_FileName, playerFile );
 			playerFile.Save();
-			exists = true;
-			return playerFile;
+			return true;
 		}
 		
 		playerFile.m_FileName = PERMISSION_FRAMEWORK_DIRECTORY + "Players\\" + data.SGUID + ".json.txt";
@@ -50,13 +47,11 @@ class PlayerFile: Managed
 		{
 			JsonFileLoader<PlayerFile>.JsonLoadFile( playerFile.m_FileName, playerFile );
 			playerFile.Save();
-			exists = true;
-			return playerFile;
+			return true;
 		}
 
 		playerFile.Roles.Insert( "everyone" );
-		exists = false;
-		return playerFile;
+		return false;
 	}
 
 	void Save()

@@ -68,4 +68,44 @@ class PlayerData: Managed
 		BBloodyHands = player.HasBloodyHands();
 		BGodMode = player.m_HasGodeMode;
 	}
+
+	void Copy( PlayerData data )
+	{
+		SName	    	= data.SName;
+		SGUID	    	= data.SGUID;
+		SSteam64ID		= data.SSteam64ID;
+
+		IPingMax		= data.IPingMax;
+		IPingMin		= data.IPingMin;
+		IPingAvg		= data.IPingAvg;
+
+		ARoles	    	= data.ARoles;
+		APermissions	= data.APermissions;
+
+		VPosition		= data.VPosition;
+		VDirection		= data.VDirection;
+		VOrientation	= data.VOrientation;
+
+		FHealth	    	= data.FHealth;
+		FBlood	    	= data.FBlood;
+		FShock	    	= data.FShock;
+
+		IBloodStatType  = data.IBloodStatType;
+
+		FEnergy	    	= data.FEnergy;
+		FWater		    = data.FWater;
+
+		FHeatComfort    = data.FHeatComfort;
+
+		FWet	       	= data.FWater;
+		FTremor         = data.FTremor;
+		FStamina		= data.FStamina;
+
+		Kills		    = data.Kills;
+		TotalKills		= data.TotalKills;
+
+		ILifeSpanState	= data.ILifeSpanState;
+		BBloodyHands	= data.BBloodyHands;
+		BGodMode		= data.BGodMode;
+	}
 }

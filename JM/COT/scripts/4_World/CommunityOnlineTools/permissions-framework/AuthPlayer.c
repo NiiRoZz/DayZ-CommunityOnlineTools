@@ -39,7 +39,9 @@ class AuthPlayer: Managed
 
 	void SwapData( ref PlayerData newData )
 	{
-		Data = newData;
+		Data.Copy( newData );
+
+		Deserialize();
 	}
 
 	string GetGUID()
@@ -98,9 +100,7 @@ class AuthPlayer: Managed
 	{
 		Roles.Clear();
 
-		AddStringRole( "everyone", false );
-
-		m_HasPlayerData = false;
+		AddStringRole( "everyone" );
 	}
 
 	void AddPermission( string permission, PermissionType type = PermissionType.INHERIT )
@@ -203,13 +203,17 @@ class AuthPlayer: Managed
 
 	void Save()
 	{
+		Serialize();
+
 		if ( m_HasPlayerData )
 		{   
 			m_PlayerFile.Roles.Clear();
 
-			for ( int j = 0; j < Roles.Count(); j++ )
+			GetLogger().Log( "Saving player data: " + m_PlayerFile.m_FileName, "JM_COT_PermissionFramework" );
+
+			for ( int j = 0; j < Data.ARoles.Count(); j++ )
 			{
-				m_PlayerFile.Roles.Insert( Roles[j].Name );
+				m_PlayerFile.Roles.Insert( Data.ARoles[j] );
 			}
 
 			m_PlayerFile.Save();
@@ -219,9 +223,7 @@ class AuthPlayer: Managed
 		{
 			string filename = FileReadyStripName( Data.SSteam64ID );
 
-			Serialize();
-
-			GetLogger().Log( "Saving permissions and player data for " + filename, "JM_COT_PermissionFramework" );
+			GetLogger().Log( "Saving permissions: " + filename, "JM_COT_PermissionFramework" );
 			FileHandle file = OpenFile( AUTH_DIRECTORY + filename + FILE_TYPE, FileMode.WRITE );
 
 			if ( file != 0 )
@@ -242,7 +244,7 @@ class AuthPlayer: Managed
 	{
 		ref array< string > data = new ref array< string >;
 
-		m_PlayerFile = PlayerFile.Load( Data, m_HasPlayerData );
+		m_HasPlayerData = PlayerFile.Load( Data, m_PlayerFile );
 
 		for ( int j = 0; j < m_PlayerFile.Roles.Count(); j++ )
 		{

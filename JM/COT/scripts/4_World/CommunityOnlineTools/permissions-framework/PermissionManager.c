@@ -312,8 +312,6 @@ class PermissionManager
 
 		auPlayer.SwapData( data );
 
-		auPlayer.Deserialize();
-
 		return auPlayer;
 	}
 
