@@ -180,6 +180,9 @@ class AuthPlayer: Managed
 
 	void Deserialize()
 	{
+		ClearRoles();
+		ClearPermissions();
+		
 		for ( int i = 0; i < Data.APermissions.Count(); i++ )
 		{
 			AddPermission( Data.APermissions[i] );
