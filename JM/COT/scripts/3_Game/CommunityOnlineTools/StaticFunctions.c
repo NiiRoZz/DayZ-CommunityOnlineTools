@@ -6,6 +6,9 @@ static string m_COT_ZeroPad[COT_ZERO_PAD_SIZE] = {"", "0", "00", "000", "0000", 
 // ------------------------------------------------------------
 static string FormatFloat( float value, int decimals ) 
 {
+	if ( decimals == -1 )
+		return "" + value;
+
 	int power = Math.Pow( 10, decimals );
 	float number = Math.Round( value * power ) / power;
 	string result = "" + number;
@@ -100,22 +103,9 @@ static float ToFloat( string text, bool onlyPositive = false )
 	return f;
 }
 
-static string VectorToString( vector vec )
+static string VectorToString( vector vec, int decimals = -1 ) 
 {
-	string result = vec.ToString();
-	result.Replace( "<", "" );
-	result.Replace( ">", "" );
-	result.Replace( ",", "" );
-
-	return result;
-}
-
-static string VectorToString( vector vec, int decimals ) 
-{
-	string result = "";
-	result = FormatFloat(vec[0], decimals) + "|" + FormatFloat(vec[1], decimals) + "|" + FormatFloat(vec[2], decimals);
-
-	return result;
+	return "" + FormatFloat(vec[0], decimals) + ", " + FormatFloat(vec[1], decimals) + ", " + FormatFloat(vec[2], decimals);
 }
 
 static TStringArray GetChildrenFromBaseClass( string strConfigName, string strBaseClass )

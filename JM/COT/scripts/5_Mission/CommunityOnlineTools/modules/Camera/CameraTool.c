@@ -238,7 +238,7 @@ class CameraTool: EditorModule
 			return;
 
 		if ( !COTIsActive ) {
-			Message( GetPlayer(), "Community Online Tools is currently toggled off." );
+			CreateLocalAdminNotification( "Community Online Tools is currently toggled off." );
 			return;
 		}
 

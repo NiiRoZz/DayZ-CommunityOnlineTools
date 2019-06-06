@@ -202,6 +202,11 @@ class ItemSetSpawnerModule: EditorModule
 						chest = SpawnItemInContainer( file.ContainerClassName, players[i].PlayerObject, chest, parts[j].Item, parts[j].NumberOfStacks, parts[j].StackSize );
 	
 					COTLog( sender, "Item set " + data.param1 + " spawned on " + players[i].GetSteam64ID() );
+				
+					SendAdminNotification( sender, players[i].IdentityPlayer, "You have been given item set " + data.param1 );
+
+					if ( sender.GetId() != players[i].IdentityPlayer.GetId() )
+						SendAdminNotification( players[i].IdentityPlayer, sender, "You gave item set " + data.param1 );
 				}
 			}
 		} else

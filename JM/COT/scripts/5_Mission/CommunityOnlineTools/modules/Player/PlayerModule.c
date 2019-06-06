@@ -65,11 +65,6 @@ class PlayerModule: EditorModule
 	{
 	}
 
-	void SendAdminNotification( PlayerIdentity from, PlayerIdentity to, string message, string icon = "" )
-	{
-		NotificationSystem.SendNotificationToPlayerIdentityExtended( to, 1.5, "Admin - " + from.GetName(), message, icon );
-	}
-
 	void Player_SetHealth( CallType type, ref ParamsReadContext ctx, ref PlayerIdentity sender, ref Object target )
 	{
 		Param2< float, ref array< string > > data;
@@ -554,10 +549,10 @@ class PlayerModule: EditorModule
 
 				COTLog( sender, "Teleported " + players[i].GetGUID() + " to self" );
 
-				SendAdminNotification( sender, player.GetIdentity(), "You have been teleported to " + data.param1 );
+				SendAdminNotification( sender, player.GetIdentity(), "You have been teleported to " + VectorToString( data.param1, 1 ) );
 
 				if ( sender.GetId() != player.GetIdentity().GetId() )
-					SendAdminNotification( player.GetIdentity(), sender, "Teleported to " + data.param1 );
+					SendAdminNotification( player.GetIdentity(), sender, "Teleported to " + VectorToString( data.param1, 1 ) );
 			}
 		}
 	}

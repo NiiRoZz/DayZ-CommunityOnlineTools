@@ -27,6 +27,27 @@ static PlayerBase GetPlayerObjectByIdentity( PlayerIdentity identity )
 	return PlayerBase.Cast( GetGame().GetObjectByNetworkId( networkIdLowBits, networkIdHighBits ) );
 }
 
+static void CreateLocalAdminNotification( string message, string icon = "" )
+{
+	NotificationSystem.AddNotificationExtended( 1.5, "Admin", message, icon );
+}
+
+static void SendAdminNotification( PlayerIdentity from, PlayerIdentity to, string message, string icon = "" )
+{
+	string title = "Admin";
+
+	if ( GetGame().IsClient() || !GetGame().IsMultiplayer() )
+	{
+		NotificationSystem.AddNotificationExtended( 1.5, title, message, icon );
+	} else 
+	{
+		if ( to != NULL )
+			title = "From " + from.GetName();
+
+		NotificationSystem.SendNotificationToPlayerIdentityExtended( to, 1.5, title, message, icon );
+	}
+}
+
 static vector GetCurrentPosition()
 {
 	if ( CurrentActiveCamera != NULL )

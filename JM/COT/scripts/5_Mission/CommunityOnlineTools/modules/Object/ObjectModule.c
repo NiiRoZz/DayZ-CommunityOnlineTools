@@ -43,7 +43,7 @@ class ObjectModule: EditorModule
 			return;
 
 		if ( !COTIsActive ){
-			Message( GetPlayer(), "Community Online Tools is currently toggled off." );
+			CreateLocalAdminNotification( "Community Online Tools is currently toggled off." );
 			return;
 		}
 
@@ -59,7 +59,7 @@ class ObjectModule: EditorModule
 			return;
 
 		if ( !COTIsActive ){
-			Message( GetPlayer(), "Community Online Tools is currently toggled off." );
+			CreateLocalAdminNotification( "Community Online Tools is currently toggled off." );
 			return;
 		}
 
@@ -75,7 +75,7 @@ class ObjectModule: EditorModule
 			return;
 
 		if ( !COTIsActive ){
-			Message( GetPlayer(), "Community Online Tools is currently toggled off." );
+			CreateLocalAdminNotification( "Community Online Tools is currently toggled off." );
 			return;
 		}
 
@@ -97,6 +97,8 @@ class ObjectModule: EditorModule
 			if ( entity == NULL ) return;
 
 			COTLog( sender, "Spawned Entity " + entity.GetDisplayName() + " (" + data.param1 + ") at " + data.param2.ToString() );
+
+			SendAdminNotification( sender, NULL, "You have spawned a " + entity.GetDisplayName() + " at " + VectorToString( data.param2, 1 ) );
 		}
 	}
 	
@@ -149,11 +151,16 @@ class ObjectModule: EditorModule
 			entity.PlaceOnSurface();
 
 			COTLog( sender, "Spawned object " + entity.GetDisplayName() + " (" + data.param1 + ") at " + data.param2.ToString() + " with amount " + quantity );
+
+			SendAdminNotification( sender, NULL, "You have spawned " + entity.GetDisplayName() + " at " + VectorToString( data.param2, 1 ) + ", quantity " + quantity );
 		}
 	}
 	
 	protected void SpawnItemOnPlayer( ref PlayerIdentity sender, PlayerBase player, string item, string quantText )
 	{
+		if ( !player )
+			return;
+
 		EntityAI entity = player.GetInventory().CreateInInventory( item );
 
 		entity.SetHealth( entity.GetMaxHealth() );
@@ -179,6 +186,11 @@ class ObjectModule: EditorModule
 		}
 		
 		COTLog( sender, "Spawned object " + entity.GetDisplayName() + " (" + item + ") on " + player.authenticatedPlayer.GetSteam64ID() + " with amount " + quantity );
+
+		SendAdminNotification( sender, player.GetIdentity(), entity.GetDisplayName() + " has been added to your inventory, quantity " + quantity );
+
+		if ( sender.GetId() != player.GetIdentity().GetId() )
+			SendAdminNotification( player.GetIdentity(), sender, entity.GetDisplayName() + " has been added to their inventory, quantity " + quantity );
 	}
 
 	void SpawnObjectInventory( CallType type, ref ParamsReadContext ctx, ref PlayerIdentity sender, ref Object target )
@@ -219,6 +231,8 @@ class ObjectModule: EditorModule
 			GetGame().ObjectGetType( target, obtype );
 
 			COTLog( sender, "Deleted object " + target.GetDisplayName() + " (" + obtype + ") at " + target.GetPosition() );
+			SendAdminNotification( sender, NULL, target.GetDisplayName() + " has been deleted from the world." );
+
 			GetGame().ObjectDelete( target );
 		}
 	}

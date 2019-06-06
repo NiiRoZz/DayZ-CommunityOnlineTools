@@ -66,7 +66,7 @@ class TeleportModule: EditorModule
 			return;
 
 		if ( !COTIsActive ) {
-			Message( GetPlayer(), "Community Online Tools is currently toggled off." );
+			CreateLocalAdminNotification( "Community Online Tools is currently toggled off." );
 			return;
 		}
 
@@ -89,7 +89,7 @@ class TeleportModule: EditorModule
 		}
 		else
 		{
-			Message( GetPlayer(), "Distance for teleportation is too far!" );
+			CreateLocalAdminNotification( "Distance for teleportation is too far!" );
 		}
 	}
 
@@ -148,6 +148,7 @@ class TeleportModule: EditorModule
 			}
 
 			COTLog( sender, "Teleported to cursor " + data.param1 );
+			SendAdminNotification( sender, NULL, "You have teleported to " + VectorToString( data.param1, 1 ) );
 		}
 	}
 	
@@ -244,6 +245,11 @@ class TeleportModule: EditorModule
 				}
 				
 				COTLog( sender, "Teleported " + players[j].GetSteam64ID() + " to " + location.Name );
+				
+				SendAdminNotification( sender, player.GetIdentity(), "You have been teleported to " + data.param1 );
+
+				if ( sender.GetId() != player.GetIdentity().GetId() )
+					SendAdminNotification( player.GetIdentity(), sender, "Teleported to " + data.param1 );
 			}
 		}
 	}
