@@ -7,16 +7,15 @@ class PlayerMenu extends Form
 	ref Widget						m_PlayerListWrapper;
 	ref TextWidget					m_PlayerCount;
 	ref GridSpacerWidget			m_PlayerScriptListFirst;
-	int								m_PlayersInFirst;
 	ref GridSpacerWidget			m_PlayerScriptListSecond;
-	int								m_PlayersInSecond;
-	int								m_UserID;
 
 	ref Widget						m_ActionsWrapper;
 	ref Widget						m_ActionsForm;
 
 	ref Widget						m_PermissionsWrapper;
-	ref Widget						m_PermsContainer;
+	ref GridSpacerWidget			m_PermissionListFirst;
+	ref GridSpacerWidget			m_PermissionListSecond;
+
 	ref ButtonWidget				m_SetPermissionsButton;
 	ref ButtonWidget				m_PermissionsBackButton;
 
@@ -109,9 +108,6 @@ class PlayerMenu extends Form
 		m_PlayerListWrapper = layoutRoot.FindAnyWidget("players_list_wrapper");
 		m_PlayerScriptListFirst = GridSpacerWidget.Cast(m_PlayerListWrapper.FindAnyWidget("player_list_first"));
 		m_PlayerScriptListSecond = GridSpacerWidget.Cast(m_PlayerListWrapper.FindAnyWidget("player_list_second"));
-		m_PlayersInFirst = 0;
-		m_PlayersInSecond = 0;
-		m_UserID = 2000;
 
 		m_PlayerCount = TextWidget.Cast(layoutRoot.FindAnyWidget("player_count"));
 
@@ -168,14 +164,8 @@ class PlayerMenu extends Form
 		//m_KickPlayer = UIActionManager.CreateButton( serverActions, "Kick Player", this, "Click_KickPlayer" );
 
 		m_PermissionsWrapper = layoutRoot.FindAnyWidget("permissions_wrapper");
-		m_PermsContainer = layoutRoot.FindAnyWidget("permissions_container");
-
-		m_PlayerListWrapper = layoutRoot.FindAnyWidget("players_list_wrapper");
-		m_PlayerScriptListFirst = GridSpacerWidget.Cast(m_PlayerListWrapper.FindAnyWidget("player_list_first"));
-		m_PlayerScriptListSecond = GridSpacerWidget.Cast(m_PlayerListWrapper.FindAnyWidget("player_list_second"));
-		m_PlayersInFirst = 0;
-		m_PlayersInSecond = 0;
-		m_UserID = 2000;
+		m_PermissionListFirst = GridSpacerWidget.Cast(m_PermissionsWrapper.FindAnyWidget("permissions_container_first"));
+		m_PermissionListSecond = GridSpacerWidget.Cast(m_PermissionsWrapper.FindAnyWidget("permissions_container_second"));
 
 		m_SetPermissionsButton = ButtonWidget.Cast(layoutRoot.FindAnyWidget("permissions_set_button"));
 		m_PermissionsBackButton = ButtonWidget.Cast(layoutRoot.FindAnyWidget("permissions_back_button"));
@@ -633,7 +623,7 @@ class PlayerMenu extends Form
 	{
 		ref Permission rootPerm = GetPermissionsManager().GetRootPermission();
 
-		Widget permRow = GetGame().GetWorkspace().CreateWidgets( "JM/COT/GUI/layouts/player/permissions/PermissionRow.layout", m_PermsContainer );
+		Widget permRow = GetGame().GetWorkspace().CreateWidgets( "JM/COT/GUI/layouts/player/permissions/PermissionRow.layout", m_PermissionListFirst );
 
 		permRow.GetScript( m_PermissionUI );
 
@@ -668,7 +658,15 @@ class PlayerMenu extends Form
 		{
 			ref Permission cPerm = perm.Children[i];
 
-			Widget permRow = GetGame().GetWorkspace().CreateWidgets( "JM/COT/GUI/layouts/player/permissions/PermissionRow.layout", m_PermsContainer );
+			Widget permRow = NULL;
+			
+			if ( m_PermissionList.Count() >= 100 )
+			{
+				permRow = GetGame().GetWorkspace().CreateWidgets( "JM/COT/GUI/layouts/player/permissions/PermissionRow.layout", m_PermissionListFirst );
+			} else
+			{
+				permRow = GetGame().GetWorkspace().CreateWidgets( "JM/COT/GUI/layouts/player/permissions/PermissionRow.layout", m_PermissionListSecond );
+			}
 
 			ref PermissionRow rowScript;
 			permRow.GetScript( rowScript );
@@ -706,7 +704,10 @@ class PlayerMenu extends Form
 				m_PermissionUI.SetPermission( permissions[j] );
 			}
 
-			m_PermissionUI.Enable();
+			for ( int k = 0; k < m_PermissionList.Count(); k++ )
+			{
+				m_PermissionList[k].Enable();
+			}
 
 			newPlayerSelected = false;
 		}
@@ -821,9 +822,6 @@ class PlayerMenu extends Form
 			
 			if ( playerRow == NULL ) continue;
 
-			m_UserID++;
-
-			playerRow.SetUserID( m_UserID );
 			playerRow.GetScript( rowScript );
 
 			if ( rowScript == NULL ) continue;
@@ -844,9 +842,6 @@ class PlayerMenu extends Form
 			
 			if ( playerRow == NULL ) continue;
 
-			m_UserID++;
-
-			playerRow.SetUserID( m_UserID );
 			playerRow.GetScript( rowScript );
 
 			if ( rowScript == NULL ) continue;
