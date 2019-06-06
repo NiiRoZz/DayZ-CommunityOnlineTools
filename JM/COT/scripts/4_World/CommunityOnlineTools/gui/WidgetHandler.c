@@ -177,12 +177,12 @@ class WidgetHandler: ScriptedWidgetEventHandler
 	override bool OnChange(Widget w, int x, int y, bool finished)
 	{
 		Param2<Managed, string> param = Param2<Managed, string>.Cast( m_OnChange.Get( w ) );
-		if( param == NULL )
+		if ( param == NULL )
 		{
 			return false;
 		}
 
-		if( !param.param1 )
+		if ( !param.param1 )
 		{
 			m_OnChange.Remove( w );
 		}
@@ -198,12 +198,12 @@ class WidgetHandler: ScriptedWidgetEventHandler
 	override bool OnClick(Widget w, int x, int y, int button)
 	{
 		Param2<Managed, string> param = Param2<Managed, string>.Cast( m_OnClick.Get( w ) );
-		if( param == NULL )
+		if ( param == NULL )
 		{
 			return false;
 		}
 
-		if( !param.param1 )
+		if ( !param.param1 )
 		{
 			m_OnClick.Remove( w );
 		}
@@ -219,12 +219,12 @@ class WidgetHandler: ScriptedWidgetEventHandler
 	override bool OnDoubleClick(Widget w, int x, int y, int button)
 	{
 		Param2<Managed, string> param = Param2<Managed, string>.Cast( m_OnDoubleClick.Get( w ) );
-		if( param == NULL )
+		if ( param == NULL )
 		{
 			return false;
 		}
 
-		if( !param.param1 )
+		if ( !param.param1 )
 		{
 			m_OnDoubleClick.Remove( w );
 		}
@@ -239,12 +239,12 @@ class WidgetHandler: ScriptedWidgetEventHandler
 	override bool OnUpdate(Widget w)
 	{
 		Param2<Managed, string> param = Param2<Managed, string>.Cast( m_OnUpdate.Get( w ) );
-		if( param == NULL )
+		if ( param == NULL )
 		{
 			return false;
 		}
 
-		if( !param.param1 )
+		if ( !param.param1 )
 		{
 			m_OnUpdate.Remove( w );
 		}
@@ -259,12 +259,12 @@ class WidgetHandler: ScriptedWidgetEventHandler
 	override bool OnMouseLeave(Widget w, Widget enterW, int x, int y)
 	{
 		Param2<Managed, string> param = Param2<Managed, string>.Cast( m_OnMouseButtonLeave.Get( w ) );
-		if( param == NULL )
+		if ( param == NULL )
 		{
 			return false;
 		}
 
-		if( !param.param1 )
+		if ( !param.param1 )
 		{
 			m_OnMouseButtonLeave.Remove( w );
 		}
@@ -279,12 +279,12 @@ class WidgetHandler: ScriptedWidgetEventHandler
 	override bool OnMouseEnter( Widget w, int x, int y )
 	{
 		Param2<Managed, string> param = Param2<Managed, string>.Cast( m_OnMouseEnter.Get( w ) );
-		if( param == NULL )
+		if ( param == NULL )
 		{
 			return false;
 		}
 		
-		if( !param.param1 )
+		if ( !param.param1 )
 		{
 			m_OnMouseEnter.Remove( w );
 		}
@@ -299,12 +299,12 @@ class WidgetHandler: ScriptedWidgetEventHandler
 	override bool OnMouseButtonDown( Widget w, int x, int y, int button )
 	{
 		Param2<Managed, string> param = Param2<Managed, string>.Cast( m_OnMouseButtonDownRegister.Get( w ) );
-		if( param == NULL )
+		if ( param == NULL )
 		{
 			return false;
 		}
 		
-		if( !param.param1 )
+		if ( !param.param1 )
 		{
 			m_OnMouseButtonDownRegister.Remove( w );
 		}
@@ -319,12 +319,12 @@ class WidgetHandler: ScriptedWidgetEventHandler
 	override bool OnMouseButtonUp( Widget w, int x, int y, int button )
 	{
 		Param2<Managed, string> param = Param2<Managed, string>.Cast( m_OnMouseButtonUpRegister.Get( w ) );
-		if( param == NULL )
+		if ( param == NULL )
 		{
 			return false;
 		}
 
-		if( !param.param1 )
+		if ( !param.param1 )
 		{
 			m_OnMouseButtonUpRegister.Remove( w );
 		}
@@ -339,12 +339,12 @@ class WidgetHandler: ScriptedWidgetEventHandler
 	override bool OnDrag(Widget w, int x, int y)
 	{
 		Param2<Managed, string> param = Param2<Managed, string>.Cast( m_OnDrag.Get( w ) );
-		if( param == NULL )
+		if ( param == NULL )
 		{
 			return false;
 		}
 
-		if( !param.param1 )
+		if ( !param.param1 )
 		{
 			m_OnDrag.Remove( w );
 		}
@@ -359,12 +359,12 @@ class WidgetHandler: ScriptedWidgetEventHandler
 	override bool OnDrop(Widget w, int x, int y, Widget reciever)
 	{
 		Param2<Managed, string> param = Param2<Managed, string>.Cast( m_OnDrop.Get( w ) );
-		if( param == NULL )
+		if ( param == NULL )
 		{
 			return false;
 		}
 
-		if( !param.param1 )
+		if ( !param.param1 )
 		{
 			m_OnDrop.Remove( w );
 		}
@@ -379,12 +379,12 @@ class WidgetHandler: ScriptedWidgetEventHandler
 	override bool OnDraggingOver(Widget w, int x, int y, Widget reciever)
 	{
 		Param2<Managed, string> param = Param2<Managed, string>.Cast( m_OnDraggingOver.Get( reciever ) );
-		if( param == NULL )
+		if ( param == NULL )
 		{
 			return false;
 		}
 
-		if( !param.param1 )
+		if ( !param.param1 )
 		{
 			m_OnDraggingOver.Remove( w );
 		}
@@ -398,18 +398,18 @@ class WidgetHandler: ScriptedWidgetEventHandler
 
 	override bool OnDropReceived( Widget w, int x, int y, Widget reciever )
 	{
-		if( w.GetName() == "GridItem" )
+		if ( w.GetName() == "GridItem" )
 		{
 			return false;
 		}
 		Param p = m_OnDropReceived.Get( reciever );
 		Param2<Managed, string> param = Param2<Managed, string>.Cast( p );
-		if( param == NULL )
+		if ( param == NULL )
 		{
 			return false;
 		}
 
-		if( !param.param1 )
+		if ( !param.param1 )
 		{
 			m_OnDropReceived.Remove( w );
 		}
@@ -424,12 +424,12 @@ class WidgetHandler: ScriptedWidgetEventHandler
 	override bool OnFocus( Widget w, int x, int y )
 	{
 		Param2<Managed, string> param = Param2<Managed, string>.Cast( m_OnFocus.Get( w ) );
-		if( param == NULL )
+		if ( param == NULL )
 		{
 			return false;
 		}
 
-		if( !param.param1 )
+		if ( !param.param1 )
 		{
 			m_OnFocus.Remove( w );
 		}
@@ -444,12 +444,12 @@ class WidgetHandler: ScriptedWidgetEventHandler
 	override bool OnFocusLost( Widget w, int x, int y )
 	{
 		Param2<Managed, string> param = Param2<Managed, string>.Cast( m_OnFocusLost.Get( w ) );
-		if( param == NULL )
+		if ( param == NULL )
 		{
 			return false;
 		}
 
-		if( !param.param1 )
+		if ( !param.param1 )
 		{
 			m_OnFocusLost.Remove( w );
 		}
@@ -464,12 +464,12 @@ class WidgetHandler: ScriptedWidgetEventHandler
 	override bool OnMouseWheel(Widget  w, int  x, int  y, int wheel)
 	{
 		Param2<Managed, string> param = Param2<Managed, string>.Cast( m_OnMouseWheel.Get( w ) );
-		if( param == NULL )
+		if ( param == NULL )
 		{
 			return false;
 		}
 
-		if( !param.param1 )
+		if ( !param.param1 )
 		{
 			m_OnMouseWheel.Remove( w );
 		}

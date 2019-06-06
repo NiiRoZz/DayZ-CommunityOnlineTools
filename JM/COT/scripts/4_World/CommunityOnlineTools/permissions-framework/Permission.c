@@ -75,7 +75,8 @@ class Permission: Managed
 			type = permType;
 
 			inp.Split( ".", tokens );
-		} else {
+		} else 
+		{
 			GetLogger().Log( "Warning, permission line improperly formatted! Read as \"" + inp + "\" but meant to be in format \"Perm.Perm {n}\".", "JM_COT_PermissionFramework" );
 			return;
 		}
@@ -100,7 +101,8 @@ class Permission: Managed
 			ref Permission nChild = VerifyAddPermission( name );
 
 			nChild.AddPermissionInternal( tokens, depth + 1, value );
-		} else {
+		} else 
+		{
 			Type = value;
 		}
 	}

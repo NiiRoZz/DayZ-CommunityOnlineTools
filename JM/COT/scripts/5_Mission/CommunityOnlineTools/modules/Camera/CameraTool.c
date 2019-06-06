@@ -95,7 +95,7 @@ class CameraTool: EditorModule
 		Param1< vector > data;
 		if ( !ctx.Read( data ) ) return;
 
-		if( type == CallType.Server )
+		if ( type == CallType.Server )
 		{
 			GetGame().UpdateSpectatorPosition( data.param1 );
 		}
@@ -106,7 +106,7 @@ class CameraTool: EditorModule
 		if ( !GetPermissionsManager().HasPermission( "CameraTools.EnterCamera", sender ) )
 			return;
 
-		if( type == CallType.Server )
+		if ( type == CallType.Server )
 		{
 			vector position = Vector( 0, 0, 0 );
 
@@ -134,7 +134,7 @@ class CameraTool: EditorModule
 			COTLog( sender, "Entered the Free Camera");
 		}
 
-		if( type == CallType.Client && !COTPlayerIsRemoved )
+		if ( type == CallType.Client && !COTPlayerIsRemoved )
 		{
 			if ( GetGame().IsMultiplayer() )
 			{
@@ -238,7 +238,8 @@ class CameraTool: EditorModule
 		if ( !( input.LocalPress() ) )
 			return;
 
-		if ( !COTIsActive ) {
+		if ( !COTIsActive ) 
+		{
 			CreateLocalAdminNotification( "Community Online Tools is currently toggled off." );
 			return;
 		}
@@ -257,7 +258,7 @@ class CameraTool: EditorModule
 	{
 		if ( !CurrentActiveCamera )
 			return NULL;
-			
+
 		return CurrentActiveCamera.SelectedTarget;
 	}
 

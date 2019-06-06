@@ -90,7 +90,7 @@ class ObjectModule: EditorModule
 		Param2< string, vector > data;
 		if ( !ctx.Read( data ) ) return;
 		
-		if( type == CallType.Server )
+		if ( type == CallType.Server )
 		{
 			EntityAI entity = EntityAI.Cast( GetGame().CreateObject( data.param1, data.param2, false, GetGame().IsKindOf( data.param1, "DZ_LightAI" ) ) );
 
@@ -110,7 +110,7 @@ class ObjectModule: EditorModule
 		Param3< string, vector, string > data;
 		if ( !ctx.Read( data ) ) return;
 		
-		if( type == CallType.Server )
+		if ( type == CallType.Server )
 		{
 			bool ai = false;
 
@@ -201,7 +201,7 @@ class ObjectModule: EditorModule
 		ref Param3< string, string, ref array< string > > data;
 		if ( !ctx.Read( data ) ) return;
 		
-		if( type == CallType.Server )
+		if ( type == CallType.Server )
 		{
 			if ( !GetGame().IsMultiplayer() )
 			{
@@ -223,7 +223,7 @@ class ObjectModule: EditorModule
 		if ( !GetPermissionsManager().HasPermission( "Object.Delete", sender ) )
 			return;
 		
-		if( type == CallType.Server )
+		if ( type == CallType.Server )
 		{
 			if ( target == NULL ) return;
 

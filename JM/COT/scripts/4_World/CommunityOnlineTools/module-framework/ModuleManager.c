@@ -231,7 +231,7 @@ ref ModuleManager g_cot_ModuleManager;
 
 ref ModuleManager GetModuleManager()
 {
-	if( !g_cot_ModuleManager )
+	if ( !g_cot_ModuleManager )
 	{
 		g_cot_ModuleManager = new ref ModuleManager();
 	}

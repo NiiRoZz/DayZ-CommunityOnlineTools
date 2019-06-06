@@ -228,7 +228,7 @@ static Object GetPointerObject( float distance = 100.0, Object ignore = NULL, fl
 
 	auto objs = GetObjectsAt( from, to, ignore, radius, with );
 
-	if( objs && objs.Count() > 0 )
+	if ( objs && objs.Count() > 0 )
 	{
 		return objs[ 0 ];
 	}
@@ -243,7 +243,7 @@ static Object GetCursorObject( float distance = 100.0, Object ignore = NULL, flo
 
 	auto objs = GetObjectsAt( rayStart, rayEnd, ignore, radius, with );
 
-	if( objs.Count() > 0 )
+	if ( objs.Count() > 0 )
 	{
 		return objs[ 0 ];
 	}
@@ -387,7 +387,7 @@ string GetRandomChildFromBaseClass( string strConfigName, string strBaseClass, i
 		if ( child_name.Contains( strIgnoreClass ) )
 			continue;
 
-        if( ( minScope != -1 ) && ( GetGame().ConfigGetInt( strConfigName + " " + child_name + " scope" ) < minScope ) ) 
+        if ( ( minScope != -1 ) && ( GetGame().ConfigGetInt( strConfigName + " " + child_name + " scope" ) < minScope ) ) 
 			continue;
 
         if ( GetGame().IsKindOf( child_name, strBaseClass ) && ( child_name != strBaseClass ) )

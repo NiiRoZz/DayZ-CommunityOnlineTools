@@ -51,7 +51,7 @@ class CommunityOnlineTools
 		Param3< int, int, int > data;
 		if ( !ctx.Read( data ) ) return;
 
-		if( type == CallType.Server )
+		if ( type == CallType.Server )
 		{
 			COTLog( sender, "Loading in with version " + data.param1 + "." + data.param2 + "." + data.param3 );
 
@@ -124,11 +124,12 @@ class CommunityOnlineTools
 
 	void OnUpdate( float timeslice )
 	{
-		if( !m_bLoaded && !GetDayZGame().IsLoading() )
+		if ( !m_bLoaded && !GetDayZGame().IsLoading() )
 		{
 			m_bLoaded = true;
 			OnLoaded();
-		} else {
+		} else 
+		{
 			GetModuleManager().OnUpdate( timeslice );
 		}
 	}

@@ -153,7 +153,7 @@ static void Message( PlayerBase player, string txt )
 static Weapon GetWeaponInHands()
 {
 	Weapon weapon_in_hands;
-	if( GetPlayer() && GetPlayer().GetItemInHands() ) Class.CastTo(weapon_in_hands,  GetPlayer().GetItemInHands());
+	if ( GetPlayer() && GetPlayer().GetItemInHands() ) Class.CastTo(weapon_in_hands,  GetPlayer().GetItemInHands());
 
 	return weapon_in_hands;
 }

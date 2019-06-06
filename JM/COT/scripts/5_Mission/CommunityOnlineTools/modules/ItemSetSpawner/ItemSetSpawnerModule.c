@@ -66,12 +66,12 @@ class ItemSetSpawnerModule: EditorModule
 	
 	void LoadData( CallType type, ref ParamsReadContext ctx, ref PlayerIdentity sender, ref Object target )
 	{
-		if( type == CallType.Server )
+		if ( type == CallType.Server )
 		{
 			GetRPCManager().SendRPC( "COT_ItemSetSpawner", "LoadData", new Param1< string >( JsonFileLoader< ItemSetSpawnerMeta >.JsonMakeData( ItemSetSpawnerMeta.DeriveFromSettings( settings ) ) ) );
 		}
 
-		if( type == CallType.Client )
+		if ( type == CallType.Client )
 		{
 			Param1< string > data;
 			if ( !ctx.Read( data ) ) return;
@@ -188,7 +188,7 @@ class ItemSetSpawnerModule: EditorModule
 		{
 			array< ref AuthPlayer > players = DeserializePlayersID( data.param2 );
 			
-			if( type == CallType.Server )
+			if ( type == CallType.Server )
 			{
 				for ( int i = 0; i < players.Count(); i++ )
 				{

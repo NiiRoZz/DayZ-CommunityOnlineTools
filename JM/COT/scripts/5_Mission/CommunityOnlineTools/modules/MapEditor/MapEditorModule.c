@@ -24,7 +24,7 @@ class MapEditorModule: Module
 		Param1< vector > data;
 		if ( !ctx.Read( data ) ) return;
  
-		if( type == CallType.Server )
+		if ( type == CallType.Server )
 		{
 			// target.SetOrigin( data.param1 );
 			target.SetPosition( data.param1 );

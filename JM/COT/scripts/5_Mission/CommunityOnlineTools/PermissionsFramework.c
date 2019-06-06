@@ -73,11 +73,12 @@ class PermissionsFramework
 
 	void Update( float timeslice )
 	{
-		if( !m_bLoaded && !GetDayZGame().IsLoading() )
+		if ( !m_bLoaded && !GetDayZGame().IsLoading() )
 		{
 			m_bLoaded = true;
 			OnLoaded();
-		} else {
+		} else 
+		{
 			OnUpdate( timeslice );
 		}
 	}
@@ -153,7 +154,7 @@ class PermissionsFramework
 		Param3< int, int, int > data;
 		if ( !ctx.Read( data ) ) return;
 
-		if( type == CallType.Server )
+		if ( type == CallType.Server )
 		{
 			if ( data.param1 != JM_PERMISSIONS_FRAMEWORK_CURRENT_VERSION_MAJOR )
 			{

@@ -130,7 +130,7 @@ class ESPModule: EditorModule
 		ref array< Object > copy = new ref array< Object >;
 		copy.Copy( data.param1 );
 		
-		if( type == CallType.Server )
+		if ( type == CallType.Server )
 		{
 			for ( int i = 0; i < copy.Count(); i++ )
 			{
@@ -155,7 +155,7 @@ class ESPModule: EditorModule
 		ref Param3< vector, vector, float > data;
 		if ( !ctx.Read( data ) ) return;
 		
-		if( type == CallType.Server )
+		if ( type == CallType.Server )
 		{
 			if ( target == NULL ) return;
 

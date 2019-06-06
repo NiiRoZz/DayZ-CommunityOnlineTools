@@ -112,7 +112,7 @@ modded class MissionGameplay
 			// Disable openning radial menu
 			if ( DISABLE_ALL_INPUT )
 			{
-				if( input.LocalPress("UAUIQuickbarRadialOpen", false) )
+				if ( input.LocalPress("UAUIQuickbarRadialOpen", false) )
 				{
 					if ( GetUIManager().IsMenuOpen( MENU_RADIAL_QUICKBAR ) )
 					{

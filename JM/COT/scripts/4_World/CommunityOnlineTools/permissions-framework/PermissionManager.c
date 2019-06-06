@@ -408,7 +408,7 @@ ref PermissionManager g_com_PermissionsManager;
 
 ref PermissionManager GetPermissionsManager()
 {
-	if( !g_com_PermissionsManager )
+	if ( !g_com_PermissionsManager )
 	{
 		g_com_PermissionsManager = new ref PermissionManager();
 	}

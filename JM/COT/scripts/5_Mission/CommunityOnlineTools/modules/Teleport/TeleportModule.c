@@ -65,7 +65,8 @@ class TeleportModule: EditorModule
 		if ( !GetPermissionsManager().HasPermission( "Teleport.Cursor" ) )
 			return;
 
-		if ( !COTIsActive ) {
+		if ( !COTIsActive ) 
+		{
 			CreateLocalAdminNotification( "Community Online Tools is currently toggled off." );
 			return;
 		}
@@ -95,7 +96,7 @@ class TeleportModule: EditorModule
 
 	void LoadData( CallType type, ref ParamsReadContext ctx, ref PlayerIdentity sender, ref Object target )
 	{
-		if( type == CallType.Server )
+		if ( type == CallType.Server )
 		{
 			if ( !GetPermissionsManager().HasPermission( "Teleport.Predefined", sender ) )
 				return;
@@ -103,7 +104,7 @@ class TeleportModule: EditorModule
 			GetRPCManager().SendRPC( "COT_Teleport", "LoadData", new Param1< ref TeleportSettings >( settings ), true );
 		}
 
-		if( type == CallType.Client )
+		if ( type == CallType.Client )
 		{
 			Param1< ref TeleportSettings > data;
 			if ( !ctx.Read( data ) ) return;
@@ -160,7 +161,7 @@ class TeleportModule: EditorModule
 		Param2< string, ref array< string > > data;
 		if ( !ctx.Read( data ) ) return;
 
-		if( type == CallType.Server )
+		if ( type == CallType.Server )
 		{
 			vector position = "0 0 0";
 

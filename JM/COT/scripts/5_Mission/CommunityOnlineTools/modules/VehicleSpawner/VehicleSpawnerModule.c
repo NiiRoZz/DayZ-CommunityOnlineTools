@@ -127,7 +127,7 @@ class VehicleSpawnerModule: EditorModule
 		if ( !GetPermissionsManager().HasPermission( "VehicleSpawner.Vehicle." + data.param1, sender ) )
 			return;
 		
-		if( type == CallType.Server )
+		if ( type == CallType.Server )
 		{
 			SpawnVehicle( data.param1, data.param2, sender );
 		}
