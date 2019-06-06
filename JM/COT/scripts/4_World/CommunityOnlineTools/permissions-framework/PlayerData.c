@@ -79,8 +79,8 @@ class PlayerData
 		IPingMin		= data.IPingMin;
 		IPingAvg		= data.IPingAvg;
 
-		ARoles	    	= data.ARoles;
-		APermissions	= data.APermissions;
+		ARoles.Copy( data.ARoles );
+		APermissions.Copy( data.APermissions );
 
 		VPosition		= data.VPosition;
 		VDirection		= data.VDirection;

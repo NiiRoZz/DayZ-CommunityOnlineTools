@@ -28,7 +28,7 @@ class AuthPlayer
 		delete RootPermission;
 	}
 
-	void SwapData( ref PlayerData newData )
+	void SwapData( PlayerData newData )
 	{
 		Data.Copy( newData );
 

@@ -115,7 +115,7 @@ class PermissionsFramework
 			{
 				ap.Save();
 
-				GetRPCManager().SendRPC( "PermissionsFramework", "RemovePlayer", new Param1< ref PlayerData >( SerializePlayer( ap ) ), true );
+				GetRPCManager().SendRPC( "PermissionsFramework", "RemovePlayer", new Param1< PlayerData >( SerializePlayer( ap ) ), true );
 
 				GetPermissionsManager().AuthPlayers.Remove( i );
 
@@ -197,7 +197,7 @@ class PermissionsFramework
 		{
 			if ( GetGame().IsMultiplayer() )
 			{
-				ref Param1< ref PlayerData > data;
+				ref Param1< PlayerData > data;
 				if ( !ctx.Read( data ) ) return;
 				
 				ref AuthPlayer authPlayer = DeserializePlayer( data.param1 );
@@ -242,8 +242,6 @@ class PermissionsFramework
 
 	void UpdatePlayerData( CallType type, ref ParamsReadContext ctx, ref PlayerIdentity sender, ref Object target )
 	{
-		
-		AuthPlayer player;
 
 		if ( type == CallType.Server )
 		{
@@ -255,10 +253,10 @@ class PermissionsFramework
 
 			if ( GetGame().IsMultiplayer() )
 			{
-				player = GetPermissionsManager().GetPlayerByGUID( data.param1 );
+				AuthPlayer player = GetPermissionsManager().GetPlayerByGUID( data.param1 );
 				if ( !player ) return;
 
-				GetRPCManager().SendRPC( "PermissionsFramework", "UpdatePlayerData", new Param1< ref PlayerData >( SerializePlayer( player ) ), true, sender );
+				GetRPCManager().SendRPC( "PermissionsFramework", "UpdatePlayerData", new Param1< PlayerData >( SerializePlayer( player ) ), true, sender );
 			}
 		}
 
@@ -266,14 +264,14 @@ class PermissionsFramework
 		{
 			if ( GetGame().IsMultiplayer() )
 			{
-				Param1< ref PlayerData > cdata;
+				Param1< PlayerData > cdata;
 				if ( !ctx.Read( cdata ) ) return;
 
-				player = DeserializePlayer( cdata.param1 );
+				AuthPlayer np = DeserializePlayer( cdata.param1 );
 
-				if ( cdata.param1.SGUID == ClientAuthPlayer.Data.SGUID )
+				if ( np.Data.SGUID == ClientAuthPlayer.Data.SGUID )
 				{
-					ClientAuthPlayer = player;
+					//ClientAuthPlayer = np;
 					GetModuleManager().OnClientPermissionsUpdated();
 				}
 			}

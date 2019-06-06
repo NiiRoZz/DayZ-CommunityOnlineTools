@@ -42,21 +42,21 @@ int AddSelectedPlayer( ref AuthPlayer player )
 	return GetSelectedPlayers().Insert( player );
 }
 
-ref PlayerData SerializePlayer( ref AuthPlayer player )
+PlayerData SerializePlayer( ref AuthPlayer player )
 {
 	player.Serialize();
 
 	return player.Data;
 }
 
-ref AuthPlayer DeserializePlayer( ref PlayerData data )
+ref AuthPlayer DeserializePlayer( PlayerData data )
 {
 	return GetPermissionsManager().GetPlayer( data );
 }
 
-array< ref PlayerData > SerializePlayers( ref array< ref AuthPlayer > players )
+array< PlayerData > SerializePlayers( ref array< ref AuthPlayer > players )
 {
-	array< ref PlayerData > output = new array< ref PlayerData >;
+	array< PlayerData > output = new array< PlayerData >;
 
 	for ( int i = 0; i < players.Count(); i++)
 	{

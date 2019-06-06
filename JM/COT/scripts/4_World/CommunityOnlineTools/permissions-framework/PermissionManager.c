@@ -171,7 +171,7 @@ class PermissionManager
 			{
 				auPlayer.Save();
 
-				GetRPCManager().SendRPC( "PermissionsFramework", "RemovePlayer", new Param1< ref PlayerData >( SerializePlayer( auPlayer ) ), true );
+				GetRPCManager().SendRPC( "PermissionsFramework", "RemovePlayer", new Param1< PlayerData >( SerializePlayer( auPlayer ) ), true );
 
 				AuthPlayers.Remove( i );
 				break;
@@ -189,7 +189,7 @@ class PermissionManager
 			{
 				auPlayer.Save();
 
-				GetRPCManager().SendRPC( "PermissionsFramework", "RemovePlayer", new Param1< ref PlayerData >( SerializePlayer( auPlayer ) ), true );
+				GetRPCManager().SendRPC( "PermissionsFramework", "RemovePlayer", new Param1< PlayerData >( SerializePlayer( auPlayer ) ), true );
 
 				AuthPlayers.Remove( i );
 				break;
@@ -291,7 +291,7 @@ class PermissionManager
 		return auPlayer;
 	}
 
-	ref AuthPlayer GetPlayer( ref PlayerData data )
+	ref AuthPlayer GetPlayer( PlayerData data )
 	{
 		if ( !GetGame().IsMultiplayer() )
 			return AuthPlayers[0];
