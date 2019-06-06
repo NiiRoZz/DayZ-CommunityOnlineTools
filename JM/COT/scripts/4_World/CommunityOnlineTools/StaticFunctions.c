@@ -27,12 +27,12 @@ static PlayerBase GetPlayerObjectByIdentity( PlayerIdentity identity )
 	return PlayerBase.Cast( GetGame().GetObjectByNetworkId( networkIdLowBits, networkIdHighBits ) );
 }
 
-static void CreateLocalAdminNotification( string message, string icon = "" )
+static void CreateLocalAdminNotification( string message, string icon = "set:ccgui_enforce image:HudBuild" )
 {
 	NotificationSystem.AddNotificationExtended( 1.5, "Admin", message, icon );
 }
 
-static void SendAdminNotification( PlayerIdentity from, PlayerIdentity to, string message, string icon = "" )
+static void SendAdminNotification( PlayerIdentity from, PlayerIdentity to, string message, string icon = "set:ccgui_enforce image:HudBuild" )
 {
 	string title = "Admin";
 
