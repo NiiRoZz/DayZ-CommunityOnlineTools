@@ -18,7 +18,7 @@ class PlayerFile: Managed
 		if ( FileExist( playerFile.m_FileName ) )
 		{
 			JsonFileLoader<PlayerFile>.JsonLoadFile( playerFile.m_FileName, playerFile );
-			
+
 			playerFile.Save();
 			return true;
 		}
@@ -37,8 +37,8 @@ class PlayerFile: Managed
 		{
 			JsonFileLoader<PlayerFile>.JsonLoadFile( playerFile.m_FileName, playerFile );
 
-			playerFile.m_FileName = PERMISSION_FRAMEWORK_DIRECTORY + "Players\\" + data.SSteam64ID + ".json";
 			DeleteFile( playerFile.m_FileName );
+			playerFile.m_FileName = PERMISSION_FRAMEWORK_DIRECTORY + "Players\\" + data.SSteam64ID + ".json";
 
 			playerFile.Save();
 			return true;
@@ -49,8 +49,8 @@ class PlayerFile: Managed
 		{
 			JsonFileLoader<PlayerFile>.JsonLoadFile( playerFile.m_FileName, playerFile );
 
-			playerFile.m_FileName = PERMISSION_FRAMEWORK_DIRECTORY + "Players\\" + data.SGUID + ".json";
 			DeleteFile( playerFile.m_FileName );
+			playerFile.m_FileName = PERMISSION_FRAMEWORK_DIRECTORY + "Players\\" + data.SGUID + ".json";
 
 			playerFile.Save();
 			return true;

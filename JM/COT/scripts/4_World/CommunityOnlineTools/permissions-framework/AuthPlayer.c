@@ -1,8 +1,5 @@
 class AuthPlayer: Managed
 {
-	const string AUTH_DIRECTORY = PERMISSION_FRAMEWORK_DIRECTORY + "Permissions\\";
-	const string FILE_TYPE = ".txt";
-
 	ref Permission RootPermission;
 	ref array< Role > Roles;
 
@@ -24,12 +21,6 @@ class AuthPlayer: Managed
 
 		RootPermission = new ref Permission( Data.SSteam64ID );
 		Roles = new array< Role >;
-
-		if ( GetGame().IsServer() )
-		{
-			MakeDirectory( AUTH_DIRECTORY );
-			MakeDirectory( PERMISSION_FRAMEWORK_DIRECTORY + "Players\\" );
-		}
 	}
 
 	void ~AuthPlayer()
@@ -212,7 +203,7 @@ class AuthPlayer: Managed
 		{   
 			m_PlayerFile.Roles.Clear();
 
-			GetLogger().Log( "Saving player data: " + m_PlayerFile.m_FileName, "JM_COT_PermissionFramework" );
+			GetLogger().Log( "Saving player data: " + Data.SSteam64ID, "JM_COT_PermissionFramework" );
 
 			for ( int j = 0; j < Data.ARoles.Count(); j++ )
 			{
@@ -224,10 +215,8 @@ class AuthPlayer: Managed
 
 		if ( m_HasPermissions )
 		{
-			string filename = FileReadyStripName( Data.SSteam64ID );
-
-			GetLogger().Log( "Saving permissions: " + filename, "JM_COT_PermissionFramework" );
-			FileHandle file = OpenFile( AUTH_DIRECTORY + filename + FILE_TYPE, FileMode.WRITE );
+			GetLogger().Log( "Saving permissions: " + Data.SSteam64ID, "JM_COT_PermissionFramework" );
+			FileHandle file = OpenFile( PERMISSION_FRAMEWORK_DIRECTORY + "Permissions\\" + Data.SSteam64ID + ".txt", FileMode.WRITE );
 
 			if ( file != 0 )
 			{
@@ -243,9 +232,34 @@ class AuthPlayer: Managed
 		}
 	}
 
-	bool Load()
+	protected bool ReadPermissions( string filename )
 	{
-		ref array< string > data = new ref array< string >;
+		FileHandle file = OpenFile( filename, FileMode.READ );
+
+		if ( file < 0 )
+			return false;
+
+		array< string > data = new array< string >;
+
+		string line;
+
+		while ( FGets( file, line ) > 0 )
+		{
+			data.Insert( line );
+		}
+
+		CloseFile( file );
+
+		for ( int i = 0; i < data.Count(); i++ )
+		{
+			AddPermission( data[i] );
+		}
+
+		return true;
+	}
+
+	void Load()
+	{
 
 		m_HasPlayerData = PlayerFile.Load( Data, m_PlayerFile );
 
@@ -254,35 +268,22 @@ class AuthPlayer: Managed
 			AddStringRole( m_PlayerFile.Roles[j], false );
 		}
 
-		string filename = FileReadyStripName( Data.SSteam64ID );
-		GetLogger().Log( "Loading permissions for " + filename, "JM_COT_PermissionFramework" );
-		FileHandle file = OpenFile( AUTH_DIRECTORY + filename + FILE_TYPE, FileMode.READ );
+		GetLogger().Log( "Loading permissions for " + Data.SSteam64ID, "JM_COT_PermissionFramework" );
 
-		if ( file != 0 )
+		if ( FileExist( PERMISSION_FRAMEWORK_DIRECTORY + "Permissions\\" + Data.SSteam64ID + ".txt" ) )
 		{
-			string line;
-
-			while ( FGets( file, line ) > 0 )
-			{
-				data.Insert( line );
-			}
-
-			CloseFile( file );
-
-			for ( int i = 0; i < data.Count(); i++ )
-			{
-				AddPermission( data[i] );
-			}
-
-			m_HasPermissions = true;
+			m_HasPermissions = ReadPermissions( PERMISSION_FRAMEWORK_DIRECTORY + "Permissions\\" + Data.SSteam64ID + ".txt" );
+		} else if ( FileExist( PERMISSION_FRAMEWORK_DIRECTORY + "Permissions\\" + Data.SSteam64ID + ".txt.txt" ) )
+		{
+			m_HasPermissions = ReadPermissions( PERMISSION_FRAMEWORK_DIRECTORY + "Permissions\\" + Data.SSteam64ID + ".txt.txt" );
+			
+			DeleteFile( PERMISSION_FRAMEWORK_DIRECTORY + "Permissions\\" + Data.SSteam64ID + ".txt.txt" );
+			
+			Save();
 		} else
 		{
 			m_HasPermissions = false;
-
-			return false;
 		}
-		
-		return true;
 	}
 
 	void DebugPrint()

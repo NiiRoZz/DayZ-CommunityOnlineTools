@@ -8,6 +8,13 @@ class PermissionManager
 
 	void PermissionManager()
 	{
+		if ( GetGame().IsServer() )
+		{
+			MakeDirectory( PERMISSION_FRAMEWORK_DIRECTORY );
+			MakeDirectory( PERMISSION_FRAMEWORK_DIRECTORY + "Permissions\\" );
+			MakeDirectory( PERMISSION_FRAMEWORK_DIRECTORY + "Players\\" );
+		}
+
 		AuthPlayers = new array< ref AuthPlayer >;
 		Roles = new array< ref Role >;
 		RolesMap = new map< string, ref Role >;
