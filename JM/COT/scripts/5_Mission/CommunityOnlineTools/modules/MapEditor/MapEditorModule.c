@@ -24,6 +24,9 @@ class MapEditorModule: Module
 		Param1< vector > data;
 		if ( !ctx.Read( data ) ) return;
  
+		if ( target == NULL )
+			return;
+
 		if ( type == CallType.Server )
 		{
 			// target.SetOrigin( data.param1 );

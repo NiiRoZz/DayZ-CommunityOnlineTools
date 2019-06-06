@@ -332,7 +332,7 @@ class ESPModule: EditorModule
 				continue;
 			if ( obj.IsTree() )
 				continue;
-			if ( obj.IsBuilding() )
+			if ( obj.IsBuilding() && !obj.IsInherited( GardenBase ) )
 				continue;
 
 			entity = EntityAI.Cast( obj );
@@ -398,7 +398,7 @@ class ESPModule: EditorModule
 				continue;
 			}
 
-			bool isBaseBuilding = !isTransport && ( obj.IsContainer() || obj.CanUseConstruction() || obj.IsFireplace() );
+			bool isBaseBuilding = !isTransport && ( obj.IsContainer() || obj.CanUseConstruction() || obj.IsFireplace() || obj.IsInherited( GardenBase ) );
 			if ( (ViewBaseBuilding || ViewEverything) && (CanViewBaseBuilding || CanViewEverything) && isBaseBuilding )
 			{
 				espInfo = new ref ESPInfo;
