@@ -448,6 +448,12 @@ class PlayerMenu extends Form
 		m_PermissionsWrapper.Show( false );
 		m_RolesWrapper.Show( false );
 		m_ActionsWrapper.Show( true );
+
+		UpdateList();
+
+		GetGame().GetCallQueue( CALL_CATEGORY_GAMEPLAY ).CallLater( m_PermissionsWrapper.Show, 100, false, false );
+		GetGame().GetCallQueue( CALL_CATEGORY_GAMEPLAY ).CallLater( m_RolesWrapper.Show, 100, false, false );
+		GetGame().GetCallQueue( CALL_CATEGORY_GAMEPLAY ).CallLater( m_ActionsWrapper.Show, 100, false, true );
 	}
 
 	override void OnHide() 

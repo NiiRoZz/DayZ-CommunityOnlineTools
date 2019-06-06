@@ -69,7 +69,8 @@ class CameraTool: EditorModule
 
 				if ( dist > 0 ) CAMERA_FDIST = dist;
 				
-				PPEffects.OverrideDOF( true, CAMERA_FDIST, CAMERA_FLENGTH, CAMERA_FNEAR, CAMERA_BLUR, CAMERA_DOFFSET );
+				CurrentActiveCamera.SetFocus(CAMERA_FDIST, CAMERA_BLUR);
+				// PPEffects.OverrideDOF( true, CAMERA_FDIST, CAMERA_FLENGTH, CAMERA_FNEAR, CAMERA_BLUR, CAMERA_DOFFSET );
 			}
 		}
 	}

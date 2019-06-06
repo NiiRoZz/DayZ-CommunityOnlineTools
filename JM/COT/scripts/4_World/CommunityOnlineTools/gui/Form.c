@@ -6,11 +6,11 @@ class Form extends ScriptedWidgetEventHandler
 
 	ref EditorModule module;
 
-	bool HasBeenInitialized;
+	bool m_HasBeenInitialized;
 
 	void Form() 
 	{
-		HasBeenInitialized = false;
+		m_HasBeenInitialized = false;
 	}
 
 	void ~Form() 
@@ -29,7 +29,7 @@ class Form extends ScriptedWidgetEventHandler
 	void Init( bool fromMenu )
 	{
 		OnInit( fromMenu );
-		HasBeenInitialized = true;
+		m_HasBeenInitialized = true;
 	}
 
 	void OnInit( bool fromMenu )
@@ -44,7 +44,7 @@ class Form extends ScriptedWidgetEventHandler
 
 	void Show()
 	{
-		if ( HasBeenInitialized )
+		if ( m_HasBeenInitialized )
 		{
 			window.Show();
 			layoutRoot.Show( true );
