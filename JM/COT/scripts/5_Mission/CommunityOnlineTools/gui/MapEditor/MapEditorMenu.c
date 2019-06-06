@@ -10,6 +10,8 @@ class MapEditorMenu
 	protected bool m_MouseButtonPressed;
 	protected int m_PreviousTime;
 
+	protected float m_MoveSensitivity;
+
 	void MapEditorMenu( ref MapEditorModule module )
 	{
 		m_Module = module;
@@ -94,7 +96,7 @@ class MapEditorMenu
 	{
 		Input input = GetGame().GetInput();
 
-		if ( GetWidgetUnderCursor().GetName() != "Windows" && GetWidgetUnderCursor().GetName() != "map_editor_menu" )
+		if ( GetWidgetUnderCursor() != NULL && GetWidgetUnderCursor().GetName() != "Windows" && GetWidgetUnderCursor().GetName() != "map_editor_menu" )
 		{
 			return;
 		}
@@ -113,17 +115,29 @@ class MapEditorMenu
 
 		if ( m_SelectedObject )
 		{
+			CurrentActiveCamera.MoveFreeze = true;
+			CurrentActiveCamera.LookFreeze = true;
+
+			if ( input.LocalValue( "UATurbo" ) > 0 )
+				m_MoveSensitivity = 60.0;
+			else
+				m_MoveSensitivity = 10.0;
+
 			vector position = m_SelectedObject.GetPosition();
 
 			float forward = input.LocalValue( "UAMoveForward" ) - input.LocalValue( "UAMoveBack" );
-			float strafe = input.LocalValue( "UATurnRight" ) - input.LocalValue( "UATurnLeft" );
+			float strafe = input.LocalValue( "UAMoveRight" ) - input.LocalValue( "UAMoveLeft" );
 			float altitude = input.LocalValue( "UALeanLeft" ) - input.LocalValue( "UALeanRight" );
 
-			position[0] = position[0] + strafe;
-			position[1] = position[1] + altitude;
-			position[2] = position[2] + forward;
+			position[0] = position[0] + ( timeslice * m_MoveSensitivity * strafe );
+			position[1] = position[1] + ( timeslice * m_MoveSensitivity * altitude );
+			position[2] = position[2] + ( timeslice * m_MoveSensitivity * forward );
 
 			m_SelectedObject.SetPosition( position );
+		} else 
+		{
+			CurrentActiveCamera.MoveFreeze = false;
+			CurrentActiveCamera.LookFreeze = false;
 		}
 
 	}

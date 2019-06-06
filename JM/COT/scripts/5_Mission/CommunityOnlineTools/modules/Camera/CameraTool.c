@@ -199,7 +199,7 @@ class CameraTool: EditorModule
 			return;
 		}
 
-		GetRPCManager().SendRPC( "COT_Camera", "EnterCamera", new Param, true, NULL, GetPlayer() );
+		GetRPCManager().SendRPC( "COT_Camera", "EnterCamera", new Param, false, NULL, GetPlayer() );
 	}
 
 	void DisableCamera()
@@ -208,7 +208,7 @@ class CameraTool: EditorModule
 		{
 			SetFreezeMouse( false );
 
-			GetRPCManager().SendRPC( "COT_Camera", "LeaveCamera", new Param, true, NULL, GetPlayer() );
+			GetRPCManager().SendRPC( "COT_Camera", "LeaveCamera", new Param, false, NULL, GetPlayer() );
 		}
 	}
 
@@ -255,25 +255,33 @@ class CameraTool: EditorModule
 	
 	Object GetTargetObject()
 	{
-		if ( !CurrentActiveCamera ) return NULL;
+		if ( !CurrentActiveCamera )
+			return NULL;
+			
 		return CurrentActiveCamera.SelectedTarget;
 	}
 
 	vector GetTargetPos() 
 	{
-		if ( !CurrentActiveCamera ) return "0 0 0";
+		if ( !CurrentActiveCamera )
+			return "0 0 0";
+
 		return CurrentActiveCamera.TargetPosition;
 	}
 	
 	static void SetFreezeCam( bool freeze ) 
 	{
-		if ( !CurrentActiveCamera ) return;
+		if ( !CurrentActiveCamera )
+			return;
+
 		CurrentActiveCamera.MoveFreeze = freeze;
 	}
 	
 	static void SetFreezeMouse( bool freeze ) 
 	{
-		if ( !CurrentActiveCamera ) return;
+		if ( !CurrentActiveCamera )
+			return;
+
 		CurrentActiveCamera.LookFreeze = freeze;
 	}
 }

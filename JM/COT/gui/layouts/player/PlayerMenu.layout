@@ -185,8 +185,8 @@ PanelWidgetClass PlayerMenu {
      style EditorPanel
      {
       ScrollWidgetClass permissions_scroller {
-       position 0 5
-       size 1 0.9
+       position 0 35
+       size 1 0.85
        halign center_ref
        valign top_ref
        hexactpos 1
