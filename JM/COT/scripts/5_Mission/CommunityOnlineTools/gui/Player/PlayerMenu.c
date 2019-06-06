@@ -759,6 +759,9 @@ class PlayerMenu extends Form
 
 		for ( int j = 0; j < GetPermissionsManager().Roles.Count(); j++ )
 		{
+			if ( GetPermissionsManager().Roles[j].Name == "everyone" )
+				continue;
+				
 			m_RolesList[j].Show();
 			m_RolesList[j].InitRole( GetPermissionsManager().Roles[j].Name );
 		}
