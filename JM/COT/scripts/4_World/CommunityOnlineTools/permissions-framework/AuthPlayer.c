@@ -1,4 +1,4 @@
-class AuthPlayer
+class AuthPlayer: Managed
 {
 	const string AUTH_DIRECTORY = PERMISSION_FRAMEWORK_DIRECTORY + "Permissions\\";
 	const string FILE_TYPE = ".txt";
@@ -228,10 +228,6 @@ class AuthPlayer
 
 	bool Load()
 	{
-		string filename = FileReadyStripName( Data.SSteam64ID );
-		GetLogger().Log( "Loading permissions for " + filename, "JM_COT_PermissionFramework" );
-		FileHandle file = OpenFile( AUTH_DIRECTORY + filename + FILE_TYPE, FileMode.READ );
-			
 		ref array< string > data = new ref array< string >;
 
 		m_PlayerFile = PlayerFile.Load( Data, m_HasPlayerData );
@@ -243,6 +239,10 @@ class AuthPlayer
 		{
 			AddStringRole( m_PlayerFile.Roles[j] );
 		}
+
+		string filename = FileReadyStripName( Data.SSteam64ID );
+		GetLogger().Log( "Loading permissions for " + filename, "JM_COT_PermissionFramework" );
+		FileHandle file = OpenFile( AUTH_DIRECTORY + filename + FILE_TYPE, FileMode.READ );
 
 		if ( file != 0 )
 		{

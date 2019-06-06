@@ -1,4 +1,4 @@
-class Role
+class Role: Managed
 {
 	const string AUTH_DIRECTORY = PERMISSION_FRAMEWORK_DIRECTORY + "Roles\\";
 	const string FILE_TYPE = ".txt";

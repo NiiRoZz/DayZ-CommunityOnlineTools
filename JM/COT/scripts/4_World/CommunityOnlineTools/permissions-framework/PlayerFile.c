@@ -1,4 +1,4 @@
-class PlayerFile
+class PlayerFile: Managed
 {
 	[NonSerialized()]
 	string m_FileName;
@@ -25,6 +25,26 @@ class PlayerFile
 		}
 		
 		playerFile.m_FileName = PERMISSION_FRAMEWORK_DIRECTORY + "Players\\" + data.SGUID + ".json";
+
+		if ( FileExist( playerFile.m_FileName ) )
+		{
+			JsonFileLoader<PlayerFile>.JsonLoadFile( playerFile.m_FileName, playerFile );
+			playerFile.Save();
+			exists = true;
+			return playerFile;
+		}
+
+		playerFile.m_FileName = PERMISSION_FRAMEWORK_DIRECTORY + "Players\\" + data.SSteam64ID + ".json.txt";
+		
+		if ( FileExist( playerFile.m_FileName ) )
+		{
+			JsonFileLoader<PlayerFile>.JsonLoadFile( playerFile.m_FileName, playerFile );
+			playerFile.Save();
+			exists = true;
+			return playerFile;
+		}
+		
+		playerFile.m_FileName = PERMISSION_FRAMEWORK_DIRECTORY + "Players\\" + data.SGUID + ".json.txt";
 
 		if ( FileExist( playerFile.m_FileName ) )
 		{

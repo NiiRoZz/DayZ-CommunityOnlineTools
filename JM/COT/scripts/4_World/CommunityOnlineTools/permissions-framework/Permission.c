@@ -1,4 +1,4 @@
-class Permission
+class Permission: Managed
 {
 	ref Permission Parent;
 
