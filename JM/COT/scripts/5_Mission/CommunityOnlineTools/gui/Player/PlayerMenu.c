@@ -169,6 +169,14 @@ class PlayerMenu extends Form
 
 		m_PermissionsWrapper = layoutRoot.FindAnyWidget("permissions_wrapper");
 		m_PermsContainer = layoutRoot.FindAnyWidget("permissions_container");
+
+		m_PlayerListWrapper = layoutRoot.FindAnyWidget("players_list_wrapper");
+		m_PlayerScriptListFirst = GridSpacerWidget.Cast(m_PlayerListWrapper.FindAnyWidget("player_list_first"));
+		m_PlayerScriptListSecond = GridSpacerWidget.Cast(m_PlayerListWrapper.FindAnyWidget("player_list_second"));
+		m_PlayersInFirst = 0;
+		m_PlayersInSecond = 0;
+		m_UserID = 2000;
+
 		m_SetPermissionsButton = ButtonWidget.Cast(layoutRoot.FindAnyWidget("permissions_set_button"));
 		m_PermissionsBackButton = ButtonWidget.Cast(layoutRoot.FindAnyWidget("permissions_back_button"));
 		
@@ -761,7 +769,7 @@ class PlayerMenu extends Form
 		{
 			if ( GetPermissionsManager().Roles[j].Name == "everyone" )
 				continue;
-				
+
 			m_RolesList[j].Show();
 			m_RolesList[j].InitRole( GetPermissionsManager().Roles[j].Name );
 		}
