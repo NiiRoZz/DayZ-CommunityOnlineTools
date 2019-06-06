@@ -65,6 +65,11 @@ class PlayerModule: EditorModule
 	{
 	}
 
+	void SendAdminNotification( PlayerIdentity from, PlayerIdentity to, string message, string icon = "" )
+	{
+		NotificationSystem.SendNotificationToPlayerIdentityExtended( to, 1.5, "Admin - " + from.GetName(), message, icon );
+	}
+
 	void Player_SetHealth( CallType type, ref ParamsReadContext ctx, ref PlayerIdentity sender, ref Object target )
 	{
 		Param2< float, ref array< string > > data;
@@ -73,7 +78,7 @@ class PlayerModule: EditorModule
 		if ( !GetPermissionsManager().HasPermission( "Admin.Player.Set.Health", sender ) )
 			return;
 
-		if( type == CallType.Server )
+		if ( type == CallType.Server )
 		{
 			array< ref AuthPlayer > players = DeserializePlayersID( data.param2 );
 
@@ -86,6 +91,11 @@ class PlayerModule: EditorModule
 				player.SetHealth( "GlobalHealth", "Health", data.param1 );
 
 				COTLog( sender, "Set health to " + data.param1 + " for " + players[i].GetGUID() );
+
+				SendAdminNotification( sender, player.GetIdentity(), "Your health has been set to " + data.param1 );
+
+				if ( sender.GetId() != player.GetIdentity().GetId() )
+					SendAdminNotification( player.GetIdentity(), sender, "Health has been set to " + data.param1 );
 			}
 		}
 	}
@@ -98,7 +108,7 @@ class PlayerModule: EditorModule
 		if ( !GetPermissionsManager().HasPermission( "Admin.Player.Set.Blood", sender ) )
 			return;
 
-		if( type == CallType.Server )
+		if ( type == CallType.Server )
 		{
 			array< ref AuthPlayer > players = DeserializePlayersID( data.param2 );
 
@@ -111,6 +121,11 @@ class PlayerModule: EditorModule
 				player.SetHealth( "GlobalHealth", "Blood", data.param1 );
 
 				COTLog( sender, "Set blood to " + data.param1 + " for " + players[i].GetGUID() );
+
+				SendAdminNotification( sender, player.GetIdentity(), "Your blood has been set to " + data.param1 );
+
+				if ( sender.GetId() != player.GetIdentity().GetId() )
+					SendAdminNotification( player.GetIdentity(), sender, "Blood has been set to " + data.param1 );
 			}
 		}
 	}
@@ -123,7 +138,7 @@ class PlayerModule: EditorModule
 		if ( !GetPermissionsManager().HasPermission( "Admin.Player.Set.Energy", sender ) )
 			return;
 
-		if( type == CallType.Server )
+		if ( type == CallType.Server )
 		{
 			array< ref AuthPlayer > players = DeserializePlayersID( data.param2 );
 
@@ -136,6 +151,11 @@ class PlayerModule: EditorModule
 				player.GetStatEnergy().Set( data.param1 );
 
 				COTLog( sender, "Set energy to " + data.param1 + " for " + players[i].GetGUID() );
+
+				SendAdminNotification( sender, player.GetIdentity(), "Your energy has been set to " + data.param1 );
+
+				if ( sender.GetId() != player.GetIdentity().GetId() )
+					SendAdminNotification( player.GetIdentity(), sender, "Energy has been set to " + data.param1 );
 			}
 		}
 	}
@@ -148,7 +168,7 @@ class PlayerModule: EditorModule
 		if ( !GetPermissionsManager().HasPermission( "Admin.Player.Set.Water", sender ) )
 			return;
 
-		if( type == CallType.Server )
+		if ( type == CallType.Server )
 		{
 			array< ref AuthPlayer > players = DeserializePlayersID( data.param2 );
 
@@ -161,6 +181,11 @@ class PlayerModule: EditorModule
 				player.GetStatWater().Set( data.param1 );
 
 				COTLog( sender, "Set water to " + data.param1 + " for " + players[i].GetGUID() );
+
+				SendAdminNotification( sender, player.GetIdentity(), "Your water has been set to " + data.param1 );
+
+				if ( sender.GetId() != player.GetIdentity().GetId() )
+					SendAdminNotification( player.GetIdentity(), sender, "Water has been set to " + data.param1 );
 			}
 		}
 	}
@@ -173,7 +198,7 @@ class PlayerModule: EditorModule
 		if ( !GetPermissionsManager().HasPermission( "Admin.Player.Set.Shock", sender ) )
 			return;
 
-		if( type == CallType.Server )
+		if ( type == CallType.Server )
 		{
 			array< ref AuthPlayer > players = DeserializePlayersID( data.param2 );
 
@@ -186,6 +211,11 @@ class PlayerModule: EditorModule
 				player.SetHealth( "GlobalHealth", "Shock", data.param1 );
 
 				COTLog( sender, "Set shock to " + data.param1 + " for " + players[i].GetGUID() );
+
+				SendAdminNotification( sender, player.GetIdentity(), "Your shock has been set to " + data.param1 );
+
+				if ( sender.GetId() != player.GetIdentity().GetId() )
+					SendAdminNotification( player.GetIdentity(), sender, "Shock has been set to " + data.param1 );
 			}
 		}
 	}
@@ -198,7 +228,7 @@ class PlayerModule: EditorModule
 		if ( !GetPermissionsManager().HasPermission( "Admin.Player.Set.HeatComfort", sender ) )
 			return;
 
-		if( type == CallType.Server )
+		if ( type == CallType.Server )
 		{
 			array< ref AuthPlayer > players = DeserializePlayersID( data.param2 );
 
@@ -211,6 +241,11 @@ class PlayerModule: EditorModule
 				player.GetStatHeatComfort().Set( data.param1 );
 
 				COTLog( sender, "Set heat comfort to " + data.param1 + " for " + players[i].GetGUID() );
+
+				SendAdminNotification( sender, player.GetIdentity(), "Your heat comfort has been set to " + data.param1 );
+
+				if ( sender.GetId() != player.GetIdentity().GetId() )
+					SendAdminNotification( player.GetIdentity(), sender, "Heat comfort has been set to " + data.param1 );
 			}
 		}
 	}
@@ -223,7 +258,7 @@ class PlayerModule: EditorModule
 		if ( !GetPermissionsManager().HasPermission( "Admin.Player.Set.Wet", sender ) )
 			return;
 
-		if( type == CallType.Server )
+		if ( type == CallType.Server )
 		{
 			array< ref AuthPlayer > players = DeserializePlayersID( data.param2 );
 
@@ -236,6 +271,11 @@ class PlayerModule: EditorModule
 				player.GetStatWet().Set( data.param1 );
 
 				COTLog( sender, "Set wetness to " + data.param1 + " for " + players[i].GetGUID() );
+
+				SendAdminNotification( sender, player.GetIdentity(), "Your wetness has been set to " + data.param1 );
+
+				if ( sender.GetId() != player.GetIdentity().GetId() )
+					SendAdminNotification( player.GetIdentity(), sender, "Wetness has been set to " + data.param1 );
 			}
 		}
 	}
@@ -248,7 +288,7 @@ class PlayerModule: EditorModule
 		if ( !GetPermissionsManager().HasPermission( "Admin.Player.Set.Tremor", sender ) )
 			return;
 
-		if( type == CallType.Server )
+		if ( type == CallType.Server )
 		{
 			array< ref AuthPlayer > players = DeserializePlayersID( data.param2 );
 
@@ -261,6 +301,11 @@ class PlayerModule: EditorModule
 				player.GetStatTremor().Set( data.param1 );
 
 				COTLog( sender, "Set tremor to " + data.param1 + " for " + players[i].GetGUID() );
+
+				SendAdminNotification( sender, player.GetIdentity(), "Your tremor has been set to " + data.param1 );
+
+				if ( sender.GetId() != player.GetIdentity().GetId() )
+					SendAdminNotification( player.GetIdentity(), sender, "Tremor has been set to " + data.param1 );
 			}
 		}
 	}
@@ -273,7 +318,7 @@ class PlayerModule: EditorModule
 		if ( !GetPermissionsManager().HasPermission( "Admin.Player.Set.Stamina", sender ) )
 			return;
 
-		if( type == CallType.Server )
+		if ( type == CallType.Server )
 		{
 			array< ref AuthPlayer > players = DeserializePlayersID( data.param2 );
 
@@ -286,6 +331,11 @@ class PlayerModule: EditorModule
 				player.GetStatStamina().Set( data.param1 );
 
 				COTLog( sender, "Set stamina to " + data.param1 + " for " + players[i].GetGUID() );
+
+				SendAdminNotification( sender, player.GetIdentity(), "Your stamina has been set to " + data.param1 );
+
+				if ( sender.GetId() != player.GetIdentity().GetId() )
+					SendAdminNotification( player.GetIdentity(), sender, "Stamina has been set to " + data.param1 );
 			}
 		}
 	}
@@ -298,7 +348,7 @@ class PlayerModule: EditorModule
 		if ( !GetPermissionsManager().HasPermission( "Admin.Player.Set.LastShaved", sender ) )
 			return;
 
-		if( type == CallType.Server )
+		if ( type == CallType.Server )
 		{
 			array< ref AuthPlayer > players = DeserializePlayersID( data.param2 );
 
@@ -314,6 +364,11 @@ class PlayerModule: EditorModule
 				}
 
 				COTLog( sender, "Set beard state to " + data.param1 + " for " + players[i].GetGUID() );
+
+				SendAdminNotification( sender, player.GetIdentity(), "Your beard state has been set to " + data.param1 );
+
+				if ( sender.GetId() != player.GetIdentity().GetId() )
+					SendAdminNotification( player.GetIdentity(), sender, "Beard state has been set to " + data.param1 );
 			}
 		}
 	}
@@ -326,7 +381,7 @@ class PlayerModule: EditorModule
 		if ( !GetPermissionsManager().HasPermission( "Admin.Player.Set.BloodyHands", sender ) )
 			return;
 
-		if( type == CallType.Server )
+		if ( type == CallType.Server )
 		{
 			array< ref AuthPlayer > players = DeserializePlayersID( data.param2 );
 
@@ -339,6 +394,17 @@ class PlayerModule: EditorModule
 				player.SetBloodyHands( data.param1 );
 
 				COTLog( sender, "Set bloody hands to " + data.param1 + " for " + players[i].GetGUID() );
+
+				if ( data.param1 )
+				{
+					SendAdminNotification( sender, player.GetIdentity(), "You now have bloody hands." );
+				} else 
+				{
+					SendAdminNotification( sender, player.GetIdentity(), "You no longer have bloody hands." );
+				}
+
+				if ( sender.GetId() != player.GetIdentity().GetId() )
+					SendAdminNotification( player.GetIdentity(), sender, "Bloody hands has been set to " + data.param1 );
 			}
 		}
 	}
@@ -351,7 +417,7 @@ class PlayerModule: EditorModule
 		if ( !GetPermissionsManager().HasPermission( "Admin.Player.Transport.Kick", sender ) )
 			return;
 
-		if( type == CallType.Server )
+		if ( type == CallType.Server )
 		{
 			array< ref AuthPlayer > players = DeserializePlayersID( data.param1 );
 
@@ -376,13 +442,17 @@ class PlayerModule: EditorModule
 						if ( speed <= 8 )
 						{
 							vehCommand.GetOutVehicle();
-						}
-						else
+						} else
 						{
 							vehCommand.JumpOutVehicle();
 						}
 
 						COTLog( sender, "Kicked " + players[i].GetGUID() + " out of transport" );
+
+						SendAdminNotification( sender, player.GetIdentity(), "You have been kicked out of your vehicle." );
+
+						if ( sender.GetId() != player.GetIdentity().GetId() )
+							SendAdminNotification( player.GetIdentity(), sender, "Kicked out of vehicle." );
 					}
 				}
 			}
@@ -397,7 +467,7 @@ class PlayerModule: EditorModule
 		if ( !GetPermissionsManager().HasPermission( "Admin.Player.Transport.Repair", sender ) )
 			return;
 
-		if( type == CallType.Server )
+		if ( type == CallType.Server )
 		{
 			array< Transport > completedTransports = new array< Transport >;
 
@@ -425,11 +495,11 @@ class PlayerModule: EditorModule
 
 					if ( radiator )
 					{
-						radiator.SetHealth( "", "", 1 );
+						radiator.SetHealth( "", "", 100 );
 					}
 
-					transport.SetHealth( "Engine", "", 1 );
-					transport.SetHealth( "FuelTank", "", 1 );
+					transport.SetHealth( "Engine", "", 100 );
+					transport.SetHealth( "FuelTank", "", 100 );
 
 					CarScript car = CarScript.Cast( transport );
 
@@ -444,6 +514,11 @@ class PlayerModule: EditorModule
 					completedTransports.Insert( transport );
 
 					COTLog( sender, "Repaired transport for " + players[i].GetGUID() );
+
+					SendAdminNotification( sender, player.GetIdentity(), "Your vehicle has been repaired." );
+
+					if ( sender.GetId() != player.GetIdentity().GetId() )
+						SendAdminNotification( player.GetIdentity(), sender, "Vehicle has been repaired." );
 				}
 			}
 		}
@@ -456,7 +531,7 @@ class PlayerModule: EditorModule
 
 		if ( !GetPermissionsManager().HasPermission( "Admin.Player.Teleport.ToMe", sender ) ) return;
 
-		if( type == CallType.Server )
+		if ( type == CallType.Server )
 		{
 			array< ref AuthPlayer > players = DeserializePlayersID( data.param2 );
 
@@ -478,6 +553,11 @@ class PlayerModule: EditorModule
 				player.SetPosition( data.param1 );
 
 				COTLog( sender, "Teleported " + players[i].GetGUID() + " to self" );
+
+				SendAdminNotification( sender, player.GetIdentity(), "You have been teleported to " + data.param1 );
+
+				if ( sender.GetId() != player.GetIdentity().GetId() )
+					SendAdminNotification( player.GetIdentity(), sender, "Teleported to " + data.param1 );
 			}
 		}
 	}
@@ -502,7 +582,7 @@ class PlayerModule: EditorModule
 			if ( transport != NULL ) return;
 		}
 
-		if( type == CallType.Server )
+		if ( type == CallType.Server )
 		{
 			array< ref AuthPlayer > players = DeserializePlayersID( data.param1 );
 
@@ -515,6 +595,11 @@ class PlayerModule: EditorModule
 			senderPlayer.SetPosition( player.GetPosition() );
 
 			COTLog( sender, "Teleported self to " + players[0].GetGUID() );
+
+			SendAdminNotification( sender, player.GetIdentity(), "Teleported themself to you." );
+
+			if ( sender.GetId() != player.GetIdentity().GetId() )
+				SendAdminNotification( player.GetIdentity(), sender, "You've teleported to player." );
 		}
 	}
 
@@ -523,7 +608,7 @@ class PlayerModule: EditorModule
 		if ( !GetPermissionsManager().HasPermission( "Admin.Player.Spectate", sender ) )
 			return;
 
-		if( type == CallType.Server )
+		if ( type == CallType.Server )
 		{
 			Param2< bool, ref array< string > > data;
 			if ( !ctx.Read( data ) ) return;
@@ -559,7 +644,7 @@ class PlayerModule: EditorModule
 			COTLog( sender, "Spectating " + players[0].GetGUID() );
 		}	
 
-		if( type == CallType.Client )
+		if ( type == CallType.Client )
 		{
 			if ( GetGame().IsMultiplayer() )
 			{
@@ -583,7 +668,7 @@ class PlayerModule: EditorModule
 		if ( !GetPermissionsManager().HasPermission( "Admin.Player.Godmode", sender ) )
 			return;
 
-		if( type == CallType.Server )
+		if ( type == CallType.Server )
 		{
 			array< ref AuthPlayer > players = DeserializePlayersID( data.param2 );
 
@@ -596,6 +681,17 @@ class PlayerModule: EditorModule
 				player.SetGodMode( data.param1 );
  
 				COTLog( sender, "Set god mode to " + data.param1 + " for " + players[i].GetGUID() );
+
+				if ( data.param1 )
+				{
+					SendAdminNotification( sender, player.GetIdentity(), "You now have god mode." );
+				} else 
+				{
+					SendAdminNotification( sender, player.GetIdentity(), "You no longer have god mode." );
+				}
+
+				if ( sender.GetId() != player.GetIdentity().GetId() )
+					SendAdminNotification( player.GetIdentity(), sender, "God mode has been set to " + data.param1 );
 			}
 		}
 	}
@@ -638,6 +734,11 @@ class PlayerModule: EditorModule
 						player.Save();
 
 						COTLog( sender, "Set and saved permissions for " + players[i].GetSteam64ID() );
+
+						SendAdminNotification( sender, player.IdentityPlayer, "Your permissions have been updated." );
+
+						if ( sender.GetId() != player.IdentityPlayer.GetId() )
+							SendAdminNotification( player.IdentityPlayer, sender, "Updated permissions." );
 					}
 				}
 			}
@@ -660,6 +761,12 @@ class PlayerModule: EditorModule
 			{
 				auPlayers[i].Kick();
 				COTLog( sender, "Kicked " + auPlayers[i].GetGUID() );
+
+				// won't ever send
+				//SendAdminNotification( sender, auPlayers[i].IdentityPlayer, "You have been kicked." );
+
+				if ( sender.GetId() != auPlayers[i].IdentityPlayer.GetId() )
+					SendAdminNotification( auPlayers[i].IdentityPlayer, sender, "Kicked player." );
 			}
 		}
 	}
@@ -680,6 +787,12 @@ class PlayerModule: EditorModule
 			{
 				auPlayers[i].Ban();
 				COTLog( sender, "Banned " + auPlayers[i].GetGUID() );
+
+				// won't ever send
+				//SendAdminNotification( sender, auPlayers[i].IdentityPlayer, "You have been banned." );
+
+				if ( sender.GetId() != auPlayers[i].IdentityPlayer.GetId() )
+					SendAdminNotification( auPlayers[i].IdentityPlayer, sender, "Banned player." );
 			}
 		}
 	}
