@@ -243,7 +243,7 @@ static Object GetCursorObject( float distance = 100.0, Object ignore = NULL, flo
 
 	auto objs = GetObjectsAt( rayStart, rayEnd, ignore, radius, with );
 
-	if ( objs.Count() > 0 )
+	if ( objs && objs.Count() > 0 )
 	{
 		return objs[ 0 ];
 	}
