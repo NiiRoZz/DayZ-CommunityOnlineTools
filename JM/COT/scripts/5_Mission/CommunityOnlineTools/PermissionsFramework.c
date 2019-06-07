@@ -86,9 +86,37 @@ class PermissionsFramework
 
 	}
 
+	protected bool CheckIfExists( ref AuthPlayer auPlayer )
+	{
+		for ( int i = 0; i < m_ServerIdentities.Count(); i++ )
+		{
+			if ( auPlayer.GetData().SGUID == m_ServerIdentities[i].GetId() )
+			{
+				return true;
+			}
+		}
+
+		return false;
+	}
+
 	void ReloadPlayerList()
 	{
 		GetGame().GetPlayerIndentities( m_ServerIdentities );
+
+		array< int > indices = new array< int >;
+
+		for ( int i = 0; i < GetPermissionsManager().AuthPlayers.Count(); i++ )
+		{
+			if ( !CheckIfExists( GetPermissionsManager().AuthPlayers[i] ) )
+			{
+				indices.Insert( i );
+			}
+		}
+
+		for ( int k = 0; k < indices.Count(); k++ )
+		{
+			GetPermissionsManager().OnPlayerLeft( GetPermissionsManager().AuthPlayers[ indices[k] ].GetPlayerIdentity() );
+		}
 
 		for ( int j = 0; j < m_ServerIdentities.Count(); j++ )
 		{
@@ -96,6 +124,8 @@ class PermissionsFramework
 		}
 
 		m_ServerIdentities.Clear();
+
+		GetPermissionsManager().DebugPrint();
 	}
 
 	void CheckVersion( CallType type, ref ParamsReadContext ctx, ref PlayerIdentity sender, ref Object target )

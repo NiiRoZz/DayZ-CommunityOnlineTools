@@ -115,7 +115,8 @@ class PermissionManager
 
 	void OnPlayerLeft( PlayerIdentity player )
 	{
-		if ( player == NULL ) return;
+		if ( player == NULL )
+			return;
 
 		for ( int i = 0; i < AuthPlayers.Count(); i++ )
 		{
