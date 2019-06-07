@@ -133,7 +133,13 @@ class PermissionsFramework
 			{
 				for ( int i = 0; i < GetPermissionsManager().GetPlayers().Count(); i++ )
 				{
-					GetRPCManager().SendRPC( "PermissionsFramework", "UpdatePlayerData", new Param1< PlayerData >( GetPermissionsManager().GetPlayers()[i].GetData() ), false, sender );
+					if ( sender && GetPermissionsManager().GetPlayers()[i].GetData().SGUID == sender.GetId() )
+					{
+						GetRPCManager().SendRPC( "PermissionsFramework", "SetClientPlayer", new Param1< ref PlayerData >( SerializePlayer( GetPermissionsManager().GetPlayers()[i] ) ), false, sender );
+					} else 
+					{
+						GetRPCManager().SendRPC( "PermissionsFramework", "UpdatePlayerData", new Param1< ref PlayerData >( SerializePlayer( GetPermissionsManager().GetPlayers()[i] ) ), false, sender );
+					}
 				}
 			}
 		}
@@ -239,7 +245,7 @@ class PermissionsFramework
 					return;
 
 				ClientAuthPlayer = DeserializePlayer( data.param1 );
-				
+
 				GetModuleManager().OnClientPermissionsUpdated();
 			}
 		}

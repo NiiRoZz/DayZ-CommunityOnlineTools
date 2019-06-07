@@ -20,7 +20,8 @@ class AuthPlayer: Managed
 
 		m_Data = new PlayerData();
 
-		UpdatePlayerData();
+		if ( m_PlayerIdentity )
+			UpdatePlayerData();
 	}
 
 	void ~AuthPlayer()
@@ -28,9 +29,9 @@ class AuthPlayer: Managed
 		delete RootPermission;
 	}
 
-	void SwapData( PlayerData newData )
+	void UpdateData( PlayerData newData )
 	{
-		GetData().Copy( newData );
+		m_Data.Copy( newData );
 
 		Deserialize();
 	}
@@ -43,7 +44,8 @@ class AuthPlayer: Managed
 	PlayerBase GetPlayerBase()
 	{
 		PlayerBase player = GetPlayerObjectByIdentity( m_PlayerIdentity );
-		player.authenticatedPlayer = this;
+		if ( player )
+			player.authenticatedPlayer = this;
 		return player;
 	}
 
@@ -54,7 +56,8 @@ class AuthPlayer: Managed
 
 	void UpdatePlayerData()
 	{
-		if ( GetPlayerIdentity() == NULL ) return;
+		if ( GetPlayerIdentity() == NULL )
+			return;
 
 		GetData().IPingMin = GetPlayerIdentity().GetPingMin();
 		GetData().IPingMax = GetPlayerIdentity().GetPingMax();
@@ -64,7 +67,8 @@ class AuthPlayer: Managed
 		GetData().SGUID = GetPlayerIdentity().GetId();
 		GetData().SName = GetPlayerIdentity().GetName();
 
-		if ( GetPlayerBase() == NULL ) return;
+		if ( GetPlayerBase() == NULL )
+			return;
 
 		GetData().Load( GetPlayerBase() );
 	}
