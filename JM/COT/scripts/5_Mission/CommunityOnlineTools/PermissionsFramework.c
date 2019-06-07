@@ -149,10 +149,10 @@ class PermissionsFramework
 				{
 					if ( sender && GetPermissionsManager().GetPlayers()[i].GetData().SGUID == sender.GetId() )
 					{
-						GetRPCManager().SendRPC( "PermissionsFramework", "SetClientPlayer", new Param1< PlayerData >( SerializePlayer( GetPermissionsManager().GetPlayers()[i] ) ), false, sender );
+						GetRPCManager().SendRPC( "PermissionsFramework", "SetClientPlayer", new Param1< ref PlayerData >( SerializePlayer( GetPermissionsManager().GetPlayers()[i] ) ), false, sender );
 					} else 
 					{
-						GetRPCManager().SendRPC( "PermissionsFramework", "UpdatePlayerData", new Param1< PlayerData >( SerializePlayer( GetPermissionsManager().GetPlayers()[i] ) ), false, sender );
+						GetRPCManager().SendRPC( "PermissionsFramework", "UpdatePlayerData", new Param1< ref PlayerData >( SerializePlayer( GetPermissionsManager().GetPlayers()[i] ) ), false, sender );
 					}
 				}
 			}
@@ -165,7 +165,7 @@ class PermissionsFramework
 		{
 			if ( GetGame().IsMultiplayer() )
 			{
-				ref Param1< PlayerData > data;
+				ref Param1< ref PlayerData > data;
 				if ( !ctx.Read( data ) )
 					return;
 				
@@ -184,7 +184,7 @@ class PermissionsFramework
 			if ( !GetPermissionsManager().HasPermission( "Admin.Player.Read", sender ) )
 				return;
 
-			Param1< string > data;
+			ref Param1< string > data;
 			if ( !ctx.Read( data ) )
 				return;
 
@@ -196,10 +196,10 @@ class PermissionsFramework
 
 				if ( sender && data.param1 == sender.GetId() )
 				{
-					GetRPCManager().SendRPC( "PermissionsFramework", "SetClientPlayer", new Param1< PlayerData >( SerializePlayer( player ) ), false, sender );
+					GetRPCManager().SendRPC( "PermissionsFramework", "SetClientPlayer", new Param1< ref PlayerData >( SerializePlayer( player ) ), false, sender );
 				} else 
 				{
-					GetRPCManager().SendRPC( "PermissionsFramework", "UpdatePlayerData", new Param1< PlayerData >( SerializePlayer( player ) ), false, sender );
+					GetRPCManager().SendRPC( "PermissionsFramework", "UpdatePlayerData", new Param1< ref PlayerData >( SerializePlayer( player ) ), false, sender );
 				}
 			}
 		}
@@ -208,7 +208,7 @@ class PermissionsFramework
 		{
 			if ( GetGame().IsMultiplayer() )
 			{
-				Param1< PlayerData > cdata;
+				ref Param1< ref PlayerData > cdata;
 				if ( !ctx.Read( cdata ) )
 					return;
 
@@ -223,11 +223,13 @@ class PermissionsFramework
 		{
 			if ( GetGame().IsMultiplayer() )
 			{
-				ref Param1< PlayerData > data;
+				ref Param1< ref PlayerData > data;
 				if ( !ctx.Read( data ) )
 					return;
 
 				ClientAuthPlayer = DeserializePlayer( data.param1 );
+
+				ClientAuthPlayer.GetData().DebugPrint();
 
 				GetModuleManager().OnClientPermissionsUpdated();
 			}

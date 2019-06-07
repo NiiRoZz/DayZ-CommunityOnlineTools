@@ -124,7 +124,7 @@ class PermissionManager
 			{
 				AuthPlayers[i].Save();
 
-				GetRPCManager().SendRPC( "PermissionsFramework", "RemovePlayer", new Param1< PlayerData >( SerializePlayer( AuthPlayers[i] ) ), true );
+				GetRPCManager().SendRPC( "PermissionsFramework", "RemovePlayer", new Param1< ref PlayerData >( SerializePlayer( AuthPlayers[i] ) ), true );
 
 				AuthPlayers.Remove( i );
 				return;
@@ -207,32 +207,35 @@ class PermissionManager
 
 	AuthPlayer GetPlayer( PlayerData data )
 	{
+		Print(" test 1");
 		if ( !GetGame().IsMultiplayer() )
 			return AuthPlayers[0];
+		Print(" test 2");
 		
 		if ( data == NULL )
 			return NULL;
-		
-		int index = -1;
+		Print(" test 3");
 
 		for ( int i = 0; i < AuthPlayers.Count(); i++ )
 		{
 			if ( AuthPlayers[i].GetData().SGUID == data.SGUID )
 			{
-				index = i;
-				break;
+		Print(" test 4");
+				AuthPlayers[i].UpdateData( data, GetGame().IsClient() );
+				return AuthPlayers[i];
 			}
 		}
+		Print(" test 5");
 
-		if ( index < 0 && GetGame().IsClient() )
-			index = AuthPlayers.Insert( new AuthPlayer( NULL ) );
-
-		if ( index >= 0 )
+		if ( GetGame().IsClient() )
 		{
-			AuthPlayers[index].UpdateData( data );
+		Print(" test 6");
+			int index = AuthPlayers.Insert( new AuthPlayer( NULL ) );
+			AuthPlayers[ index ].UpdateData( data, GetGame().IsClient() );
 			return AuthPlayers[index];
 		}
 
+		Print(" test 7");
 		return NULL;
 	}
 

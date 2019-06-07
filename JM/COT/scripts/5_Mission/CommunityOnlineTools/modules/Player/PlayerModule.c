@@ -727,7 +727,7 @@ class PlayerModule: EditorModule
 							player.AddPermission( perms[j] );
 						}
 
-						GetRPCManager().SendRPC( "PermissionsFramework", "SetClientPlayer", new Param1< PlayerData >( SerializePlayer( player ) ), true, player.GetPlayerIdentity() );
+						GetRPCManager().SendRPC( "PermissionsFramework", "SetClientPlayer", new Param1< ref PlayerData >( SerializePlayer( player ) ), true, player.GetPlayerIdentity() );
 
 						player.Save();
 

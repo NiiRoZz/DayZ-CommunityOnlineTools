@@ -24,7 +24,8 @@ class AuthPlayer: Managed
 
 		m_Data = new PlayerData();
 
-		UpdatePlayerData();
+		if ( m_PlayerIdentity )
+			UpdatePlayerData();
 	}
 
 	void ~AuthPlayer()
@@ -38,9 +39,9 @@ class AuthPlayer: Managed
 		delete Roles;
 	}
 
-	void UpdateData( PlayerData newData )
+	void UpdateData( PlayerData newData, bool isClient )
 	{
-		m_Data.Copy( newData, m_PreventChangingCore );
+		m_Data.Copy( newData, isClient );
 
 		Deserialize();
 	}

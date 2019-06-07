@@ -69,15 +69,18 @@ class PlayerData: Managed
 		BGodMode = player.m_HasGodeMode;
 	}
 
-	void Copy( PlayerData data, bool prevent )
+	void Copy( PlayerData data, bool isClient )
 	{
-		//SName	    	= "" + data.SName;
-		//SGUID	    	= "" + data.SGUID;
-		//SSteam64ID	= "" + data.SSteam64ID;
+		if ( isClient )
+		{
+			SName	    	= "" + data.SName;
+			SGUID	    	= "" + data.SGUID;
+			SSteam64ID		= "" + data.SSteam64ID;
 
-		IPingMax		= data.IPingMax;
-		IPingMin		= data.IPingMin;
-		IPingAvg		= data.IPingAvg;
+			IPingMax		= data.IPingMax;
+			IPingMin		= data.IPingMin;
+			IPingAvg		= data.IPingAvg;
+		}
 
 		ARoles.Copy( data.ARoles );
 		APermissions.Copy( data.APermissions );
