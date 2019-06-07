@@ -42,9 +42,14 @@ static void SendAdminNotification( PlayerIdentity from, PlayerIdentity to, strin
 	} else 
 	{
 		if ( to != NULL )
+		{
 			title = "From " + from.GetName();
 
-		NotificationSystem.SendNotificationToPlayerIdentityExtended( to, 1.5, title, message, icon );
+			NotificationSystem.SendNotificationToPlayerIdentityExtended( to, 1.5, title, message, icon );
+		} else 
+		{
+			NotificationSystem.SendNotificationToPlayerIdentityExtended( from, 1.5, title, message, icon );
+		}
 	}
 }
 
