@@ -71,9 +71,9 @@ class PlayerData: Managed
 
 	void Copy( PlayerData data )
 	{
-		SName	    	= "" + data.SName;
-		SGUID	    	= "" + data.SGUID;
-		SSteam64ID		= "" + data.SSteam64ID;
+		//SName	    	= "" + data.SName;
+		//SGUID	    	= "" + data.SGUID;
+		//SSteam64ID	= "" + data.SSteam64ID;
 
 		IPingMax		= data.IPingMax;
 		IPingMin		= data.IPingMin;

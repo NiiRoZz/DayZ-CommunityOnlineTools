@@ -32,7 +32,7 @@ class CommunityOnlineTools
 		array<string> values = new array<string>;
 		m_Version.Split(".", values);
 
-		if (values.Count() == 3)
+		if ( values.Count() == 3 )
 		{
 			m_MajorVersion = values[0].ToInt();
 			m_MinorVersion = values[1].ToInt();

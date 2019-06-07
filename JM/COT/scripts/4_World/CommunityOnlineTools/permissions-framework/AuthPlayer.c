@@ -11,27 +11,36 @@ class AuthPlayer: Managed
 	protected bool m_HasPermissions;
 	protected bool m_HasPlayerData;
 
+	protected bool m_PreventChangingCore;
+
 	void AuthPlayer( PlayerIdentity identity )
 	{
+		m_PreventChangingCore = false;
+
 		m_PlayerIdentity = identity;
 
-		RootPermission = new ref Permission( "" );
+		RootPermission = new Permission( "" );
 		Roles = new array< Role >;
 
 		m_Data = new PlayerData();
 
-		if ( m_PlayerIdentity )
-			UpdatePlayerData();
+		UpdatePlayerData();
 	}
 
 	void ~AuthPlayer()
 	{
 		delete RootPermission;
+
+		delete m_Data;
+		delete m_PlayerFile;
+
+		delete RootPermission;
+		delete Roles;
 	}
 
 	void UpdateData( PlayerData newData )
 	{
-		m_Data.Copy( newData );
+		m_Data.Copy( newData, m_PreventChangingCore );
 
 		Deserialize();
 	}
@@ -58,19 +67,19 @@ class AuthPlayer: Managed
 
 	void UpdatePlayerData()
 	{
-		if ( m_PlayerIdentity == NULL )
-			return;
+		if ( m_PlayerIdentity )
+		{
+			if ( !m_PreventChangingCore )
+			{
+				m_Data.SName = m_PlayerIdentity.GetName();
+				m_Data.SGUID = m_PlayerIdentity.GetId();
+				m_Data.SSteam64ID = m_PlayerIdentity.GetPlainId();
+			}
 
-		GetData().IPingMin		= m_PlayerIdentity.GetPingMin();
-		GetData().IPingMax		= m_PlayerIdentity.GetPingMax();
-		GetData().IPingAvg		= m_PlayerIdentity.GetPingAvg();
-		
-		GetData().SSteam64ID	= m_PlayerIdentity.GetPlainId();
-		GetData().SGUID			= m_PlayerIdentity.GetId();
-		GetData().SName			= m_PlayerIdentity.GetName();
-
-		if ( GetPlayerBase() == NULL )
-			return;
+			m_Data.IPingMin = m_PlayerIdentity.GetPingMin();
+			m_Data.IPingMax = m_PlayerIdentity.GetPingMax();
+			m_Data.IPingAvg = m_PlayerIdentity.GetPingAvg();
+		}
 
 		GetData().Load( GetPlayerBase() );
 	}
@@ -291,6 +300,10 @@ class AuthPlayer: Managed
 		{
 			m_HasPermissions = false;
 		}
+
+		m_PreventChangingCore = true;
+
+		UpdatePlayerData();
 	}
 
 	void DebugPrint()

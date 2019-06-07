@@ -50,9 +50,9 @@ class PermissionManager
 		RootPermission.AddPermission( permission, PermissionType.INHERIT );
 	}
 
-	ref array< string > Serialize()
+	array< string > Serialize()
 	{
-		ref array< string > data = new ref array< string >;
+		array< string > data = new array< string >;
 		RootPermission.Serialize( data );
 		return data;
 	}
@@ -119,7 +119,7 @@ class PermissionManager
 			return;
 
 		for ( int i = 0; i < AuthPlayers.Count(); i++ )
-		{			
+		{
 			if ( AuthPlayers[i].GetData().SGUID == player.GetId() )
 			{
 				AuthPlayers[i].Save();
@@ -300,7 +300,7 @@ class PermissionManager
 	{
 		string sName = "";
 		FileAttr oFileAttr = FileAttr.INVALID;
-		FindFileHandle oFileHandle = FindFile(PERMISSION_FRAMEWORK_DIRECTORY + "Roles\\*.txt", sName, oFileAttr, FindFileFlags.ALL);
+		FindFileHandle oFileHandle = FindFile( PERMISSION_FRAMEWORK_DIRECTORY + "Roles\\*.txt", sName, oFileAttr, FindFileFlags.ALL );
 
 		if (sName != "")
 		{

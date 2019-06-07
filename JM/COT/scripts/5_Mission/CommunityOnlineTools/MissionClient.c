@@ -162,18 +162,19 @@ modded class MissionGameplay
 	// ------------------------------------------------------------
 	override void UpdateDebugMonitor()
 	{
-		if (!m_CDebugMonitor) return;
+		if ( !m_CDebugMonitor )
+			return;
 		
 		PlayerBase player = PlayerBase.Cast( GetGame().GetPlayer() );
-		if (player)
+		if ( player )
 		{
 			DebugMonitorValues values = player.GetDebugMonitorValues();
-			if (values)
+			if ( values )
 			{
-				m_CDebugMonitor.SetHealth(values.GetHealth());
-				m_CDebugMonitor.SetBlood(values.GetBlood());
-				m_CDebugMonitor.SetLastDamage(values.GetLastDamage());
-				m_CDebugMonitor.SetPosition(player.GetPosition());
+				m_CDebugMonitor.SetHealth( values.GetHealth() );
+				m_CDebugMonitor.SetBlood( values.GetBlood() );
+				m_CDebugMonitor.SetLastDamage( values.GetLastDamage() );
+				m_CDebugMonitor.SetPosition( player.GetPosition() );
 			}
 		}
 	}
@@ -183,7 +184,8 @@ modded class MissionGameplay
 	// ------------------------------------------------------------
 	override void ShowInventory()
 	{
-		if ( DISABLE_ALL_INPUT ) return;
+		if ( DISABLE_ALL_INPUT )
+			return;
 
 		super.ShowInventory();
 	}
@@ -193,7 +195,8 @@ modded class MissionGameplay
 	// ------------------------------------------------------------
 	override void ShowChat()
 	{
-		if ( DISABLE_ALL_INPUT ) return;
+		if ( DISABLE_ALL_INPUT )
+			return;
 
 		super.ShowChat();
 	}

@@ -747,9 +747,9 @@ class PlayerMenu extends Form
 		}
 	}
 
-	ref array< string > SerializeRolesUI()
+	array< string > SerializeRolesUI()
 	{
-		ref array< string > output = new ref array< string >;
+		array< string > output = new array< string >;
 		for ( int i = 0; i < m_RolesList.Count(); i++ )
 		{
 			if ( m_RolesList[i].IsChecked() )
@@ -862,7 +862,7 @@ class PlayerMenu extends Form
 
 	void UpdatePlayerList()
 	{
-		array< ref AuthPlayer > players = GetPermissionsManager().GetPlayers();
+		array< ref AuthPlayer > players = GetPermissionsManager().AuthPlayers;
 		
 		for ( int k = 0; k < m_PlayerList.Count(); k++ )
 		{
