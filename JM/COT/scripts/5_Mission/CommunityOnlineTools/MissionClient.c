@@ -58,8 +58,7 @@ modded class MissionGameplay
 			item = player.GetInventory().CreateInInventory( "AliceBag_Camo" );
 			item = player.GetInventory().CreateInInventory( "Shovel" );
 				
-			AuthPlayer auPlayer = GetPermissionsManager().OnPlayerJoined( NULL );
-			auPlayer.GetPlayerBase() = player;
+			GetPermissionsManager().OnPlayerJoined( NULL );
 		}
 	}
 

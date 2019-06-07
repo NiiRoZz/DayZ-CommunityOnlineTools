@@ -4,24 +4,16 @@ int JM_PERMISSIONS_FRAMEWORK_CURRENT_VERSION_REVISION = 1;
 
 class PermissionsFramework
 {
-	protected ref array< PlayerIdentity > m_ServerIdentities;
-
 	protected bool m_bLoaded;
 
 	void PermissionsFramework()
 	{
 		MakeDirectory( PERMISSION_FRAMEWORK_DIRECTORY );
 
-		if ( GetGame().IsServer() && GetGame().IsMultiplayer() )
-		{
-			m_ServerIdentities = new array< PlayerIdentity >;
-		}
-
 		m_bLoaded = false;
 
 		GetRPCManager().AddRPC( "PermissionsFramework", "UpdatePlayers", this, SingeplayerExecutionType.Server );
 		GetRPCManager().AddRPC( "PermissionsFramework", "RemovePlayer", this, SingeplayerExecutionType.Client );
-		GetRPCManager().AddRPC( "PermissionsFramework", "UpdatePlayer", this, SingeplayerExecutionType.Client );
 		GetRPCManager().AddRPC( "PermissionsFramework", "UpdatePlayerData", this, SingeplayerExecutionType.Client );
 		GetRPCManager().AddRPC( "PermissionsFramework", "UpdateRole", this, SingeplayerExecutionType.Client );
 		GetRPCManager().AddRPC( "PermissionsFramework", "SetClientPlayer", this, SingeplayerExecutionType.Client );
@@ -38,8 +30,6 @@ class PermissionsFramework
 		if ( GetGame().IsServer() && GetGame().IsMultiplayer() )
 		{
 			GetGame().GetCallQueue( CALL_CATEGORY_SYSTEM ).Remove( this.ReloadPlayerList );
-
-			delete m_ServerIdentities;
 		}
 	}
 	
@@ -86,11 +76,11 @@ class PermissionsFramework
 
 	}
 
-	protected bool CheckIfExists( ref AuthPlayer auPlayer )
+	protected bool CheckIfExists( array< PlayerIdentity > identities, ref AuthPlayer auPlayer )
 	{
-		for ( int i = 0; i < m_ServerIdentities.Count(); i++ )
+		for ( int i = 0; i < identities.Count(); i++ )
 		{
-			if ( auPlayer.GetData().SGUID == m_ServerIdentities[i].GetId() )
+			if ( auPlayer.GetData().SGUID == identities[i].GetId() )
 			{
 				return true;
 			}
@@ -101,29 +91,23 @@ class PermissionsFramework
 
 	void ReloadPlayerList()
 	{
-		GetGame().GetPlayerIndentities( m_ServerIdentities );
+		array< PlayerIdentity > identities = new array< PlayerIdentity >;
+		array< int > toRemove = new array< int >;
 
-		array< int > indices = new array< int >;
+		GetGame().GetPlayerIndentities( identities );
 
 		for ( int i = 0; i < GetPermissionsManager().AuthPlayers.Count(); i++ )
 		{
-			if ( !CheckIfExists( GetPermissionsManager().AuthPlayers[i] ) )
-			{
-				indices.Insert( i );
-			}
+			GetPermissionsManager().AuthPlayers[i].UpdatePlayerData();
+
+			if ( !CheckIfExists( identities, GetPermissionsManager().AuthPlayers[i] ) )
+				toRemove.Insert( i );
 		}
 
-		for ( int k = 0; k < indices.Count(); k++ )
+		for ( int k = 0; k < toRemove.Count(); k++ )
 		{
-			GetPermissionsManager().OnPlayerLeft( GetPermissionsManager().AuthPlayers[ indices[k] ].GetPlayerIdentity() );
+			GetPermissionsManager().OnPlayerLeft( GetPermissionsManager().AuthPlayers[ toRemove[k] ].GetPlayerIdentity() );
 		}
-
-		for ( int j = 0; j < m_ServerIdentities.Count(); j++ )
-		{
-			GetPermissionsManager().GetPlayerByIdentity( m_ServerIdentities[j] ).UpdatePlayerData();
-		}
-
-		m_ServerIdentities.Clear();
 
 		GetPermissionsManager().DebugPrint();
 	}
@@ -182,44 +166,13 @@ class PermissionsFramework
 			if ( GetGame().IsMultiplayer() )
 			{
 				ref Param1< PlayerData > data;
-				if ( !ctx.Read( data ) ) return;
+				if ( !ctx.Read( data ) )
+					return;
 				
 				AuthPlayer player = DeserializePlayer( data.param1 );
 
 				RemoveSelectedPlayer( player );
 				GetPermissionsManager().AuthPlayers.RemoveItem( player );
-			}
-		}
-	}
-
-	void UpdatePlayer( CallType type, ref ParamsReadContext ctx, ref PlayerIdentity sender, ref Object target )
-	{
-		if ( type == CallType.Client )
-		{
-			if ( GetGame().IsMultiplayer() )
-			{
-				ref Param3< string, string, string > data;
-				if ( !ctx.Read( data ) ) return;
-
-				ref AuthPlayer ap = GetPermissionsManager().GetPlayerBySteam64ID( data.param1 );
-
-				ap.GetData().SName = data.param2;
-				ap.GetData().SGUID = data.param3;
-
-				if ( ClientAuthPlayer == NULL )
-				{
-					return;
-				}
-
-				if ( ClientAuthPlayer.GetData() == NULL )
-				{
-					return;
-				}
-
-				if ( ClientAuthPlayer.GetData().SGUID == data.param3 )
-				{
-					GetModuleManager().OnClientPermissionsUpdated();
-				}
 			}
 		}
 	}

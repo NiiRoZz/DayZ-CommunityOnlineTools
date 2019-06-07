@@ -119,14 +119,12 @@ class PermissionManager
 			return;
 
 		for ( int i = 0; i < AuthPlayers.Count(); i++ )
-		{
-			ref AuthPlayer auPlayer = AuthPlayers[i];
-			
-			if ( auPlayer.GetData().SGUID == player.GetId() )
+		{			
+			if ( AuthPlayers[i].GetData().SGUID == player.GetId() )
 			{
-				auPlayer.Save();
+				AuthPlayers[i].Save();
 
-				GetRPCManager().SendRPC( "PermissionsFramework", "RemovePlayer", new Param1< PlayerData >( SerializePlayer( auPlayer ) ), true );
+				GetRPCManager().SendRPC( "PermissionsFramework", "RemovePlayer", new Param1< PlayerData >( SerializePlayer( AuthPlayers[i] ) ), true );
 
 				AuthPlayers.Remove( i );
 				break;

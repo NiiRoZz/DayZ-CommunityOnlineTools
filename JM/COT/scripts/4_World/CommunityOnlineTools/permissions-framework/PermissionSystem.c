@@ -54,7 +54,7 @@ AuthPlayer DeserializePlayer( PlayerData data )
 	return GetPermissionsManager().GetPlayer( data );
 }
 
-array< PlayerData > SerializePlayers( ref array< ref AuthPlayer > players )
+array< PlayerData > SerializePlayers( array< ref AuthPlayer > players )
 {
 	array< PlayerData > output = new array< PlayerData >;
 
@@ -66,7 +66,7 @@ array< PlayerData > SerializePlayers( ref array< ref AuthPlayer > players )
 	return output;
 }
 
-array< ref AuthPlayer > DeserializePlayers( ref array< ref PlayerData > players )
+array< ref AuthPlayer > DeserializePlayers( array< ref PlayerData > players )
 {
 	array< ref AuthPlayer > output = new array< ref AuthPlayer >;
 

@@ -105,8 +105,6 @@ modded class MissionServer
 
 	override void InvokeOnDisconnect( PlayerBase player )
 	{
-		GetPermissionsManager().OnPlayerLeft( player.GetIdentity() );
-
 		super.InvokeOnDisconnect( player );
 	} 
 

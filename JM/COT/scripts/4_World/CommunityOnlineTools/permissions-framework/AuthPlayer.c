@@ -44,8 +44,10 @@ class AuthPlayer: Managed
 	PlayerBase GetPlayerBase()
 	{
 		PlayerBase player = GetPlayerObjectByIdentity( m_PlayerIdentity );
+		
 		if ( player )
 			player.authenticatedPlayer = this;
+
 		return player;
 	}
 
@@ -56,16 +58,16 @@ class AuthPlayer: Managed
 
 	void UpdatePlayerData()
 	{
-		if ( GetPlayerIdentity() == NULL )
+		if ( m_PlayerIdentity == NULL )
 			return;
 
-		GetData().IPingMin = GetPlayerIdentity().GetPingMin();
-		GetData().IPingMax = GetPlayerIdentity().GetPingMax();
-		GetData().IPingAvg = GetPlayerIdentity().GetPingAvg();
+		GetData().IPingMin		= m_PlayerIdentity.GetPingMin();
+		GetData().IPingMax		= m_PlayerIdentity.GetPingMax();
+		GetData().IPingAvg		= m_PlayerIdentity.GetPingAvg();
 		
-		GetData().SSteam64ID = GetPlayerIdentity().GetPlainId();
-		GetData().SGUID = GetPlayerIdentity().GetId();
-		GetData().SName = GetPlayerIdentity().GetName();
+		GetData().SSteam64ID	= m_PlayerIdentity.GetPlainId();
+		GetData().SGUID			= m_PlayerIdentity.GetId();
+		GetData().SName			= m_PlayerIdentity.GetName();
 
 		if ( GetPlayerBase() == NULL )
 			return;
