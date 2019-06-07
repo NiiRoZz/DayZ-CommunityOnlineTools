@@ -71,7 +71,7 @@ class PlayerRow extends ScriptedWidgetEventHandler
 		{
 			Show();
 
-			Name.SetText( Player.GetData().SSteam64ID );
+			Name.SetText( Player.GetData().SName );
 
 			if ( GetGame().GetPlayer() == NULL ) return;
 
@@ -93,7 +93,7 @@ class PlayerRow extends ScriptedWidgetEventHandler
 
 	string GetName()
 	{
-		return Player.GetData().SSteam64ID;
+		return Player.GetData().SName;
 	}
 
 	ref AuthPlayer GetPlayer()
