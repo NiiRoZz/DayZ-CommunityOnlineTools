@@ -127,7 +127,7 @@ class PermissionManager
 				GetRPCManager().SendRPC( "PermissionsFramework", "RemovePlayer", new Param1< PlayerData >( SerializePlayer( AuthPlayers[i] ) ), true );
 
 				AuthPlayers.Remove( i );
-				break;
+				return;
 			}
 		}
 	}
@@ -205,7 +205,7 @@ class PermissionManager
 		return OnPlayerJoined( ident );
 	}
 
-	ref AuthPlayer GetPlayer( PlayerData data )
+	AuthPlayer GetPlayer( PlayerData data )
 	{
 		if ( !GetGame().IsMultiplayer() )
 			return AuthPlayers[0];

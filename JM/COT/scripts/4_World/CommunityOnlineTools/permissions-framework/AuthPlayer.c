@@ -297,7 +297,9 @@ class AuthPlayer: Managed
 	{
 		GetLogger().Log( "Printing permissions for " + GetData().SSteam64ID, "JM_COT_PermissionFramework" );
 
-		RootPermission.DebugPrint( 0 );
+		GetData().DebugPrint();
+
+		// RootPermission.DebugPrint( 0 );
 	}
 
 	// TODO: Figure out how to make it work properly?
