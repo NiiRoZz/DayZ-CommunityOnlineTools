@@ -69,7 +69,7 @@ class PlayerData: Managed
 		BGodMode = player.m_HasGodeMode;
 	}
 
-	void Copy( PlayerData data )
+	void Copy( PlayerData data, bool prevent )
 	{
 		//SName	    	= "" + data.SName;
 		//SGUID	    	= "" + data.SGUID;
