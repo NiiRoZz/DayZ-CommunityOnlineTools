@@ -95,17 +95,17 @@ modded class MissionServer
 		{
 			ref Role role = GetPermissionsManager().Roles[i];
 			role.Serialize();
-			GetRPCManager().SendRPC( "PermissionsFramework", "UpdateRole", new Param2< string, ref array< string > >( role.Name, role.SerializedData ), true, identity );
+			GetRPCManager().SendRPC( "PermissionsFramework", "UpdateRole", new Param2< string, ref array< string > >( role.Name, role.SerializedData ), false, identity );
 		}
 
-		GetRPCManager().SendRPC( "PermissionsFramework", "SetClientPlayer", new Param1< ref PlayerData >( SerializePlayer( GetPermissionsManager().GetPlayerByIdentity( identity ) ) ), true, identity );
+		GetRPCManager().SendRPC( "PermissionsFramework", "SetClientPlayer", new Param1< ref PlayerData >( SerializePlayer( GetPermissionsManager().GetPlayerByIdentity( identity ) ) ), false, identity );
 
 		GetGame().SelectPlayer( identity, player );
 	} 
 
 	override void InvokeOnDisconnect( PlayerBase player )
 	{
-		GetPermissionsManager().PlayerLeft( player.GetIdentity() );
+		GetPermissionsManager().OnPlayerLeft( player.GetIdentity() );
 
 		super.InvokeOnDisconnect( player );
 	} 

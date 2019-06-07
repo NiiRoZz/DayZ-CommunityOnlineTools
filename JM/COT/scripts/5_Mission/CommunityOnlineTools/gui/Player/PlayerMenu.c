@@ -437,7 +437,7 @@ class PlayerMenu extends Form
 
 		if ( GetSelectedPlayers().Count() != 0 )
 		{
-			UpdateActionsFields( GetSelectedPlayers()[0].Data );
+			UpdateActionsFields( GetSelectedPlayers()[0].GetData() );
 		} else
 		{
 			UpdateActionsFields( NULL );
@@ -466,7 +466,7 @@ class PlayerMenu extends Form
 		if ( GetSelectedPlayers().Count() > 0 )
 		{
 			PlayerData data = NULL;
-			data = GetSelectedPlayers()[0].Data;
+			data = GetSelectedPlayers()[0].GetData();
 
 			UpdateActionsFields( data );
 			LoadPermissions( data.APermissions );
@@ -494,7 +494,7 @@ class PlayerMenu extends Form
 
 			if ( GetSelectedPlayers().Count() > 0 )
 			{
-				GetRPCManager().SendRPC( "PermissionsFramework", "UpdatePlayerData", new Param1< string >( GetSelectedPlayers()[0].GetGUID() ) );
+				GetRPCManager().SendRPC( "PermissionsFramework", "UpdatePlayerData", new Param1< string >( GetSelectedPlayers()[0].GetData().SGUID ) );
 			}
 		}
 
@@ -589,10 +589,10 @@ class PlayerMenu extends Form
 
 				if ( GetSelectedPlayers().Count() == 1 )
 				{
-					UpdateActionsFields( GetSelectedPlayers()[0].Data );
+					UpdateActionsFields( GetSelectedPlayers()[0].GetData() );
 
-					LoadPermissions( GetSelectedPlayers()[0].Data.APermissions );
-					LoadRoles( GetSelectedPlayers()[0].Data.ARoles );
+					LoadPermissions( GetSelectedPlayers()[0].GetData().APermissions );
+					LoadRoles( GetSelectedPlayers()[0].GetData().ARoles );
 				}
 
 				return true;
@@ -604,9 +604,9 @@ class PlayerMenu extends Form
 				{
 					if (GetSelectedPlayers().Count() > 0 )
 					{
-						UpdateActionsFields( GetSelectedPlayers()[0].Data );
-						LoadPermissions( GetSelectedPlayers()[0].Data.APermissions );
-						LoadRoles( GetSelectedPlayers()[0].Data.ARoles );
+						UpdateActionsFields( GetSelectedPlayers()[0].GetData() );
+						LoadPermissions( GetSelectedPlayers()[0].GetData().APermissions );
+						LoadRoles( GetSelectedPlayers()[0].GetData().ARoles );
 					} else 
 					{
 						UpdateActionsFields( NULL );
@@ -886,7 +886,7 @@ class PlayerMenu extends Form
 
 		if (GetSelectedPlayers().Count() > 0 )
 		{
-			UpdateActionsFields( GetSelectedPlayers()[0].Data );
+			UpdateActionsFields( GetSelectedPlayers()[0].GetData() );
 		}
 
 		int playerCount = players.Count();

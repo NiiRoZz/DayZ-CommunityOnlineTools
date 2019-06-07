@@ -185,7 +185,7 @@ class ObjectModule: EditorModule
 			oItem.SetQuantity(quantity);
 		}
 		
-		COTLog( sender, "Spawned object " + entity.GetDisplayName() + " (" + item + ") on " + player.authenticatedPlayer.GetSteam64ID() + " with amount " + quantity );
+		COTLog( sender, "Spawned object " + entity.GetDisplayName() + " (" + item + ") on " + player.authenticatedPlayer.GetData().SSteam64ID + " with amount " + quantity );
 
 		SendAdminNotification( sender, player.GetIdentity(), entity.GetDisplayName() + " has been added to your inventory, quantity " + quantity );
 
@@ -212,7 +212,7 @@ class ObjectModule: EditorModule
 	
 				for ( int i = 0; i < players.Count(); i++ )
 				{
-					SpawnItemOnPlayer( sender, players[i].PlayerObject, data.param1, data.param2 );
+					SpawnItemOnPlayer( sender, players[i].GetPlayerBase(), data.param1, data.param2 );
 				}
 			}
 		}

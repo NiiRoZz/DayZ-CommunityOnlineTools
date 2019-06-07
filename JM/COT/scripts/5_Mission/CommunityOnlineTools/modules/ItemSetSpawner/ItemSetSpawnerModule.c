@@ -192,21 +192,21 @@ class ItemSetSpawnerModule: EditorModule
 			{
 				for ( int i = 0; i < players.Count(); i++ )
 				{
-					if ( players[i].PlayerObject == NULL )
+					if ( players[i].GetPlayerBase() == NULL )
 						continue;
 
 					if ( file.ContainerClassName != "" )
-						chest = SpawnItem( players[i].PlayerObject, file.ContainerClassName );
+						chest = SpawnItem( players[i].GetPlayerBase(), file.ContainerClassName );
 	
 					for (int j = 0; j < parts.Count(); j++)
-						chest = SpawnItemInContainer( file.ContainerClassName, players[i].PlayerObject, chest, parts[j].Item, parts[j].NumberOfStacks, parts[j].StackSize );
+						chest = SpawnItemInContainer( file.ContainerClassName, players[i].GetPlayerBase(), chest, parts[j].Item, parts[j].NumberOfStacks, parts[j].StackSize );
 	
-					COTLog( sender, "Item set " + data.param1 + " spawned on " + players[i].GetSteam64ID() );
+					COTLog( sender, "Item set " + data.param1 + " spawned on " + players[i].GetData().SSteam64ID );
 				
-					SendAdminNotification( sender, players[i].IdentityPlayer, "You have been given item set " + data.param1 );
+					SendAdminNotification( sender, players[i].GetPlayerIdentity(), "You have been given item set " + data.param1 );
 
-					if ( sender.GetId() != players[i].IdentityPlayer.GetId() )
-						SendAdminNotification( players[i].IdentityPlayer, sender, "You gave item set " + data.param1 );
+					if ( sender.GetId() != players[i].GetPlayerIdentity().GetId() )
+						SendAdminNotification( players[i].GetPlayerIdentity(), sender, "You gave item set " + data.param1 );
 				}
 			}
 		} else

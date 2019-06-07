@@ -82,13 +82,13 @@ class PlayerModule: EditorModule
 
 			for ( int i = 0; i < players.Count(); i++ )
 			{
-				PlayerBase player = players[i].PlayerObject;
+				PlayerBase player = players[i].GetPlayerBase();
 
 				if ( player == NULL ) continue;
 
 				player.SetHealth( "GlobalHealth", "Health", data.param1 );
 
-				COTLog( sender, "Set health to " + data.param1 + " for " + players[i].GetGUID() );
+				COTLog( sender, "Set health to " + data.param1 + " for " + players[i].GetData().SGUID );
 
 				SendAdminNotification( sender, player.GetIdentity(), "Your health has been set to " + data.param1 );
 
@@ -112,13 +112,13 @@ class PlayerModule: EditorModule
 
 			for ( int i = 0; i < players.Count(); i++ )
 			{
-				PlayerBase player = players[i].PlayerObject;
+				PlayerBase player = players[i].GetPlayerBase();
 
 				if ( player == NULL ) continue;
 
 				player.SetHealth( "GlobalHealth", "Blood", data.param1 );
 
-				COTLog( sender, "Set blood to " + data.param1 + " for " + players[i].GetGUID() );
+				COTLog( sender, "Set blood to " + data.param1 + " for " + players[i].GetData().SGUID );
 
 				SendAdminNotification( sender, player.GetIdentity(), "Your blood has been set to " + data.param1 );
 
@@ -142,13 +142,13 @@ class PlayerModule: EditorModule
 
 			for ( int i = 0; i < players.Count(); i++ )
 			{
-				PlayerBase player = players[i].PlayerObject;
+				PlayerBase player = players[i].GetPlayerBase();
 
 				if ( player == NULL ) continue;
 
 				player.GetStatEnergy().Set( data.param1 );
 
-				COTLog( sender, "Set energy to " + data.param1 + " for " + players[i].GetGUID() );
+				COTLog( sender, "Set energy to " + data.param1 + " for " + players[i].GetData().SGUID );
 
 				SendAdminNotification( sender, player.GetIdentity(), "Your energy has been set to " + data.param1 );
 
@@ -172,13 +172,13 @@ class PlayerModule: EditorModule
 
 			for ( int i = 0; i < players.Count(); i++ )
 			{
-				PlayerBase player = players[i].PlayerObject;
+				PlayerBase player = players[i].GetPlayerBase();
 
 				if ( player == NULL ) continue;
 
 				player.GetStatWater().Set( data.param1 );
 
-				COTLog( sender, "Set water to " + data.param1 + " for " + players[i].GetGUID() );
+				COTLog( sender, "Set water to " + data.param1 + " for " + players[i].GetData().SGUID );
 
 				SendAdminNotification( sender, player.GetIdentity(), "Your water has been set to " + data.param1 );
 
@@ -202,13 +202,13 @@ class PlayerModule: EditorModule
 
 			for ( int i = 0; i < players.Count(); i++ )
 			{
-				PlayerBase player = players[i].PlayerObject;
+				PlayerBase player = players[i].GetPlayerBase();
 
 				if ( player == NULL ) continue;
 
 				player.SetHealth( "GlobalHealth", "Shock", data.param1 );
 
-				COTLog( sender, "Set shock to " + data.param1 + " for " + players[i].GetGUID() );
+				COTLog( sender, "Set shock to " + data.param1 + " for " + players[i].GetData().SGUID );
 
 				SendAdminNotification( sender, player.GetIdentity(), "Your shock has been set to " + data.param1 );
 
@@ -232,13 +232,13 @@ class PlayerModule: EditorModule
 
 			for ( int i = 0; i < players.Count(); i++ )
 			{
-				PlayerBase player = players[i].PlayerObject;
+				PlayerBase player = players[i].GetPlayerBase();
 
 				if ( player == NULL ) continue;
 
 				player.GetStatHeatComfort().Set( data.param1 );
 
-				COTLog( sender, "Set heat comfort to " + data.param1 + " for " + players[i].GetGUID() );
+				COTLog( sender, "Set heat comfort to " + data.param1 + " for " + players[i].GetData().SGUID );
 
 				SendAdminNotification( sender, player.GetIdentity(), "Your heat comfort has been set to " + data.param1 );
 
@@ -262,13 +262,13 @@ class PlayerModule: EditorModule
 
 			for ( int i = 0; i < players.Count(); i++ )
 			{
-				PlayerBase player = players[i].PlayerObject;
+				PlayerBase player = players[i].GetPlayerBase();
 
 				if ( player == NULL ) continue;
 
 				player.GetStatWet().Set( data.param1 );
 
-				COTLog( sender, "Set wetness to " + data.param1 + " for " + players[i].GetGUID() );
+				COTLog( sender, "Set wetness to " + data.param1 + " for " + players[i].GetData().SGUID );
 
 				SendAdminNotification( sender, player.GetIdentity(), "Your wetness has been set to " + data.param1 );
 
@@ -292,13 +292,13 @@ class PlayerModule: EditorModule
 
 			for ( int i = 0; i < players.Count(); i++ )
 			{
-				PlayerBase player = players[i].PlayerObject;
+				PlayerBase player = players[i].GetPlayerBase();
 
 				if ( player == NULL ) continue;
 
 				player.GetStatTremor().Set( data.param1 );
 
-				COTLog( sender, "Set tremor to " + data.param1 + " for " + players[i].GetGUID() );
+				COTLog( sender, "Set tremor to " + data.param1 + " for " + players[i].GetData().SGUID );
 
 				SendAdminNotification( sender, player.GetIdentity(), "Your tremor has been set to " + data.param1 );
 
@@ -322,13 +322,13 @@ class PlayerModule: EditorModule
 
 			for ( int i = 0; i < players.Count(); i++ )
 			{
-				PlayerBase player = players[i].PlayerObject;
+				PlayerBase player = players[i].GetPlayerBase();
 
 				if ( player == NULL ) continue;
 
 				player.GetStatStamina().Set( data.param1 );
 
-				COTLog( sender, "Set stamina to " + data.param1 + " for " + players[i].GetGUID() );
+				COTLog( sender, "Set stamina to " + data.param1 + " for " + players[i].GetData().SGUID );
 
 				SendAdminNotification( sender, player.GetIdentity(), "Your stamina has been set to " + data.param1 );
 
@@ -352,7 +352,7 @@ class PlayerModule: EditorModule
 
 			for ( int i = 0; i < players.Count(); i++ )
 			{
-				PlayerBase player = players[i].PlayerObject;
+				PlayerBase player = players[i].GetPlayerBase();
 
 				if ( player == NULL ) continue;
 
@@ -361,7 +361,7 @@ class PlayerModule: EditorModule
 					player.SetLifeSpanStateVisible( data.param1 );
 				}
 
-				COTLog( sender, "Set beard state to " + data.param1 + " for " + players[i].GetGUID() );
+				COTLog( sender, "Set beard state to " + data.param1 + " for " + players[i].GetData().SGUID );
 
 				SendAdminNotification( sender, player.GetIdentity(), "Your beard state has been set to " + data.param1 );
 
@@ -385,13 +385,13 @@ class PlayerModule: EditorModule
 
 			for ( int i = 0; i < players.Count(); i++ )
 			{
-				PlayerBase player = players[i].PlayerObject;
+				PlayerBase player = players[i].GetPlayerBase();
 
 				if ( player == NULL ) continue;
 
 				player.SetBloodyHands( data.param1 );
 
-				COTLog( sender, "Set bloody hands to " + data.param1 + " for " + players[i].GetGUID() );
+				COTLog( sender, "Set bloody hands to " + data.param1 + " for " + players[i].GetData().SGUID );
 
 				if ( data.param1 )
 				{
@@ -421,7 +421,7 @@ class PlayerModule: EditorModule
 
 			for ( int i = 0; i < players.Count(); i++ )
 			{
-				PlayerBase player = players[i].PlayerObject;
+				PlayerBase player = players[i].GetPlayerBase();
 
 				if ( player == NULL ) continue;
 
@@ -445,7 +445,7 @@ class PlayerModule: EditorModule
 							vehCommand.JumpOutVehicle();
 						}
 
-						COTLog( sender, "Kicked " + players[i].GetGUID() + " out of transport" );
+						COTLog( sender, "Kicked " + players[i].GetData().SGUID + " out of transport" );
 
 						SendAdminNotification( sender, player.GetIdentity(), "You have been kicked out of your vehicle." );
 
@@ -473,7 +473,7 @@ class PlayerModule: EditorModule
 
 			for ( int i = 0; i < players.Count(); i++ )
 			{
-				PlayerBase player = players[i].PlayerObject;
+				PlayerBase player = players[i].GetPlayerBase();
 
 				if ( player == NULL) continue;
 
@@ -511,7 +511,7 @@ class PlayerModule: EditorModule
 
 					completedTransports.Insert( transport );
 
-					COTLog( sender, "Repaired transport for " + players[i].GetGUID() );
+					COTLog( sender, "Repaired transport for " + players[i].GetData().SGUID );
 
 					SendAdminNotification( sender, player.GetIdentity(), "Your vehicle has been repaired." );
 
@@ -535,7 +535,7 @@ class PlayerModule: EditorModule
 
 			for ( int i = 0; i < players.Count(); i++ )
 			{
-				PlayerBase player = players[i].PlayerObject;
+				PlayerBase player = players[i].GetPlayerBase();
 
 				if ( player == NULL ) continue;
 
@@ -550,7 +550,7 @@ class PlayerModule: EditorModule
 
 				player.SetPosition( data.param1 );
 
-				COTLog( sender, "Teleported " + players[i].GetGUID() + " to self" );
+				COTLog( sender, "Teleported " + players[i].GetData().SGUID + " to self" );
 
 				SendAdminNotification( sender, player.GetIdentity(), "You have been teleported to " + VectorToString( data.param1, 1 ) );
 
@@ -586,13 +586,13 @@ class PlayerModule: EditorModule
 
 			if ( players.Count() != 1 ) return;
 
-			PlayerBase player = players[0].PlayerObject;
+			PlayerBase player = players[0].GetPlayerBase();
 
 			if ( player == NULL ) return;
 
 			senderPlayer.SetPosition( player.GetPosition() );
 
-			COTLog( sender, "Teleported self to " + players[0].GetGUID() );
+			COTLog( sender, "Teleported self to " + players[0].GetData().SGUID );
 
 			SendAdminNotification( sender, player.GetIdentity(), "Teleported themself to you." );
 
@@ -629,7 +629,7 @@ class PlayerModule: EditorModule
 
 			if ( players.Count() != 1 ) return;
 
-			player = players[0].PlayerObject;
+			player = players[0].GetPlayerBase();
 
 			if ( player == NULL ) return;
 
@@ -639,7 +639,7 @@ class PlayerModule: EditorModule
 
 			GetRPCManager().SendRPC( "COT_Admin", "SpectatePlayer", new Param, true, sender, player );
 
-			COTLog( sender, "Spectating " + players[0].GetGUID() );
+			COTLog( sender, "Spectating " + players[0].GetData().SGUID );
 		}	
 
 		if ( type == CallType.Client )
@@ -672,13 +672,13 @@ class PlayerModule: EditorModule
 
 			for ( int i = 0; i < players.Count(); i++ )
 			{
-				PlayerBase player = players[i].PlayerObject;
+				PlayerBase player = players[i].GetPlayerBase();
 
 				if ( player == NULL ) continue;
 
 				player.SetGodMode( data.param1 );
  
-				COTLog( sender, "Set god mode to " + data.param1 + " for " + players[i].GetGUID() );
+				COTLog( sender, "Set god mode to " + data.param1 + " for " + players[i].GetData().SGUID );
 
 				if ( data.param1 )
 				{
@@ -718,7 +718,7 @@ class PlayerModule: EditorModule
 				{
 					ref AuthPlayer player = GetPermissionsManager().AuthPlayers[k];
 					
-					if ( guids[i] == player.GetSteam64ID() )
+					if ( guids[i] == player.GetData().SSteam64ID )
 					{
 						player.ClearPermissions();
 
@@ -727,16 +727,16 @@ class PlayerModule: EditorModule
 							player.AddPermission( perms[j] );
 						}
 
-						GetRPCManager().SendRPC( "PermissionsFramework", "UpdatePlayerData", new Param1< PlayerData >( SerializePlayer( player ) ), true, player.IdentityPlayer );
+						GetRPCManager().SendRPC( "PermissionsFramework", "UpdatePlayerData", new Param1< PlayerData >( SerializePlayer( player ) ), true, player.GetPlayerIdentity() );
 
 						player.Save();
 
-						COTLog( sender, "Updates permissions for " + players[i].GetSteam64ID() );
+						COTLog( sender, "Updates permissions for " + players[i].GetData().SSteam64ID );
 
-						SendAdminNotification( sender, player.IdentityPlayer, "Your permissions have been updated." );
+						SendAdminNotification( sender, player.GetPlayerIdentity(), "Your permissions have been updated." );
 
-						if ( sender.GetId() != player.IdentityPlayer.GetId() )
-							SendAdminNotification( player.IdentityPlayer, sender, "Updated permissions." );
+						if ( sender.GetId() != player.GetPlayerIdentity().GetId() )
+							SendAdminNotification( player.GetPlayerIdentity(), sender, "Updated permissions." );
 					}
 				}
 			}
@@ -767,7 +767,7 @@ class PlayerModule: EditorModule
 				{
 					ref AuthPlayer player = GetPermissionsManager().AuthPlayers[k];
 					
-					if ( guids[i] == player.GetSteam64ID() )
+					if ( guids[i] == player.GetData().SSteam64ID )
 					{
 						player.ClearRoles();
 
@@ -776,16 +776,16 @@ class PlayerModule: EditorModule
 							player.AddStringRole( roles[j] );
 						}
 
-						GetRPCManager().SendRPC( "PermissionsFramework", "UpdatePlayerData", new Param1< PlayerData >( SerializePlayer( player ) ), true, player.IdentityPlayer );
+						GetRPCManager().SendRPC( "PermissionsFramework", "UpdatePlayerData", new Param1< PlayerData >( SerializePlayer( player ) ), true, player.GetPlayerIdentity() );
 
 						player.Save();
 
-						COTLog( sender, "Updates roles for " + players[i].GetSteam64ID() );
+						COTLog( sender, "Updates roles for " + players[i].GetData().SSteam64ID );
 
-						SendAdminNotification( sender, player.IdentityPlayer, "Your roles have been updated." );
+						SendAdminNotification( sender, player.GetPlayerIdentity(), "Your roles have been updated." );
 
-						if ( sender.GetId() != player.IdentityPlayer.GetId() )
-							SendAdminNotification( player.IdentityPlayer, sender, "Updated roles." );
+						if ( sender.GetId() != player.GetPlayerIdentity().GetId() )
+							SendAdminNotification( player.GetPlayerIdentity(), sender, "Updated roles." );
 					}
 				}
 			}
@@ -807,13 +807,13 @@ class PlayerModule: EditorModule
 			for ( int i = 0; i < auPlayers.Count(); i++ )
 			{
 				auPlayers[i].Kick();
-				COTLog( sender, "Kicked " + auPlayers[i].GetGUID() );
+				COTLog( sender, "Kicked " + auPlayers[i].GetData().SGUID );
 
 				// won't ever send
-				//SendAdminNotification( sender, auPlayers[i].IdentityPlayer, "You have been kicked." );
+				//SendAdminNotification( sender, auPlayers[i].GetPlayerIdentity(), "You have been kicked." );
 
-				if ( sender.GetId() != auPlayers[i].IdentityPlayer.GetId() )
-					SendAdminNotification( auPlayers[i].IdentityPlayer, sender, "Kicked player." );
+				if ( sender.GetId() != auPlayers[i].GetPlayerIdentity().GetId() )
+					SendAdminNotification( auPlayers[i].GetPlayerIdentity(), sender, "Kicked player." );
 			}
 		}
 	}
@@ -833,13 +833,13 @@ class PlayerModule: EditorModule
 			for ( int i = 0; i < auPlayers.Count(); i++ )
 			{
 				auPlayers[i].Ban();
-				COTLog( sender, "Banned " + auPlayers[i].GetGUID() );
+				COTLog( sender, "Banned " + auPlayers[i].GetData().SGUID );
 
 				// won't ever send
-				//SendAdminNotification( sender, auPlayers[i].IdentityPlayer, "You have been banned." );
+				//SendAdminNotification( sender, auPlayers[i].GetPlayerIdentity(), "You have been banned." );
 
-				if ( sender.GetId() != auPlayers[i].IdentityPlayer.GetId() )
-					SendAdminNotification( auPlayers[i].IdentityPlayer, sender, "Banned player." );
+				if ( sender.GetId() != auPlayers[i].GetPlayerIdentity().GetId() )
+					SendAdminNotification( auPlayers[i].GetPlayerIdentity(), sender, "Banned player." );
 			}
 		}
 	}

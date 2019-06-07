@@ -20,17 +20,6 @@ class PermissionManager
 		RolesMap = new map< string, ref Role >;
 
 		RootPermission = new ref Permission( "ROOT" );
-
-		/*
-		for ( int i = 0; i < 180; i++ )
-		{
-			ref PlayerData data = new ref PlayerData;
-			data.SName = "Player " + i;
-			data.SGUID = "Player" + i;
-
-			AuthPlayers.Insert( new AuthPlayer( data ) );
-		}
-		*/
 	}
 
 	array< ref AuthPlayer > GetPlayers( ref array< string > steamIds = NULL )
@@ -46,7 +35,7 @@ class PermissionManager
 		{
 			for ( int k = 0; k < AuthPlayers.Count(); k++ )
 			{
-				if ( steamIds[i] == AuthPlayers[k].GetSteam64ID() )
+				if ( steamIds[i] == AuthPlayers[k].GetData().SSteam64ID )
 				{
 					tempArray.Insert( AuthPlayers[k] );
 				}
@@ -54,27 +43,6 @@ class PermissionManager
 		}
 
 		return tempArray;
-	}
-
-	void SetPlayers( ref array< ref AuthPlayer > players )
-	{
-		AuthPlayers.Clear();
-
-		// This doesn't work??? wtf
-		//AuthPlayers.Copy( players );
-
-		for ( int i = 0; i < players.Count(); i++ )
-		{
-			AuthPlayers.Insert( players[i] );
-		}
-	}
-
-	void AddPlayers( ref array< ref AuthPlayer > players )
-	{
-		for ( int i = 0; i < players.Count(); i++ )
-		{
-			AuthPlayers.Insert( players[i] );
-		}
 	}
 
 	void RegisterPermission( string permission )
@@ -96,7 +64,8 @@ class PermissionManager
 
 	bool HasPermission( string permission, PlayerIdentity identity = NULL )
 	{
-		if ( !GetGame().IsMultiplayer() ) return true;
+		if ( !GetGame().IsMultiplayer() )
+			return true;
 
 		if ( GetGame().IsClient() ) 
 		{
@@ -123,7 +92,7 @@ class PermissionManager
 
 		for ( int i = 0; i < AuthPlayers.Count(); i++ )
 		{
-			if ( AuthPlayers[i].GetGUID() == identity.GetId() )
+			if ( AuthPlayers[i].GetData().SGUID == identity.GetId() )
 			{
 				return AuthPlayers[i].HasPermission( permission );
 			}
@@ -132,34 +101,19 @@ class PermissionManager
 		return false;
 	}
 
-	ref AuthPlayer PlayerJoined( PlayerIdentity player )
+	AuthPlayer OnPlayerJoined( PlayerIdentity identity )
 	{
-		ref PlayerData data = new ref PlayerData;
+		AuthPlayer player = AuthPlayers.Get( AuthPlayers.Insert( new AuthPlayer( NULL ) ) );
 
-		if ( player )
-		{
-			data.SName = player.GetName();
-			data.SGUID = player.GetId();
-			data.SSteam64ID = player.GetPlainId();
-		} else 
-		{
-			data.SName = "Offline Mode";
-			data.SGUID = "N/A";
-			data.SSteam64ID = "N/A";
-		}
+		player.UpdatePlayerData();
 
-		AuthPlayer auPlayer = new AuthPlayer( data );
-		auPlayer.IdentityPlayer = player;
+		player.CopyPermissions( RootPermission );
+		player.Load();
 
-		auPlayer.CopyPermissions( RootPermission );
-		auPlayer.Load();
-
-		AuthPlayers.Insert( auPlayer );
-
-		return auPlayer;
+		return player;
 	}
 
-	void PlayerLeft( PlayerIdentity player )
+	void OnPlayerLeft( PlayerIdentity player )
 	{
 		if ( player == NULL ) return;
 
@@ -167,25 +121,7 @@ class PermissionManager
 		{
 			ref AuthPlayer auPlayer = AuthPlayers[i];
 			
-			if ( auPlayer.GetGUID() == player.GetId() )
-			{
-				auPlayer.Save();
-
-				GetRPCManager().SendRPC( "PermissionsFramework", "RemovePlayer", new Param1< PlayerData >( SerializePlayer( auPlayer ) ), true );
-
-				AuthPlayers.Remove( i );
-				break;
-			}
-		}
-	}
-
-	void PlayerLeftID( string id )
-	{
-		for ( int i = 0; i < AuthPlayers.Count(); i++ )
-		{
-			ref AuthPlayer auPlayer = AuthPlayers[i];
-			
-			if ( auPlayer.GetSteam64ID() == id )
+			if ( auPlayer.GetData().SGUID == player.GetId() )
 			{
 				auPlayer.Save();
 
@@ -206,89 +142,89 @@ class PermissionManager
 		}
 	}
 
-	ref AuthPlayer GetPlayerByGUID( string guid )
+	AuthPlayer GetPlayerByGUID( string guid )
 	{
-		ref AuthPlayer auPlayer = NULL;
+		if ( !GetGame().IsMultiplayer() )
+		{
+			return AuthPlayers[0];
+		}
+
+		AuthPlayer player = NULL;
 
 		for ( int i = 0; i < AuthPlayers.Count(); i++ )
 		{
-			if ( AuthPlayers[i].GetGUID() == guid )
+			if ( AuthPlayers[i].GetData().SGUID == guid )
 			{
-				auPlayer = AuthPlayers[i];
+				player = AuthPlayers[i];
 				break;
 			}
 		}
 
-		if ( auPlayer == NULL )
+		if ( player == NULL && GetGame().IsClient() )
 		{
-			ref PlayerData data = new ref PlayerData;
-			data.SGUID = guid;
-
-			auPlayer = new AuthPlayer( data );
-
-			AuthPlayers.Insert( auPlayer );
+			player = AuthPlayers.Get( AuthPlayers.Insert( new AuthPlayer( NULL ) ) );
 		}
 
-		return auPlayer;
+		return player;
 	}
 
-	ref AuthPlayer GetPlayerBySteam64ID( string steam64 )
+	AuthPlayer GetPlayerBySteam64ID( string steam64 )
 	{
 		if ( !GetGame().IsMultiplayer() )
 		{
 			return AuthPlayers[0];
 		}
 		
-		ref AuthPlayer auPlayer = NULL;
+		AuthPlayer player = NULL;
 
 		for ( int i = 0; i < AuthPlayers.Count(); i++ )
 		{
-			if ( AuthPlayers[i].GetSteam64ID() == steam64 )
+			if ( AuthPlayers[i].GetData().SSteam64ID == steam64 )
 			{
-				auPlayer = AuthPlayers[i];
+				player = AuthPlayers[i];
 				break;
 			}
 		}
 
-		if ( auPlayer == NULL )
+		if ( player == NULL && GetGame().IsClient() )
 		{
-			ref PlayerData data = new ref PlayerData;
-			data.SSteam64ID = steam64;
-
-			auPlayer = new AuthPlayer( data );
-
-			AuthPlayers.Insert( auPlayer );
+			player = AuthPlayers.Get( AuthPlayers.Insert( new AuthPlayer( NULL ) ) );
 		}
 
-		return auPlayer;
+		return player;
 	}
 
-	ref AuthPlayer GetPlayerByIdentity( PlayerIdentity ident )
+	AuthPlayer GetPlayerByIdentity( PlayerIdentity ident )
 	{
 		if ( !GetGame().IsMultiplayer() )
 		{
 			return AuthPlayers[0];
+		}
+
+		if ( !GetGame().IsServer() )
+		{
+			return NULL;
 		}
 		
 		if ( ident == NULL ) return NULL;
 
-		ref AuthPlayer auPlayer = NULL;
+		AuthPlayer player = NULL;
 
 		for ( int i = 0; i < AuthPlayers.Count(); i++ )
 		{
-			if ( AuthPlayers[i].GetGUID() == ident.GetId() )
+			if ( AuthPlayers[i].GetData().SGUID == ident.GetId() )
 			{
-				auPlayer = AuthPlayers[i];
+				player = AuthPlayers[i];
 				break;
 			}
 		}
 
-		if ( auPlayer == NULL )
+		if ( player == NULL )
 		{
-			auPlayer = PlayerJoined( ident );
+			player = OnPlayerJoined( ident );
 		}
 
-		return auPlayer;
+		return player;
 	}
 
 	ref AuthPlayer GetPlayer( PlayerData data )
@@ -299,27 +235,25 @@ class PermissionManager
 		if ( data == NULL )
 			return NULL;
 		
-		ref AuthPlayer auPlayer = NULL;
+		AuthPlayer player = NULL;
 
 		for ( int i = 0; i < AuthPlayers.Count(); i++ )
 		{
-			if ( AuthPlayers[i].GetGUID() == data.SGUID )
+			if ( AuthPlayers[i].GetData().SGUID == data.SGUID )
 			{
-				auPlayer = AuthPlayers[i];
+				player = AuthPlayers[i];
 				break;
 			}
 		}
 
-		if ( auPlayer == NULL )
+		if ( player == NULL && GetGame().IsClient() )
 		{
-			auPlayer = new AuthPlayer( data );
-
-			AuthPlayers.Insert( auPlayer );
+			player = AuthPlayers.Get( AuthPlayers.Insert( new AuthPlayer( NULL ) ) );
 		}
 
-		auPlayer.SwapData( data );
+		player.SwapData( data );
 
-		return auPlayer;
+		return player;
 	}
 
 	protected bool IsValidFolderForRoles( string name, FileAttr attributes )

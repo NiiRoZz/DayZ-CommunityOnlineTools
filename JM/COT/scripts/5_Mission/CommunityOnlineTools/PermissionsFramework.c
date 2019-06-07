@@ -4,7 +4,6 @@ int JM_PERMISSIONS_FRAMEWORK_CURRENT_VERSION_REVISION = 1;
 
 class PermissionsFramework
 {
-	protected ref array< Man > m_ServerPlayers;
 	protected ref array< PlayerIdentity > m_ServerIdentities;
 
 	protected bool m_bLoaded;
@@ -15,8 +14,7 @@ class PermissionsFramework
 
 		if ( GetGame().IsServer() && GetGame().IsMultiplayer() )
 		{
-			m_ServerPlayers = new ref array< Man >;
-			m_ServerIdentities = new ref array< PlayerIdentity >;
+			m_ServerIdentities = new array< PlayerIdentity >;
 		}
 
 		m_bLoaded = false;
@@ -41,7 +39,7 @@ class PermissionsFramework
 		{
 			GetGame().GetCallQueue( CALL_CATEGORY_SYSTEM ).Remove( this.ReloadPlayerList );
 
-			delete m_ServerPlayers;
+			delete m_ServerIdentities;
 		}
 	}
 	
@@ -88,64 +86,15 @@ class PermissionsFramework
 
 	}
 
-	private bool CheckIfExists( ref AuthPlayer auPlayer )
-	{
-		for ( int i = 0; i < m_ServerIdentities.Count(); i++ )
-		{
-			if ( auPlayer.GetGUID() == m_ServerIdentities[i].GetId() )
-			{
-				return true;
-			}
-		}
-
-		return false;
-	}
-
 	void ReloadPlayerList()
 	{
-		GetGame().GetPlayers( m_ServerPlayers );
-
 		GetGame().GetPlayerIndentities( m_ServerIdentities );
 
-		for ( int i = 0; i < GetPermissionsManager().AuthPlayers.Count(); i++ )
+		for ( int j = 0; j < m_ServerIdentities.Count(); j++ )
 		{
-			ref AuthPlayer ap = GetPermissionsManager().AuthPlayers[i];
-
-			if ( !CheckIfExists( ap ) )
-			{
-				ap.Save();
-
-				GetRPCManager().SendRPC( "PermissionsFramework", "RemovePlayer", new Param1< PlayerData >( SerializePlayer( ap ) ), true );
-
-				GetPermissionsManager().AuthPlayers.Remove( i );
-
-				i = i - 1;
-			}
-			
+			GetPermissionsManager().GetPlayerByIdentity( m_ServerIdentities[j] ).UpdatePlayerData();
 		}
 
-		for ( int j = 0; j < m_ServerPlayers.Count(); j++ )
-		{
-			Man man = m_ServerPlayers[j];
-			PlayerBase player = PlayerBase.Cast( man );
-
-			ref AuthPlayer auPlayer = GetPermissionsManager().GetPlayerByIdentity( man.GetIdentity() );
-
-			if ( player )
-			{
-				player.authenticatedPlayer = auPlayer;
-			}
-
-			if ( auPlayer )
-			{
-				auPlayer.PlayerObject = player;
-				auPlayer.IdentityPlayer = man.GetIdentity();
-
-				auPlayer.UpdatePlayerData();
-			}
-		}
-
-		m_ServerPlayers.Clear();
 		m_ServerIdentities.Clear();
 	}
 
@@ -184,8 +133,7 @@ class PermissionsFramework
 			{
 				for ( int i = 0; i < GetPermissionsManager().GetPlayers().Count(); i++ )
 				{
-					ref AuthPlayer ap = GetPermissionsManager().GetPlayers()[i];
-					GetRPCManager().SendRPC( "PermissionsFramework", "UpdatePlayer", new Param3< string, string, string >( ap.GetSteam64ID(), ap.GetName(), ap.GetGUID() ), true, sender );
+					GetRPCManager().SendRPC( "PermissionsFramework", "UpdatePlayerData", new Param1< PlayerData >( GetPermissionsManager().GetPlayers()[i].GetData() ), false, sender );
 				}
 			}
 		}
@@ -200,10 +148,10 @@ class PermissionsFramework
 				ref Param1< PlayerData > data;
 				if ( !ctx.Read( data ) ) return;
 				
-				ref AuthPlayer authPlayer = DeserializePlayer( data.param1 );
+				AuthPlayer player = DeserializePlayer( data.param1 );
 
-				RemoveSelectedPlayer( authPlayer );
-				GetPermissionsManager().AuthPlayers.RemoveItem( authPlayer );
+				RemoveSelectedPlayer( player );
+				GetPermissionsManager().AuthPlayers.RemoveItem( player );
 			}
 		}
 	}
@@ -219,20 +167,20 @@ class PermissionsFramework
 
 				ref AuthPlayer ap = GetPermissionsManager().GetPlayerBySteam64ID( data.param1 );
 
-				ap.Data.SName = data.param2;
-				ap.Data.SGUID = data.param3;
+				ap.GetData().SName = data.param2;
+				ap.GetData().SGUID = data.param3;
 
 				if ( ClientAuthPlayer == NULL )
 				{
 					return;
 				}
 
-				if ( ClientAuthPlayer.Data == NULL )
+				if ( ClientAuthPlayer.GetData() == NULL )
 				{
 					return;
 				}
 
-				if ( ClientAuthPlayer.Data.SGUID == data.param3 )
+				if ( ClientAuthPlayer.GetData().SGUID == data.param3 )
 				{
 					GetModuleManager().OnClientPermissionsUpdated();
 				}
@@ -242,21 +190,28 @@ class PermissionsFramework
 
 	void UpdatePlayerData( CallType type, ref ParamsReadContext ctx, ref PlayerIdentity sender, ref Object target )
 	{
-
 		if ( type == CallType.Server )
 		{
 			if ( !GetPermissionsManager().HasPermission( "Admin.Player.Read", sender ) )
 				return;
 
 			Param1< string > data;
-			if ( !ctx.Read( data ) ) return;
+			if ( !ctx.Read( data ) )
+				return;
 
 			if ( GetGame().IsMultiplayer() )
 			{
 				AuthPlayer player = GetPermissionsManager().GetPlayerByGUID( data.param1 );
-				if ( !player ) return;
+				if ( !player )
+					return;
 
-				GetRPCManager().SendRPC( "PermissionsFramework", "UpdatePlayerData", new Param1< PlayerData >( SerializePlayer( player ) ), true, sender );
+				if ( sender && data.param1 == sender.GetId() )
+				{
+					GetRPCManager().SendRPC( "PermissionsFramework", "SetClientPlayer", new Param1< ref PlayerData >( SerializePlayer( player ) ), false, sender );
+				} else 
+				{
+					GetRPCManager().SendRPC( "PermissionsFramework", "UpdatePlayerData", new Param1< ref PlayerData >( SerializePlayer( player ) ), false, sender );
+				}
 			}
 		}
 
@@ -264,16 +219,11 @@ class PermissionsFramework
 		{
 			if ( GetGame().IsMultiplayer() )
 			{
-				Param1< PlayerData > cdata;
-				if ( !ctx.Read( cdata ) ) return;
+				Param1< ref PlayerData > cdata;
+				if ( !ctx.Read( cdata ) )
+					return;
 
-				AuthPlayer np = DeserializePlayer( cdata.param1 );
-
-				if ( np.Data.SGUID == ClientAuthPlayer.Data.SGUID )
-				{
-					//ClientAuthPlayer = np;
-					GetModuleManager().OnClientPermissionsUpdated();
-				}
+				DeserializePlayer( cdata.param1 );
 			}
 		}
 	}
@@ -285,7 +235,8 @@ class PermissionsFramework
 			if ( GetGame().IsMultiplayer() )
 			{
 				ref Param1< ref PlayerData > data;
-				if ( !ctx.Read( data ) ) return;
+				if ( !ctx.Read( data ) )
+					return;
 
 				ClientAuthPlayer = DeserializePlayer( data.param1 );
 				
@@ -297,7 +248,8 @@ class PermissionsFramework
 	void UpdateRole( CallType type, ref ParamsReadContext ctx, ref PlayerIdentity sender, ref Object target )
 	{
 		ref Param2< string, ref array< string > > data;
-		if ( !ctx.Read( data ) ) return;
+		if ( !ctx.Read( data ) )
+			return;
 
 		ref array< string > arr = new ref array< string >;
 		arr.Copy( data.param2 );
@@ -325,7 +277,7 @@ class PermissionsFramework
 
 			role.Serialize();
 				
-			GetRPCManager().SendRPC( "PermissionsFramework", "UpdateRole", new Param2< string, ref array< string > >( role.Name, role.SerializedData ), true );
+			GetRPCManager().SendRPC( "PermissionsFramework", "UpdateRole", new Param2< string, ref array< string > >( role.Name, role.SerializedData ), false );
 		}
 
 		if ( type == CallType.Client )

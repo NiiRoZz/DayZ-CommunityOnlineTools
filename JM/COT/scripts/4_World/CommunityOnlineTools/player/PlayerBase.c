@@ -31,22 +31,22 @@ modded class PlayerBase
 
 		if ( !killer.authenticatedPlayer ) return;
 
-		if ( killer.authenticatedPlayer.GetGUID() == authenticatedPlayer.GetGUID() )
+		if ( killer.authenticatedPlayer.GetData().SGUID == authenticatedPlayer.GetData().SGUID )
 		{
 			killer.RPCSingleParam(ERPCs.RPC_USER_ACTION_MESSAGE, new Param1<string>( killer.authenticatedPlayer.GetName() + " has killed themselves." ), false, NULL);
 			return;
 		}
 
-		authenticatedPlayer.Data.Kills = 0;
+		authenticatedPlayer.GetData().Kills = 0;
 
-		killer.authenticatedPlayer.Data.Kills++;
-		killer.authenticatedPlayer.Data.TotalKills++;
+		killer.authenticatedPlayer.GetData().Kills++;
+		killer.authenticatedPlayer.GetData().TotalKills++;
 
-		killer.RPCSingleParam(ERPCs.RPC_USER_ACTION_MESSAGE, new Param1<string>( "You have " + killer.authenticatedPlayer.Data.Kills.ToString() + " kill(s)." ), false, killer.GetIdentity());
+		killer.RPCSingleParam(ERPCs.RPC_USER_ACTION_MESSAGE, new Param1<string>( "You have " + killer.authenticatedPlayer.GetData().Kills.ToString() + " kill(s)." ), false, killer.GetIdentity());
 		
 		string message = "";
 
-		switch ( killer.authenticatedPlayer.Data.Kills )
+		switch ( killer.authenticatedPlayer.GetData().Kills )
 		{
 			case 5:
 				message = " is on a killing spree!";
@@ -65,7 +65,7 @@ modded class PlayerBase
 				break;
 		}
 
-		if ( killer.authenticatedPlayer.Data.Kills > 25 ) 
+		if ( killer.authenticatedPlayer.GetData().Kills > 25 ) 
 		{
 			message = " is Godlike!";
 		}

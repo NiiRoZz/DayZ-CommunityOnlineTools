@@ -221,7 +221,7 @@ class TeleportModule: EditorModule
 			
 			for ( int j = 0; j < players.Count(); j++ )
 			{
-				player = players[j].PlayerObject;
+				player = players[j].GetPlayerBase();
 
 				if ( player == NULL )
 					continue;
@@ -245,7 +245,7 @@ class TeleportModule: EditorModule
 					player.SetPosition( position );
 				}
 				
-				COTLog( sender, "Teleported " + players[j].GetSteam64ID() + " to " + location.Name );
+				COTLog( sender, "Teleported " + players[j].GetData().SSteam64ID + " to " + location.Name );
 				
 				SendAdminNotification( sender, player.GetIdentity(), "You have been teleported to " + data.param1 );
 

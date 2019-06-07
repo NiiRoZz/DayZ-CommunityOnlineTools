@@ -13,14 +13,14 @@ ref array< ref AuthPlayer > GetSelectedPlayers()
 	return SELECTED_PLAYERS;
 }
 
-bool PlayerAlreadySelected( ref AuthPlayer player )
+bool PlayerAlreadySelected( AuthPlayer player )
 {
 	int position = GetSelectedPlayers().Find( player );
 
 	return position > -1;
 }
 
-int RemoveSelectedPlayer( ref AuthPlayer player )
+int RemoveSelectedPlayer( AuthPlayer player )
 {
 	int position = GetSelectedPlayers().Find( player );
 
@@ -32,7 +32,7 @@ int RemoveSelectedPlayer( ref AuthPlayer player )
 	return position;
 }
 
-int AddSelectedPlayer( ref AuthPlayer player )
+int AddSelectedPlayer( AuthPlayer player )
 {
 	int position = GetSelectedPlayers().Find( player );
 	
@@ -42,14 +42,14 @@ int AddSelectedPlayer( ref AuthPlayer player )
 	return GetSelectedPlayers().Insert( player );
 }
 
-PlayerData SerializePlayer( ref AuthPlayer player )
+PlayerData SerializePlayer( AuthPlayer player )
 {
 	player.Serialize();
 
-	return player.Data;
+	return player.GetData();
 }
 
-ref AuthPlayer DeserializePlayer( PlayerData data )
+AuthPlayer DeserializePlayer( PlayerData data )
 {
 	return GetPermissionsManager().GetPlayer( data );
 }
@@ -78,13 +78,13 @@ array< ref AuthPlayer > DeserializePlayers( ref array< ref PlayerData > players 
 	return output;
 }
 
-ref array< string > SerializePlayersID( array< ref AuthPlayer > players )
+array< string > SerializePlayersID( array< ref AuthPlayer > players )
 {
-	ref array< string > output = new ref array< string >;
+	array< string > output = new array< string >;
 
 	for ( int i = 0; i < players.Count(); i++)
 	{
-		output.Insert( players[i].GetSteam64ID() );
+		output.Insert( players[i].GetData().SSteam64ID );
 	}
 
 	return output;
@@ -95,7 +95,7 @@ array< ref AuthPlayer > DeserializePlayersID( ref array< string > steam64Ids )
 	return GetPermissionsManager().GetPlayers( steam64Ids );
 }
 
-ref AuthPlayer GetPlayerForID( string steam )
+AuthPlayer GetPlayerForID( string steam )
 {
 	return GetPermissionsManager().GetPlayerBySteam64ID( steam );
 }

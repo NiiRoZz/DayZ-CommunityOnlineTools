@@ -70,7 +70,7 @@ static vector GetCurrentPosition()
 
 static void COTLog( AuthPlayer player, string text )
 {
-	text = "[COT] " + player.GetSteam64ID() + ": " + text;
+	text = "[COT] " + player.GetData().SSteam64ID + ": " + text;
 
 	if ( GetGame().IsServer() )
 	{
