@@ -211,11 +211,7 @@ static set< Object > GetObjectsAt( vector from, vector to, Object ignore = NULL,
 		view.Insert( geom[i] );
 	}
 
-	if ( view.Count() > 0 ) 
-	{
-		return view;
-	}
-	return NULL;
+	return view;
 }
 
 static Object GetPointerObject( float distance = 100.0, Object ignore = NULL, float radius = 0.5, Object with = NULL )
