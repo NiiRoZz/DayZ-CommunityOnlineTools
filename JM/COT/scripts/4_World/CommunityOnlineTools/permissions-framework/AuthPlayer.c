@@ -51,7 +51,7 @@ class AuthPlayer: Managed
 		return m_PlayerIdentity;
 	}
 
-	PlayerBase GetPlayerBase()
+	ref PlayerBase GetPlayerBase()
 	{
 		PlayerBase player = GetPlayerObjectByIdentity( m_PlayerIdentity );
 		
@@ -61,7 +61,7 @@ class AuthPlayer: Managed
 		return player;
 	}
 
-	PlayerData GetData()
+	ref PlayerData GetData()
 	{
 		Serialize();
 
@@ -84,7 +84,7 @@ class AuthPlayer: Managed
 			m_Data.IPingAvg = m_PlayerIdentity.GetPingAvg();
 		}
 
-		GetData().Load( GetPlayerBase() );
+		m_Data.Load( GetPlayerBase() );
 	}
 
 	void CopyPermissions( ref Permission copy )
@@ -102,7 +102,7 @@ class AuthPlayer: Managed
 	{
 		delete RootPermission;
 
-		RootPermission = new ref Permission( GetData().SSteam64ID, NULL );
+		RootPermission = new ref Permission( m_Data.SSteam64ID, NULL );
 
 		m_HasPermissions = false;
 	}
@@ -129,7 +129,7 @@ class AuthPlayer: Managed
 
 		bool has = RootPermission.HasPermission( permission, permType );
 
-		GetLogger().Log( "" +  GetData().SSteam64ID + " returned " + has + " for permission " + permission + " with perm type " + permType, "JM_COT_PermissionFramework" );
+		GetLogger().Log( "" +  m_Data.SSteam64ID + " returned " + has + " for permission " + permission + " with perm type " + permType, "JM_COT_PermissionFramework" );
 
 		if ( has )
 			return true;
@@ -178,14 +178,14 @@ class AuthPlayer: Managed
 
 	void Serialize()
 	{
-		GetData().APermissions.Clear();
-		GetData().ARoles.Clear();
+		m_Data.APermissions.Clear();
+		m_Data.ARoles.Clear();
 
-		RootPermission.Serialize( GetData().APermissions );
+		RootPermission.Serialize( m_Data.APermissions );
 
 		for ( int j = 0; j < Roles.Count(); j++ )
 		{
-			GetData().ARoles.Insert( Roles[j].Name );
+			m_Data.ARoles.Insert( Roles[j].Name );
 		}
 	}
 
@@ -194,14 +194,14 @@ class AuthPlayer: Managed
 		ClearRoles();
 		ClearPermissions();
 		
-		for ( int i = 0; i < GetData().APermissions.Count(); i++ )
+		for ( int i = 0; i < m_Data.APermissions.Count(); i++ )
 		{
-			AddPermission( GetData().APermissions[i] );
+			AddPermission( m_Data.APermissions[i] );
 		}
 
-		for ( int j = 0; j < GetData().ARoles.Count(); j++ )
+		for ( int j = 0; j < m_Data.ARoles.Count(); j++ )
 		{
-			AddStringRole( GetData().ARoles[j] );
+			AddStringRole( m_Data.ARoles[j] );
 		}
 	}
 
@@ -223,11 +223,11 @@ class AuthPlayer: Managed
 		{   
 			m_PlayerFile.Roles.Clear();
 
-			GetLogger().Log( "Saving player data: " + GetData().SSteam64ID, "JM_COT_PermissionFramework" );
+			GetLogger().Log( "Saving player data: " + m_Data.SSteam64ID, "JM_COT_PermissionFramework" );
 
-			for ( int j = 0; j < GetData().ARoles.Count(); j++ )
+			for ( int j = 0; j < m_Data.ARoles.Count(); j++ )
 			{
-				m_PlayerFile.Roles.Insert( GetData().ARoles[j] );
+				m_PlayerFile.Roles.Insert( m_Data.ARoles[j] );
 			}
 
 			m_PlayerFile.Save();
@@ -235,16 +235,16 @@ class AuthPlayer: Managed
 
 		if ( m_HasPermissions )
 		{
-			GetLogger().Log( "Saving permissions: " + GetData().SSteam64ID, "JM_COT_PermissionFramework" );
-			FileHandle file = OpenFile( PERMISSION_FRAMEWORK_DIRECTORY + "Permissions\\" + GetData().SSteam64ID + ".txt", FileMode.WRITE );
+			GetLogger().Log( "Saving permissions: " + m_Data.SSteam64ID, "JM_COT_PermissionFramework" );
+			FileHandle file = OpenFile( PERMISSION_FRAMEWORK_DIRECTORY + "Permissions\\" + m_Data.SSteam64ID + ".txt", FileMode.WRITE );
 
 			if ( file != 0 )
 			{
 				string line;
 
-				for ( int i = 0; i < GetData().APermissions.Count(); i++ )
+				for ( int i = 0; i < m_Data.APermissions.Count(); i++ )
 				{
-					FPrintln( file, GetData().APermissions[i] );
+					FPrintln( file, m_Data.APermissions[i] );
 				}
 				
 				CloseFile(file);
@@ -280,23 +280,23 @@ class AuthPlayer: Managed
 
 	void Load()
 	{
-		m_HasPlayerData = PlayerFile.Load( GetData(), m_PlayerFile );
+		m_HasPlayerData = PlayerFile.Load( m_Data, m_PlayerFile );
 
 		for ( int j = 0; j < m_PlayerFile.Roles.Count(); j++ )
 		{
 			AddStringRole( m_PlayerFile.Roles[j], false );
 		}
 
-		GetLogger().Log( "Loading permissions for " + GetData().SSteam64ID, "JM_COT_PermissionFramework" );
+		GetLogger().Log( "Loading permissions for " + m_Data.SSteam64ID, "JM_COT_PermissionFramework" );
 
-		if ( FileExist( PERMISSION_FRAMEWORK_DIRECTORY + "Permissions\\" + GetData().SSteam64ID + ".txt" ) )
+		if ( FileExist( PERMISSION_FRAMEWORK_DIRECTORY + "Permissions\\" + m_Data.SSteam64ID + ".txt" ) )
 		{
-			m_HasPermissions = ReadPermissions( PERMISSION_FRAMEWORK_DIRECTORY + "Permissions\\" + GetData().SSteam64ID + ".txt" );
-		} else if ( FileExist( PERMISSION_FRAMEWORK_DIRECTORY + "Permissions\\" + GetData().SSteam64ID + ".txt.txt" ) )
+			m_HasPermissions = ReadPermissions( PERMISSION_FRAMEWORK_DIRECTORY + "Permissions\\" + m_Data.SSteam64ID + ".txt" );
+		} else if ( FileExist( PERMISSION_FRAMEWORK_DIRECTORY + "Permissions\\" + m_Data.SSteam64ID + ".txt.txt" ) )
 		{
-			m_HasPermissions = ReadPermissions( PERMISSION_FRAMEWORK_DIRECTORY + "Permissions\\" + GetData().SSteam64ID + ".txt.txt" );
+			m_HasPermissions = ReadPermissions( PERMISSION_FRAMEWORK_DIRECTORY + "Permissions\\" + m_Data.SSteam64ID + ".txt.txt" );
 			
-			DeleteFile( PERMISSION_FRAMEWORK_DIRECTORY + "Permissions\\" + GetData().SSteam64ID + ".txt.txt" );
+			DeleteFile( PERMISSION_FRAMEWORK_DIRECTORY + "Permissions\\" + m_Data.SSteam64ID + ".txt.txt" );
 			
 			Save();
 		} else
@@ -311,9 +311,9 @@ class AuthPlayer: Managed
 
 	void DebugPrint()
 	{
-		GetLogger().Log( "Printing permissions for " + GetData().SSteam64ID, "JM_COT_PermissionFramework" );
+		GetLogger().Log( "Printing permissions for " + m_Data.SSteam64ID, "JM_COT_PermissionFramework" );
 
-		GetData().DebugPrint();
+		m_Data.DebugPrint();
 
 		// RootPermission.DebugPrint( 0 );
 	}
