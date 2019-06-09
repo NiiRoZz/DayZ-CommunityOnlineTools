@@ -76,7 +76,7 @@ class PermissionsFramework
 
 	}
 
-	protected bool CheckIfExists( array< PlayerIdentity > identities, ref AuthPlayer auPlayer )
+	protected bool CheckIfExists( array< PlayerIdentity > identities, AuthPlayer auPlayer )
 	{
 		Print( "Checking against: Steam64ID -> " + auPlayer.GetData().SGUID );
 		for ( int i = 0; i < identities.Count(); i++ )
@@ -96,22 +96,22 @@ class PermissionsFramework
 
 	void ReloadPlayerList()
 	{
-		array< PlayerIdentity > identities = new array< PlayerIdentity >;
+		//array< PlayerIdentity > identities = new array< PlayerIdentity >;
 		array< int > toRemove = new array< int >;
 
-		GetGame().GetPlayerIndentities( identities );
+		//GetGame().GetPlayerIndentities( identities );
 
 		for ( int i = 0; i < GetPermissionsManager().AuthPlayers.Count(); i++ )
 		{
 			GetPermissionsManager().AuthPlayers[i].UpdatePlayerData();
 
-			if ( !CheckIfExists( identities, GetPermissionsManager().AuthPlayers[i] ) )
-				toRemove.Insert( i );
+			//if ( !CheckIfExists( identities, GetPermissionsManager().AuthPlayers[i] ) )
+			//	toRemove.Insert( i );
 		}
 
 		for ( int k = 0; k < toRemove.Count(); k++ )
 		{
-			GetPermissionsManager().OnPlayerLeft( GetPermissionsManager().AuthPlayers[ toRemove[k] ].GetPlayerIdentity() );
+			// GetPermissionsManager().OnPlayerLeft( GetPermissionsManager().AuthPlayers[ toRemove[k] ].GetPlayerIdentity() );
 		}
 
 		GetPermissionsManager().DebugPrint();
@@ -150,14 +150,14 @@ class PermissionsFramework
 		{
 			if ( GetGame().IsMultiplayer() )
 			{
-				for ( int i = 0; i < GetPermissionsManager().GetPlayers().Count(); i++ )
+				for ( int i = 0; i < GetPermissionsManager().AuthPlayers.Count(); i++ )
 				{
-					if ( sender && GetPermissionsManager().GetPlayers()[i].GetData().SGUID == sender.GetPlainId() )
+					if ( sender && GetPermissionsManager().AuthPlayers[i].GetData().SGUID == sender.GetPlainId() )
 					{
-						GetRPCManager().SendRPC( "PermissionsFramework", "SetClientPlayer", new Param1< ref PlayerData >( SerializePlayer( GetPermissionsManager().GetPlayers()[i] ) ), false, sender );
+						GetRPCManager().SendRPC( "PermissionsFramework", "SetClientPlayer", new Param1< ref PlayerData >( GetPermissionsManager().AuthPlayers[i].GetData() ), false, sender );
 					} else 
 					{
-						GetRPCManager().SendRPC( "PermissionsFramework", "UpdatePlayerData", new Param1< ref PlayerData >( SerializePlayer( GetPermissionsManager().GetPlayers()[i] ) ), false, sender );
+						GetRPCManager().SendRPC( "PermissionsFramework", "UpdatePlayerData", new Param1< ref PlayerData >( GetPermissionsManager().AuthPlayers[i].GetData() ), false, sender );
 					}
 				}
 			}
@@ -174,7 +174,7 @@ class PermissionsFramework
 				if ( !ctx.Read( data ) )
 					return;
 				
-				AuthPlayer player = DeserializePlayer( data.param1 );
+				AuthPlayer player = GetPermissionsManager().GetPlayer( data.param1 );
 
 				RemoveSelectedPlayer( player );
 				GetPermissionsManager().AuthPlayers.RemoveItem( player );
@@ -201,10 +201,10 @@ class PermissionsFramework
 
 				if ( sender && data.param1 == sender.GetPlainId() )
 				{
-					GetRPCManager().SendRPC( "PermissionsFramework", "SetClientPlayer", new Param1< ref PlayerData >( SerializePlayer( player ) ), false, sender );
+					GetRPCManager().SendRPC( "PermissionsFramework", "SetClientPlayer", new Param1< ref PlayerData >( player.GetData() ), false, sender );
 				} else 
 				{
-					GetRPCManager().SendRPC( "PermissionsFramework", "UpdatePlayerData", new Param1< ref PlayerData >( SerializePlayer( player ) ), false, sender );
+					GetRPCManager().SendRPC( "PermissionsFramework", "UpdatePlayerData", new Param1< ref PlayerData >( player.GetData() ), false, sender );
 				}
 			}
 		}
@@ -217,7 +217,7 @@ class PermissionsFramework
 				if ( !ctx.Read( cdata ) )
 					return;
 
-				DeserializePlayer( cdata.param1 );
+				GetPermissionsManager().GetPlayer( cdata.param1 );
 			}
 		}
 	}
@@ -232,7 +232,7 @@ class PermissionsFramework
 				if ( !ctx.Read( data ) )
 					return;
 
-				ClientAuthPlayer = DeserializePlayer( data.param1 );
+				ClientAuthPlayer = GetPermissionsManager().GetPlayer( data.param1 );
 
 				ClientAuthPlayer.GetData().DebugPrint();
 

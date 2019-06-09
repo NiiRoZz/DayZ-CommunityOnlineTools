@@ -22,14 +22,9 @@ class PermissionManager
 		RootPermission = new ref Permission( "ROOT" );
 	}
 
-	array< ref AuthPlayer > GetPlayers( ref array< string > steamIds = NULL )
+	array< AuthPlayer > GetPlayersFromArray( ref array< string > steamIds )
 	{
-		if ( steamIds == NULL || !GetGame().IsMultiplayer() )
-		{
-			return AuthPlayers;
-		}
-
-		array< ref AuthPlayer > tempArray = new array< ref AuthPlayer >;
+		array< AuthPlayer > tempArray = new array< AuthPlayer >;
 
 		for ( int i = 0; i < steamIds.Count(); i++ )
 		{
@@ -124,7 +119,7 @@ class PermissionManager
 			{
 				AuthPlayers[i].Save();
 
-				GetRPCManager().SendRPC( "PermissionsFramework", "RemovePlayer", new Param1< ref PlayerData >( SerializePlayer( AuthPlayers[i] ) ), true );
+				GetRPCManager().SendRPC( "PermissionsFramework", "RemovePlayer", new Param1< ref PlayerData >( AuthPlayers[i].GetData() ), true );
 
 				AuthPlayers.Remove( i );
 				return;

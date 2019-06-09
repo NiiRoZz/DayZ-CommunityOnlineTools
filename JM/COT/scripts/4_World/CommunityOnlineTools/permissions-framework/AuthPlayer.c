@@ -46,7 +46,7 @@ class AuthPlayer: Managed
 		Deserialize();
 	}
 
-	PlayerIdentity GetPlayerIdentity()
+	ref PlayerIdentity GetPlayerIdentity()
 	{
 		return m_PlayerIdentity;
 	}
@@ -63,6 +63,8 @@ class AuthPlayer: Managed
 
 	PlayerData GetData()
 	{
+		Serialize();
+
 		return m_Data;
 	}
 

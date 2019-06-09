@@ -208,7 +208,7 @@ class ObjectModule: EditorModule
 				SpawnItemOnPlayer( sender, GetGame().GetPlayer(), data.param1, data.param2 );
 			} else
 			{
-				array< ref AuthPlayer > players = DeserializePlayersID( data.param3 );
+				array< AuthPlayer > players = GetPermissionsManager().GetPlayersFromArray( data.param3 );
 	
 				for ( int i = 0; i < players.Count(); i++ )
 				{

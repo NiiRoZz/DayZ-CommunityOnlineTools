@@ -217,7 +217,7 @@ class TeleportModule: EditorModule
 				return;
 			}
 
-			array< ref AuthPlayer > players = DeserializePlayersID( data.param2 );
+			array< AuthPlayer > players = GetPermissionsManager().GetPlayersFromArray( data.param2 );
 			
 			for ( int j = 0; j < players.Count(); j++ )
 			{

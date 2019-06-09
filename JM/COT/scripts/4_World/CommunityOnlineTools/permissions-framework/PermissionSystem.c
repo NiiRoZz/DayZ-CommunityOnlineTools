@@ -42,25 +42,13 @@ int AddSelectedPlayer( AuthPlayer player )
 	return GetSelectedPlayers().Insert( player );
 }
 
-PlayerData SerializePlayer( AuthPlayer player )
-{
-	player.Serialize();
-
-	return player.GetData();
-}
-
-AuthPlayer DeserializePlayer( PlayerData data )
-{
-	return GetPermissionsManager().GetPlayer( data );
-}
-
 array< PlayerData > SerializePlayers( array< ref AuthPlayer > players )
 {
 	array< PlayerData > output = new array< PlayerData >;
 
 	for ( int i = 0; i < players.Count(); i++)
 	{
-		output.Insert( SerializePlayer( players[i] ) );
+		output.Insert( players[i].GetData() );
 	}
 
 	return output;
@@ -72,7 +60,7 @@ array< ref AuthPlayer > DeserializePlayers( array< ref PlayerData > players )
 
 	for ( int i = 0; i < players.Count(); i++)
 	{
-		output.Insert( DeserializePlayer( players[i] ) );
+		output.Insert( GetPermissionsManager().GetPlayer( players[i] ) );
 	}
 
 	return output;
@@ -88,14 +76,4 @@ array< string > SerializePlayersID( array< ref AuthPlayer > players )
 	}
 
 	return output;
-}
-
-array< ref AuthPlayer > DeserializePlayersID( array< string > steam64Ids )
-{
-	return GetPermissionsManager().GetPlayers( steam64Ids );
-}
-
-AuthPlayer GetPlayerForID( string steam )
-{
-	return GetPermissionsManager().GetPlayerBySteam64ID( steam );
 }

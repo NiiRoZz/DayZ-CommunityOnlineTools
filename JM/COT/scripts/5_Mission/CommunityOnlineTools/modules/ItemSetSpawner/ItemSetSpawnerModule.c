@@ -186,7 +186,7 @@ class ItemSetSpawnerModule: EditorModule
 		
 		if ( GetGame().IsMultiplayer() )
 		{
-			array< ref AuthPlayer > players = DeserializePlayersID( data.param2 );
+			array< AuthPlayer > players = GetPermissionsManager().GetPlayersFromArray( data.param2 );
 			
 			if ( type == CallType.Server )
 			{

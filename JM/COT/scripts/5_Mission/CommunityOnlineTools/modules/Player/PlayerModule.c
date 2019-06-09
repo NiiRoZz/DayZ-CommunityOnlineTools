@@ -78,7 +78,7 @@ class PlayerModule: EditorModule
 
 		if ( type == CallType.Server )
 		{
-			array< ref AuthPlayer > players = DeserializePlayersID( data.param2 );
+			array< AuthPlayer > players = GetPermissionsManager().GetPlayersFromArray( data.param2 );
 
 			for ( int i = 0; i < players.Count(); i++ )
 			{
@@ -108,7 +108,7 @@ class PlayerModule: EditorModule
 
 		if ( type == CallType.Server )
 		{
-			array< ref AuthPlayer > players = DeserializePlayersID( data.param2 );
+			array< AuthPlayer > players = GetPermissionsManager().GetPlayersFromArray( data.param2 );
 
 			for ( int i = 0; i < players.Count(); i++ )
 			{
@@ -138,7 +138,7 @@ class PlayerModule: EditorModule
 
 		if ( type == CallType.Server )
 		{
-			array< ref AuthPlayer > players = DeserializePlayersID( data.param2 );
+			array< AuthPlayer > players = GetPermissionsManager().GetPlayersFromArray( data.param2 );
 
 			for ( int i = 0; i < players.Count(); i++ )
 			{
@@ -168,7 +168,7 @@ class PlayerModule: EditorModule
 
 		if ( type == CallType.Server )
 		{
-			array< ref AuthPlayer > players = DeserializePlayersID( data.param2 );
+			array< AuthPlayer > players = GetPermissionsManager().GetPlayersFromArray( data.param2 );
 
 			for ( int i = 0; i < players.Count(); i++ )
 			{
@@ -198,7 +198,7 @@ class PlayerModule: EditorModule
 
 		if ( type == CallType.Server )
 		{
-			array< ref AuthPlayer > players = DeserializePlayersID( data.param2 );
+			array< AuthPlayer > players = GetPermissionsManager().GetPlayersFromArray( data.param2 );
 
 			for ( int i = 0; i < players.Count(); i++ )
 			{
@@ -228,7 +228,7 @@ class PlayerModule: EditorModule
 
 		if ( type == CallType.Server )
 		{
-			array< ref AuthPlayer > players = DeserializePlayersID( data.param2 );
+			array< AuthPlayer > players = GetPermissionsManager().GetPlayersFromArray( data.param2 );
 
 			for ( int i = 0; i < players.Count(); i++ )
 			{
@@ -258,7 +258,7 @@ class PlayerModule: EditorModule
 
 		if ( type == CallType.Server )
 		{
-			array< ref AuthPlayer > players = DeserializePlayersID( data.param2 );
+			array< AuthPlayer > players = GetPermissionsManager().GetPlayersFromArray( data.param2 );
 
 			for ( int i = 0; i < players.Count(); i++ )
 			{
@@ -288,7 +288,7 @@ class PlayerModule: EditorModule
 
 		if ( type == CallType.Server )
 		{
-			array< ref AuthPlayer > players = DeserializePlayersID( data.param2 );
+			array< AuthPlayer > players = GetPermissionsManager().GetPlayersFromArray( data.param2 );
 
 			for ( int i = 0; i < players.Count(); i++ )
 			{
@@ -318,7 +318,7 @@ class PlayerModule: EditorModule
 
 		if ( type == CallType.Server )
 		{
-			array< ref AuthPlayer > players = DeserializePlayersID( data.param2 );
+			array< AuthPlayer > players = GetPermissionsManager().GetPlayersFromArray( data.param2 );
 
 			for ( int i = 0; i < players.Count(); i++ )
 			{
@@ -348,7 +348,7 @@ class PlayerModule: EditorModule
 
 		if ( type == CallType.Server )
 		{
-			array< ref AuthPlayer > players = DeserializePlayersID( data.param2 );
+			array< AuthPlayer > players = GetPermissionsManager().GetPlayersFromArray( data.param2 );
 
 			for ( int i = 0; i < players.Count(); i++ )
 			{
@@ -381,7 +381,7 @@ class PlayerModule: EditorModule
 
 		if ( type == CallType.Server )
 		{
-			array< ref AuthPlayer > players = DeserializePlayersID( data.param2 );
+			array< AuthPlayer > players = GetPermissionsManager().GetPlayersFromArray( data.param2 );
 
 			for ( int i = 0; i < players.Count(); i++ )
 			{
@@ -417,7 +417,7 @@ class PlayerModule: EditorModule
 
 		if ( type == CallType.Server )
 		{
-			array< ref AuthPlayer > players = DeserializePlayersID( data.param1 );
+			array< AuthPlayer > players = GetPermissionsManager().GetPlayersFromArray( data.param1 );
 
 			for ( int i = 0; i < players.Count(); i++ )
 			{
@@ -469,7 +469,7 @@ class PlayerModule: EditorModule
 		{
 			array< Transport > completedTransports = new array< Transport >;
 
-			array< ref AuthPlayer > players = DeserializePlayersID( data.param1 );
+			array< AuthPlayer > players = GetPermissionsManager().GetPlayersFromArray( data.param1 );
 
 			for ( int i = 0; i < players.Count(); i++ )
 			{
@@ -531,7 +531,7 @@ class PlayerModule: EditorModule
 
 		if ( type == CallType.Server )
 		{
-			array< ref AuthPlayer > players = DeserializePlayersID( data.param2 );
+			array< AuthPlayer > players = GetPermissionsManager().GetPlayersFromArray( data.param2 );
 
 			for ( int i = 0; i < players.Count(); i++ )
 			{
@@ -582,7 +582,7 @@ class PlayerModule: EditorModule
 
 		if ( type == CallType.Server )
 		{
-			array< ref AuthPlayer > players = DeserializePlayersID( data.param1 );
+			array< AuthPlayer > players = GetPermissionsManager().GetPlayersFromArray( data.param1 );
 
 			if ( players.Count() != 1 ) return;
 
@@ -625,7 +625,7 @@ class PlayerModule: EditorModule
 				return;
 			}
 
-			array< ref AuthPlayer > players = DeserializePlayersID( data.param2 );
+			array< AuthPlayer > players = GetPermissionsManager().GetPlayersFromArray( data.param2 );
 
 			if ( players.Count() != 1 ) return;
 
@@ -668,7 +668,7 @@ class PlayerModule: EditorModule
 
 		if ( type == CallType.Server )
 		{
-			array< ref AuthPlayer > players = DeserializePlayersID( data.param2 );
+			array< AuthPlayer > players = GetPermissionsManager().GetPlayersFromArray( data.param2 );
 
 			for ( int i = 0; i < players.Count(); i++ )
 			{
@@ -710,13 +710,13 @@ class PlayerModule: EditorModule
 			ref array< string > guids = new ref array< string >;
 			guids.Copy( data.param2 );
 
-			array< ref AuthPlayer > players = DeserializePlayersID( data.param2 );
+			array< AuthPlayer > players = GetPermissionsManager().GetPlayersFromArray( data.param2 );
 
 			for ( int i = 0; i < guids.Count(); i++ )
 			{
 				for ( int k = 0; k < GetPermissionsManager().AuthPlayers.Count(); k++ )
 				{
-					ref AuthPlayer player = GetPermissionsManager().AuthPlayers[k];
+					AuthPlayer player = GetPermissionsManager().AuthPlayers[k];
 					
 					if ( guids[i] == player.GetData().SSteam64ID )
 					{
@@ -727,7 +727,7 @@ class PlayerModule: EditorModule
 							player.AddPermission( perms[j] );
 						}
 
-						GetRPCManager().SendRPC( "PermissionsFramework", "SetClientPlayer", new Param1< ref PlayerData >( SerializePlayer( player ) ), true, player.GetPlayerIdentity() );
+						GetRPCManager().SendRPC( "PermissionsFramework", "SetClientPlayer", new Param1< ref PlayerData >( player.GetData() ), true, player.GetPlayerIdentity() );
 
 						player.Save();
 
@@ -759,13 +759,13 @@ class PlayerModule: EditorModule
 			ref array< string > guids = new ref array< string >;
 			guids.Copy( data.param2 );
 
-			array< ref AuthPlayer > players = DeserializePlayersID( data.param2 );
+			array< AuthPlayer > players = GetPermissionsManager().GetPlayersFromArray( data.param2 );
 
 			for ( int i = 0; i < guids.Count(); i++ )
 			{
 				for ( int k = 0; k < GetPermissionsManager().AuthPlayers.Count(); k++ )
 				{
-					ref AuthPlayer player = GetPermissionsManager().AuthPlayers[k];
+					AuthPlayer player = GetPermissionsManager().AuthPlayers[k];
 					
 					if ( guids[i] == player.GetData().SSteam64ID )
 					{
@@ -776,7 +776,7 @@ class PlayerModule: EditorModule
 							player.AddStringRole( roles[j] );
 						}
 
-						GetRPCManager().SendRPC( "PermissionsFramework", "SetClientPlayer", new Param1< ref PlayerData >( SerializePlayer( player ) ), false, player.GetPlayerIdentity() );
+						GetRPCManager().SendRPC( "PermissionsFramework", "SetClientPlayer", new Param1< ref PlayerData >( player.GetData() ), false, player.GetPlayerIdentity() );
 
 						player.Save();
 
@@ -802,7 +802,7 @@ class PlayerModule: EditorModule
 			ref Param1< ref array< string > > data;
 			if ( !ctx.Read( data ) ) return;
 
-			array< ref AuthPlayer > auPlayers = DeserializePlayersID( data.param1 );
+			array< AuthPlayer > auPlayers = GetPermissionsManager().GetPlayersFromArray( data.param1 );
 
 			for ( int i = 0; i < auPlayers.Count(); i++ )
 			{
@@ -828,7 +828,7 @@ class PlayerModule: EditorModule
 			ref Param1< ref array< string > > data;
 			if ( !ctx.Read( data ) ) return;
 
-			array< ref AuthPlayer > auPlayers = DeserializePlayersID( data.param1 );
+			array< AuthPlayer > auPlayers = GetPermissionsManager().GetPlayersFromArray( data.param1 );
 
 			for ( int i = 0; i < auPlayers.Count(); i++ )
 			{

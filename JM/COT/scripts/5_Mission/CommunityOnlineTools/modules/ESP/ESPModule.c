@@ -510,7 +510,7 @@ class ESPModule: EditorModule
 			ref ESPInfo info = new ref ESPInfo;
 			info.name = data.param1.name;
 			
-			ref AuthPlayer player = GetPlayerForID( data.param1.steamid );
+			ref AuthPlayer player = GetPermissionsManager().GetPlayerBySteam64ID( data.param1.steamid );
 			if ( player )
 			{
 				info.type = ESPType.PLAYER;
