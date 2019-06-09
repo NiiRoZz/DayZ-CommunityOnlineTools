@@ -205,7 +205,7 @@ class ItemSetSpawnerModule: EditorModule
 				
 					SendAdminNotification( sender, players[i].GetPlayerIdentity(), "You have been given item set " + data.param1 );
 
-					if ( sender.GetId() != players[i].GetPlayerIdentity().GetId() )
+					if ( sender.GetPlainId() != players[i].GetPlayerIdentity().GetPlainId() )
 						SendAdminNotification( players[i].GetPlayerIdentity(), sender, "You gave item set " + data.param1 );
 				}
 			}

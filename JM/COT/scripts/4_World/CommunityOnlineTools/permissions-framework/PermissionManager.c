@@ -92,7 +92,7 @@ class PermissionManager
 
 		for ( int i = 0; i < AuthPlayers.Count(); i++ )
 		{
-			if ( AuthPlayers[i].GetData().SGUID == identity.GetId() )
+			if ( AuthPlayers[i].GetData().SGUID == identity.GetPlainId() )
 			{
 				return AuthPlayers[i].HasPermission( permission );
 			}
@@ -120,7 +120,7 @@ class PermissionManager
 
 		for ( int i = 0; i < AuthPlayers.Count(); i++ )
 		{
-			if ( AuthPlayers[i].GetData().SGUID == player.GetId() )
+			if ( AuthPlayers[i].GetData().SGUID == player.GetPlainId() )
 			{
 				AuthPlayers[i].Save();
 
@@ -196,7 +196,7 @@ class PermissionManager
 
 		for ( int i = 0; i < AuthPlayers.Count(); i++ )
 		{
-			if ( AuthPlayers[i].GetData().SGUID == ident.GetId() )
+			if ( AuthPlayers[i].GetData().SGUID == ident.GetPlainId() )
 			{
 				return AuthPlayers[i];
 			}

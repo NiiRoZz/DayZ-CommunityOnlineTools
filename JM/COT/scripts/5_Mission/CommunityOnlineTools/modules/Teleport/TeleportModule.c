@@ -249,7 +249,7 @@ class TeleportModule: EditorModule
 				
 				SendAdminNotification( sender, player.GetIdentity(), "You have been teleported to " + data.param1 );
 
-				if ( sender.GetId() != player.GetIdentity().GetId() )
+				if ( sender.GetPlainId() != player.GetIdentity().GetPlainId() )
 					SendAdminNotification( player.GetIdentity(), sender, "Teleported to " + data.param1 );
 			}
 		}

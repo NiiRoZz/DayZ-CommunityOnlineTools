@@ -189,7 +189,7 @@ class ObjectModule: EditorModule
 
 		SendAdminNotification( sender, player.GetIdentity(), entity.GetDisplayName() + " has been added to your inventory, quantity " + quantity );
 
-		if ( sender.GetId() != player.GetIdentity().GetId() )
+		if ( sender.GetPlainId() != player.GetIdentity().GetPlainId() )
 			SendAdminNotification( player.GetIdentity(), sender, entity.GetDisplayName() + " has been added to their inventory, quantity " + quantity );
 	}
 

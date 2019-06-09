@@ -78,13 +78,13 @@ class PermissionsFramework
 
 	protected bool CheckIfExists( array< PlayerIdentity > identities, ref AuthPlayer auPlayer )
 	{
-		Print( "Checking against: GUID -> " + auPlayer.GetData().SGUID );
+		Print( "Checking against: Steam64ID -> " + auPlayer.GetData().SGUID );
 		for ( int i = 0; i < identities.Count(); i++ )
 		{
-			Print( "  Testing against: " + identities[i].GetId() + " data=" + identities[i] );
-			if ( auPlayer.GetData().SGUID == identities[i].GetId() )
+			Print( "  Testing against: " + identities[i].GetPlainId() + " data=" + identities[i] + ", guid=" + identities[i].GetId() );
+			if ( auPlayer.GetData().SGUID == identities[i].GetPlainId() )
 			{
-				Print( "Found this shit." );
+				Print( "Found this." );
 				return true;
 			}
 		}
@@ -152,7 +152,7 @@ class PermissionsFramework
 			{
 				for ( int i = 0; i < GetPermissionsManager().GetPlayers().Count(); i++ )
 				{
-					if ( sender && GetPermissionsManager().GetPlayers()[i].GetData().SGUID == sender.GetId() )
+					if ( sender && GetPermissionsManager().GetPlayers()[i].GetData().SGUID == sender.GetPlainId() )
 					{
 						GetRPCManager().SendRPC( "PermissionsFramework", "SetClientPlayer", new Param1< ref PlayerData >( SerializePlayer( GetPermissionsManager().GetPlayers()[i] ) ), false, sender );
 					} else 
@@ -199,7 +199,7 @@ class PermissionsFramework
 				if ( !player )
 					return;
 
-				if ( sender && data.param1 == sender.GetId() )
+				if ( sender && data.param1 == sender.GetPlainId() )
 				{
 					GetRPCManager().SendRPC( "PermissionsFramework", "SetClientPlayer", new Param1< ref PlayerData >( SerializePlayer( player ) ), false, sender );
 				} else 

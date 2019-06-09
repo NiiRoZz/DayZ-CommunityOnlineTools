@@ -92,7 +92,7 @@ class PlayerModule: EditorModule
 
 				SendAdminNotification( sender, player.GetIdentity(), "Your health has been set to " + data.param1 );
 
-				if ( sender.GetId() != player.GetIdentity().GetId() )
+				if ( sender.GetPlainId() != player.GetIdentity().GetPlainId() )
 					SendAdminNotification( player.GetIdentity(), sender, "Health has been set to " + data.param1 );
 			}
 		}
@@ -122,7 +122,7 @@ class PlayerModule: EditorModule
 
 				SendAdminNotification( sender, player.GetIdentity(), "Your blood has been set to " + data.param1 );
 
-				if ( sender.GetId() != player.GetIdentity().GetId() )
+				if ( sender.GetPlainId() != player.GetIdentity().GetPlainId() )
 					SendAdminNotification( player.GetIdentity(), sender, "Blood has been set to " + data.param1 );
 			}
 		}
@@ -152,7 +152,7 @@ class PlayerModule: EditorModule
 
 				SendAdminNotification( sender, player.GetIdentity(), "Your energy has been set to " + data.param1 );
 
-				if ( sender.GetId() != player.GetIdentity().GetId() )
+				if ( sender.GetPlainId() != player.GetIdentity().GetPlainId() )
 					SendAdminNotification( player.GetIdentity(), sender, "Energy has been set to " + data.param1 );
 			}
 		}
@@ -182,7 +182,7 @@ class PlayerModule: EditorModule
 
 				SendAdminNotification( sender, player.GetIdentity(), "Your water has been set to " + data.param1 );
 
-				if ( sender.GetId() != player.GetIdentity().GetId() )
+				if ( sender.GetPlainId() != player.GetIdentity().GetPlainId() )
 					SendAdminNotification( player.GetIdentity(), sender, "Water has been set to " + data.param1 );
 			}
 		}
@@ -212,7 +212,7 @@ class PlayerModule: EditorModule
 
 				SendAdminNotification( sender, player.GetIdentity(), "Your shock has been set to " + data.param1 );
 
-				if ( sender.GetId() != player.GetIdentity().GetId() )
+				if ( sender.GetPlainId() != player.GetIdentity().GetPlainId() )
 					SendAdminNotification( player.GetIdentity(), sender, "Shock has been set to " + data.param1 );
 			}
 		}
@@ -242,7 +242,7 @@ class PlayerModule: EditorModule
 
 				SendAdminNotification( sender, player.GetIdentity(), "Your heat comfort has been set to " + data.param1 );
 
-				if ( sender.GetId() != player.GetIdentity().GetId() )
+				if ( sender.GetPlainId() != player.GetIdentity().GetPlainId() )
 					SendAdminNotification( player.GetIdentity(), sender, "Heat comfort has been set to " + data.param1 );
 			}
 		}
@@ -272,7 +272,7 @@ class PlayerModule: EditorModule
 
 				SendAdminNotification( sender, player.GetIdentity(), "Your wetness has been set to " + data.param1 );
 
-				if ( sender.GetId() != player.GetIdentity().GetId() )
+				if ( sender.GetPlainId() != player.GetIdentity().GetPlainId() )
 					SendAdminNotification( player.GetIdentity(), sender, "Wetness has been set to " + data.param1 );
 			}
 		}
@@ -302,7 +302,7 @@ class PlayerModule: EditorModule
 
 				SendAdminNotification( sender, player.GetIdentity(), "Your tremor has been set to " + data.param1 );
 
-				if ( sender.GetId() != player.GetIdentity().GetId() )
+				if ( sender.GetPlainId() != player.GetIdentity().GetPlainId() )
 					SendAdminNotification( player.GetIdentity(), sender, "Tremor has been set to " + data.param1 );
 			}
 		}
@@ -332,7 +332,7 @@ class PlayerModule: EditorModule
 
 				SendAdminNotification( sender, player.GetIdentity(), "Your stamina has been set to " + data.param1 );
 
-				if ( sender.GetId() != player.GetIdentity().GetId() )
+				if ( sender.GetPlainId() != player.GetIdentity().GetPlainId() )
 					SendAdminNotification( player.GetIdentity(), sender, "Stamina has been set to " + data.param1 );
 			}
 		}
@@ -365,7 +365,7 @@ class PlayerModule: EditorModule
 
 				SendAdminNotification( sender, player.GetIdentity(), "Your beard state has been set to " + data.param1 );
 
-				if ( sender.GetId() != player.GetIdentity().GetId() )
+				if ( sender.GetPlainId() != player.GetIdentity().GetPlainId() )
 					SendAdminNotification( player.GetIdentity(), sender, "Beard state has been set to " + data.param1 );
 			}
 		}
@@ -401,7 +401,7 @@ class PlayerModule: EditorModule
 					SendAdminNotification( sender, player.GetIdentity(), "You no longer have bloody hands." );
 				}
 
-				if ( sender.GetId() != player.GetIdentity().GetId() )
+				if ( sender.GetPlainId() != player.GetIdentity().GetPlainId() )
 					SendAdminNotification( player.GetIdentity(), sender, "Bloody hands has been set to " + data.param1 );
 			}
 		}
@@ -449,7 +449,7 @@ class PlayerModule: EditorModule
 
 						SendAdminNotification( sender, player.GetIdentity(), "You have been kicked out of your vehicle." );
 
-						if ( sender.GetId() != player.GetIdentity().GetId() )
+						if ( sender.GetPlainId() != player.GetIdentity().GetPlainId() )
 							SendAdminNotification( player.GetIdentity(), sender, "Kicked out of vehicle." );
 					}
 				}
@@ -515,7 +515,7 @@ class PlayerModule: EditorModule
 
 					SendAdminNotification( sender, player.GetIdentity(), "Your vehicle has been repaired." );
 
-					if ( sender.GetId() != player.GetIdentity().GetId() )
+					if ( sender.GetPlainId() != player.GetIdentity().GetPlainId() )
 						SendAdminNotification( player.GetIdentity(), sender, "Vehicle has been repaired." );
 				}
 			}
@@ -554,7 +554,7 @@ class PlayerModule: EditorModule
 
 				SendAdminNotification( sender, player.GetIdentity(), "You have been teleported to " + VectorToString( data.param1, 1 ) );
 
-				if ( sender.GetId() != player.GetIdentity().GetId() )
+				if ( sender.GetPlainId() != player.GetIdentity().GetPlainId() )
 					SendAdminNotification( player.GetIdentity(), sender, "Teleported to " + VectorToString( data.param1, 1 ) );
 			}
 		}
@@ -596,7 +596,7 @@ class PlayerModule: EditorModule
 
 			SendAdminNotification( sender, player.GetIdentity(), "Teleported themself to you." );
 
-			if ( sender.GetId() != player.GetIdentity().GetId() )
+			if ( sender.GetPlainId() != player.GetIdentity().GetPlainId() )
 				SendAdminNotification( player.GetIdentity(), sender, "You've teleported to player." );
 		}
 	}
@@ -688,7 +688,7 @@ class PlayerModule: EditorModule
 					SendAdminNotification( sender, player.GetIdentity(), "You no longer have god mode." );
 				}
 
-				if ( sender.GetId() != player.GetIdentity().GetId() )
+				if ( sender.GetPlainId() != player.GetIdentity().GetPlainId() )
 					SendAdminNotification( player.GetIdentity(), sender, "God mode has been set to " + data.param1 );
 			}
 		}
@@ -735,7 +735,7 @@ class PlayerModule: EditorModule
 
 						SendAdminNotification( sender, player.GetPlayerIdentity(), "Your permissions have been updated." );
 
-						if ( sender.GetId() != player.GetPlayerIdentity().GetId() )
+						if ( sender.GetPlainId() != player.GetPlayerIdentity().GetPlainId() )
 							SendAdminNotification( player.GetPlayerIdentity(), sender, "Updated permissions." );
 					}
 				}
@@ -784,7 +784,7 @@ class PlayerModule: EditorModule
 
 						SendAdminNotification( sender, player.GetPlayerIdentity(), "Your roles have been updated." );
 
-						if ( sender.GetId() != player.GetPlayerIdentity().GetId() )
+						if ( sender.GetPlainId() != player.GetPlayerIdentity().GetPlainId() )
 							SendAdminNotification( player.GetPlayerIdentity(), sender, "Updated roles." );
 					}
 				}
@@ -812,7 +812,7 @@ class PlayerModule: EditorModule
 				// won't ever send
 				//SendAdminNotification( sender, auPlayers[i].GetPlayerIdentity(), "You have been kicked." );
 
-				if ( sender.GetId() != auPlayers[i].GetPlayerIdentity().GetId() )
+				if ( sender.GetPlainId() != auPlayers[i].GetPlayerIdentity().GetPlainId() )
 					SendAdminNotification( auPlayers[i].GetPlayerIdentity(), sender, "Kicked player." );
 			}
 		}
@@ -838,7 +838,7 @@ class PlayerModule: EditorModule
 				// won't ever send
 				//SendAdminNotification( sender, auPlayers[i].GetPlayerIdentity(), "You have been banned." );
 
-				if ( sender.GetId() != auPlayers[i].GetPlayerIdentity().GetId() )
+				if ( sender.GetPlainId() != auPlayers[i].GetPlayerIdentity().GetPlainId() )
 					SendAdminNotification( auPlayers[i].GetPlayerIdentity(), sender, "Banned player." );
 			}
 		}

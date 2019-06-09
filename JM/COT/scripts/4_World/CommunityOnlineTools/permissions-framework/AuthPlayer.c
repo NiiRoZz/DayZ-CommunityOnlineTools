@@ -73,7 +73,7 @@ class AuthPlayer: Managed
 			if ( !m_PreventChangingCore )
 			{
 				m_Data.SName = m_PlayerIdentity.GetName();
-				m_Data.SGUID = m_PlayerIdentity.GetId();
+				m_Data.SGUID = m_PlayerIdentity.GetPlainId();
 				m_Data.SSteam64ID = m_PlayerIdentity.GetPlainId();
 			}
 
