@@ -78,13 +78,18 @@ class PermissionsFramework
 
 	protected bool CheckIfExists( array< PlayerIdentity > identities, ref AuthPlayer auPlayer )
 	{
+		Print( "Checking against: GUID -> " + auPlayer.GetData().SGUID );
 		for ( int i = 0; i < identities.Count(); i++ )
 		{
+			Print( "  Testing against: " + identities[i].GetId() + " data=" + identities[i] );
 			if ( auPlayer.GetData().SGUID == identities[i].GetId() )
 			{
+				Print( "Found this shit." );
 				return true;
 			}
 		}
+
+		Print( "Failed to find." );
 
 		return false;
 	}

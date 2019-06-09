@@ -66,7 +66,7 @@ class PlayerData: Managed
 		FStamina = player.GetStatStamina().Get();
 		ILifeSpanState = player.GetLifeSpanState();
 		BBloodyHands = player.HasBloodyHands();
-		BGodMode = player.m_HasGodeMode;
+		BGodMode = player.HasGodMode();
 	}
 
 	void Copy( PlayerData data, bool isClient )
