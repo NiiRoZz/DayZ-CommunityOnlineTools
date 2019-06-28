@@ -78,15 +78,6 @@ modded class MissionServer
 		}
 	}
 
-	override void OnPreloadEvent(PlayerIdentity identity, out bool useDB, out vector pos, out float yaw, out int queueTime)
-	{
-		super.OnPreloadEvent( identity, useDB, pos, yaw, queueTime );
-
-		GetPermissionsManager().GetPlayerByIdentity( identity );
-
-		// queueTime = 0;
-	}
-
 	override void InvokeOnConnect( PlayerBase player, PlayerIdentity identity)
 	{
 		super.InvokeOnConnect( player, identity );
