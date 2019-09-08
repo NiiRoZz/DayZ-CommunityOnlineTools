@@ -1,14 +1,8 @@
-class CommunityOnlineTools
+class CommunityOnlineTools: CommunityOnlineToolsBase
 {
-	protected bool m_bLoaded;
-
 	void CommunityOnlineTools()
 	{
 		Print("CommunityOnlineTools::CommunityOnlineTools");
-
-		MakeDirectory( PERMISSION_FRAMEWORK_DIRECTORY );
-
-		m_bLoaded = false;
 
 		GetRPCManager().AddRPC( "COT", "UpdatePlayers", this, SingeplayerExecutionType.Server );
 		GetRPCManager().AddRPC( "COT", "RemovePlayer", this, SingeplayerExecutionType.Client );
@@ -23,54 +17,42 @@ class CommunityOnlineTools
 		NewModuleManager();
 	}
 
-	void RegisterModules()
-	{
-		GetModuleManager().RegisterModule( new CommunityOnlineToolsModule );
-		GetModuleManager().RegisterModule( new DebugModule );
-		// GetModuleManager().RegisterModule( new ServerInformationModule );
-		GetModuleManager().RegisterModule( new PlayerModule );
-		GetModuleManager().RegisterModule( new ObjectModule );
-		GetModuleManager().RegisterModule( new ESPModule );
-		GetModuleManager().RegisterModule( new MapEditorModule );
-		GetModuleManager().RegisterModule( new TeleportModule );
-		GetModuleManager().RegisterModule( new CameraTool );
-		GetModuleManager().RegisterModule( new ItemSetSpawnerModule );
-		GetModuleManager().RegisterModule( new VehicleSpawnerModule );
-		GetModuleManager().RegisterModule( new WeatherModule );
-		GetModuleManager().RegisterModule( new COTMapModule );
-	}
-
 	void ~CommunityOnlineTools()
 	{
 		Print("CommunityOnlineTools::~CommunityOnlineTools");
 	}
+
+	override void RegisterModules()
+	{
+		super.RegisterModules();
+
+		GetModuleManager().RegisterModule( new CommunityOnlineToolsModule );
+		GetModuleManager().RegisterModule( new JMDebugModule );
+		// GetModuleManager().RegisterModule( new JMServerInfoModule );
+		GetModuleManager().RegisterModule( new JMSelectedModule );
+		GetModuleManager().RegisterModule( new JMPlayerModule );
+		GetModuleManager().RegisterModule( new JMObjectSpawnerModule );
+		GetModuleManager().RegisterModule( new JMESPModule );
+		GetModuleManager().RegisterModule( new JMMapEditorModule );
+		GetModuleManager().RegisterModule( new JMTeleportModule );
+		GetModuleManager().RegisterModule( new JMCameraModule );
+		GetModuleManager().RegisterModule( new JMItemSetSpawnerModule );
+		GetModuleManager().RegisterModule( new JMVehicleSpawnerModule );
+		GetModuleManager().RegisterModule( new JMWeatherModule );
+		GetModuleManager().RegisterModule( new JMMapModule );
+	}
 	
-	void OnStart()
+	override void OnStart()
 	{
-		if ( GetGame().IsServer() && GetGame().IsMultiplayer() )
-		{
-			GetPermissionsManager().LoadRoles();
-		}
-
-		GetModuleManager().RegisterModules();
-
-		RegisterModules();
-
-		GetModuleManager().OnInit();
-		
-		GetModuleManager().ReloadSettings();
-
-		GetModuleManager().OnMissionStart();
+		super.OnStart();
 	}
 
-	void OnFinish()
+	override void OnFinish()
 	{
-		GetModuleManager().OnMissionFinish();
-
-		NewModuleManager();
+		super.OnFinish();
 	}
 
-	void OnLoaded()
+	override void OnLoaded()
 	{
 		if ( GetGame().IsClient() && GetGame().IsMultiplayer() )
 		{
@@ -82,27 +64,21 @@ class CommunityOnlineTools
 			GetGame().GetCallQueue( CALL_CATEGORY_SYSTEM ).CallLater( this.ReloadPlayerList, 1000, true );
 		}
 
-		GetModuleManager().OnMissionLoaded();
+		super.OnLoaded();
 	}
 
-	void OnUpdate( float timeslice )
+	override void OnUpdate( float timeslice )
 	{
-		if( !m_bLoaded && !GetDayZGame().IsLoading() )
-		{
-			m_bLoaded = true;
-			OnLoaded();
-		} else {
-			GetModuleManager().OnUpdate( timeslice );
-		}
+		super.OnUpdate( timeslice );
 	}
 
 	void ReloadPlayerList()
 	{
-		array< ref AuthPlayer > toRemove = new array< ref AuthPlayer >;
+		array< ref JMPlayerInstance > toRemove = new array< ref JMPlayerInstance >;
 
 		for ( int i = 0; i < GetPermissionsManager().AuthPlayers.Count(); i++ )
 		{
-			AuthPlayer ap = GetPermissionsManager().AuthPlayers[i];
+			JMPlayerInstance ap = GetPermissionsManager().AuthPlayers[i];
 			
 			if ( ap.IdentityPlayer == NULL )
 			{
@@ -117,13 +93,12 @@ class CommunityOnlineTools
 		{
 			toRemove[j].Save();
 
-			GetRPCManager().SendRPC( "COT", "RemovePlayer", new Param1< ref PlayerData >( SerializePlayer( toRemove[j] ) ), true );
+			GetRPCManager().SendRPC( "COT", "RemovePlayer", new Param1< ref JMPlayerInformation >( SerializePlayer( toRemove[j] ) ), true );
 
 			GetPermissionsManager().AuthPlayers.RemoveItem( toRemove[j] );
 		}
 	}
 
-	
 	void UpdatePlayers( CallType type, ref ParamsReadContext ctx, ref PlayerIdentity sender, ref Object target )
 	{
 		if ( type == CallType.Server )
@@ -132,12 +107,12 @@ class CommunityOnlineTools
 			{
 				for ( int i = 0; i < GetPermissionsManager().AuthPlayers.Count(); i++ )
 				{
-					if ( sender && GetPermissionsManager().AuthPlayers[i].Data.SGUID == sender.GetPlainId() )
+					if ( sender && GetPermissionsManager().AuthPlayers[i].IdentityPlayer == sender )
 					{
-						GetRPCManager().SendRPC( "COT", "SetClientPlayer", new Param2< ref PlayerData, PlayerIdentity >( GetPermissionsManager().AuthPlayers[i].Data, GetPermissionsManager().AuthPlayers[i].IdentityPlayer ), false, sender );
+						GetRPCManager().SendRPC( "COT", "SetClientPlayer", new Param2< ref JMPlayerInformation, PlayerIdentity >( GetPermissionsManager().AuthPlayers[i].Data, GetPermissionsManager().AuthPlayers[i].IdentityPlayer ), false, sender );
 					} else 
 					{
-						GetRPCManager().SendRPC( "COT", "UpdatePlayerData", new Param2< ref PlayerData, PlayerIdentity >( GetPermissionsManager().AuthPlayers[i].Data, GetPermissionsManager().AuthPlayers[i].IdentityPlayer ), false, sender );
+						GetRPCManager().SendRPC( "COT", "UpdatePlayerData", new Param2< ref JMPlayerInformation, PlayerIdentity >( GetPermissionsManager().AuthPlayers[i].Data, GetPermissionsManager().AuthPlayers[i].IdentityPlayer ), false, sender );
 					}
 				}
 			}
@@ -150,11 +125,11 @@ class CommunityOnlineTools
 		{
 			if ( GetGame().IsMultiplayer() )
 			{
-				ref Param1< ref PlayerData > data;
+				ref Param1< ref JMPlayerInformation > data;
 				if ( !ctx.Read( data ) )
 					return;
 				
-				AuthPlayer player = GetPermissionsManager().GetPlayer( data.param1 );
+				JMPlayerInstance player = GetPermissionsManager().GetPlayer( data.param1 );
 
 				RemoveSelectedPlayer( player );
 				GetPermissionsManager().AuthPlayers.RemoveItem( player );
@@ -175,16 +150,16 @@ class CommunityOnlineTools
 
 			if ( GetGame().IsMultiplayer() )
 			{
-				AuthPlayer player = GetPermissionsManager().GetPlayerByGUID( data.param1 );
+				JMPlayerInstance player = GetPermissionsManager().GetPlayerByGUID( data.param1 );
 				if ( !player )
 					return;
 
-				if ( data.param1 == sender.GetPlainId() )
+				if ( player.IdentityPlayer == sender )
 				{
-					GetRPCManager().SendRPC( "COT", "SetClientPlayer", new Param2< ref PlayerData, PlayerIdentity >( player.Data, player.IdentityPlayer ), false, sender );
+					GetRPCManager().SendRPC( "COT", "SetClientPlayer", new Param2< ref JMPlayerInformation, PlayerIdentity >( player.Data, player.IdentityPlayer ), false, sender );
 				} else 
 				{
-					GetRPCManager().SendRPC( "COT", "UpdatePlayerData", new Param2< ref PlayerData, PlayerIdentity >( player.Data, player.IdentityPlayer ), false, sender );
+					GetRPCManager().SendRPC( "COT", "UpdatePlayerData", new Param2< ref JMPlayerInformation, PlayerIdentity >( player.Data, player.IdentityPlayer ), false, sender );
 				}
 			}
 		}
@@ -193,7 +168,7 @@ class CommunityOnlineTools
 		{
 			if ( GetGame().IsMultiplayer() )
 			{
-				ref Param2< ref PlayerData, PlayerIdentity > cdata;
+				ref Param2< ref JMPlayerInformation, PlayerIdentity > cdata;
 				if ( !ctx.Read( cdata ) )
 					return;
 
@@ -208,7 +183,7 @@ class CommunityOnlineTools
 		{
 			if ( GetGame().IsMultiplayer() )
 			{
-				ref Param2< ref PlayerData, PlayerIdentity > data;
+				ref Param2< ref JMPlayerInformation, PlayerIdentity > data;
 				if ( !ctx.Read( data ) )
 					return;
 
@@ -229,10 +204,10 @@ class CommunityOnlineTools
 		if ( !ctx.Read( data ) )
 			return;
 
-		ref array< string > arr = new ref array< string >;
+		ref array< string > arr = new array< string >;
 		arr.Copy( data.param2 );
 
-		ref Role role = NULL;
+		ref JMRole role = NULL;
 
 		if ( type == CallType.Server )
 		{
@@ -275,4 +250,9 @@ class CommunityOnlineTools
 			}
 		}
 	}
+}
+
+CommunityOnlineTools GetCommunityOnlineTools()
+{
+    return CommunityOnlineTools.Cast( g_cotBase );
 }

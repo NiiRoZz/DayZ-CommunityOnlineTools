@@ -2,18 +2,18 @@ modded class MissionServer
 {
 	static ref ScriptInvoker EVENT_INVOKER = new ScriptInvoker();
 
-	protected ref CommunityOnlineTools m_COT;
-
 	void MissionServer()
 	{		
 		m_bLoaded = false;
-
-		m_COT = new CommunityOnlineTools;
+		
+		if ( !g_cotBase )
+		{
+			g_cotBase = new CommunityOnlineTools;
+		}
 	}
 
 	void ~MissionServer()
 	{
-		delete m_COT;
 	}
 
 	override void OnInit()
@@ -25,12 +25,12 @@ modded class MissionServer
 	{
 		super.OnMissionStart();
 
-		m_COT.OnStart();
+		GetCommunityOnlineTools().OnStart();
 	}
 
 	override void OnMissionFinish()
 	{
-		m_COT.OnFinish();
+		GetCommunityOnlineTools().OnFinish();
 
 		super.OnMissionFinish();
 	}
@@ -39,7 +39,7 @@ modded class MissionServer
 	{
 		super.OnMissionLoaded();
 
-		ref array< string > data = new ref array< string >;
+		ref array< string > data = new array< string >;
 		GetPermissionsManager().RootPermission.Serialize( data );
 
 		if ( !GetPermissionsManager().RoleExists( "everyone" ) )
@@ -74,7 +74,7 @@ modded class MissionServer
 
 		if ( m_bLoaded )
 		{
-			m_COT.OnUpdate( timeslice );
+			GetCommunityOnlineTools().OnUpdate( timeslice );
 		}
 	}
 
@@ -84,12 +84,12 @@ modded class MissionServer
 
 		for ( int i = 0; i < GetPermissionsManager().Roles.Count(); i++ )
 		{
-			Role role = GetPermissionsManager().Roles[i];
+			JMRole role = GetPermissionsManager().Roles[i];
 			role.Serialize();
 			GetRPCManager().SendRPC( "COT", "UpdateRole", new Param2< string, ref array< string > >( role.Name, role.SerializedData ), true, identity );
 		}
 
-		GetRPCManager().SendRPC( "COT", "SetClientPlayer", new Param2< ref PlayerData, PlayerIdentity >( SerializePlayer( GetPermissionsManager().PlayerJoined( identity ) ), identity ), true, identity );
+		GetRPCManager().SendRPC( "COT", "SetClientPlayer", new Param2< ref JMPlayerInformation, PlayerIdentity >( SerializePlayer( GetPermissionsManager().PlayerJoined( identity ) ), identity ), true, identity );
 
 		GetGame().SelectPlayer( identity, player );
 	} 

@@ -1,32 +1,70 @@
 
 modded class PlayerBase
 {
-	protected AuthPlayer m_AuthenticatedPlayer;
+	private JMPlayerInstance m_AuthenticatedPlayer;
 
-	protected bool m_HasGodMode;
-	protected bool m_IsInvisible;
+	private bool m_HasGodMode;
+
+	private bool m_IsInvisible;
+	private bool m_IsInvisibleRemoteSynch;
+
+	private vector m_LastPosition;
+	private bool m_HasLastPosition;
 
 	override void Init()
 	{
 		super.Init();
 
-		RegisterNetSyncVariableBool( "m_HasGodMode" );
-		RegisterNetSyncVariableBool( "m_IsInvisible" );
+		RegisterNetSyncVariableBool( "m_IsInvisibleRemoteSynch" );
+
+		m_HasLastPosition = false;
 	}
 
 	override void OnVariablesSynchronized()
 	{
 		super.OnVariablesSynchronized();
 
-		SetInvisible( m_IsInvisible );
+		if ( m_IsInvisibleRemoteSynch != m_IsInvisible )
+		{
+			m_IsInvisibleRemoteSynch = m_IsInvisible;
+			if ( m_IsInvisible )
+			{
+				ClearFlags( EntityFlags.VISIBLE, true );
+			} else
+			{
+				SetFlags( EntityFlags.VISIBLE, true );
+			}
+
+			//SetInvisible( m_IsInvisible );
+		}
 	}
 
-	void SetAuthenticatedPlayer( ref AuthPlayer player )
+	bool HasLastPosition()
+	{
+		return m_HasLastPosition;
+	}
+
+	vector GetLastPosition()
+	{
+		return m_LastPosition;
+	}
+
+	void SetLastPosition( vector pos )
+	{
+		if ( GetGame().IsServer() )
+		{
+			m_LastPosition = pos;
+
+			m_HasLastPosition = true;
+		}
+	}
+
+	void SetAuthenticatedPlayer( ref JMPlayerInstance player )
 	{
 		m_AuthenticatedPlayer = player;
 	}
 
-	AuthPlayer GetAuthenticatedPlayer()
+	JMPlayerInstance GetAuthenticatedPlayer()
 	{
 		return m_AuthenticatedPlayer;
 	}
@@ -55,7 +93,8 @@ modded class PlayerBase
 	{
 		if ( GetGame().IsServer() )
 		{
-			m_IsInvisible = mode
+			m_IsInvisible = mode;
+			m_IsInvisibleRemoteSynch = mode;
 
 			SetSynchDirty();
 		}

@@ -1,24 +1,27 @@
-class COTModule : Module
+class COTModule : JMModuleBase
 {
 	static ref COTModule COTInstance;
 
-	protected ref COTMenu m_COTMenu;
+	protected ref JMCOTSideBar m_COTMenu;
 
-	protected bool m_PreventOpening; 
 	protected bool m_ForceHUD;
 
 	void COTModule()
 	{
 		COTInstance = this;
 
-		MakeDirectory( ROOT_COT_DIR );
+		MakeDirectory( JMConstants.DIR_COT );
+
+		CommunityOnlineToolsBase.SI_OPEN.Insert( SetMenuState );
 
 		GetPermissionsManager().RegisterPermission( "COT.View" );
 	}
 
 	void ~COTModule()
 	{
-		CloseMenu( false );
+		m_COTMenu.Hide();
+
+		CommunityOnlineToolsBase.SI_OPEN.Remove( SetMenuState );
 
 		delete m_COTMenu;
 	}
@@ -29,7 +32,7 @@ class COTModule : Module
 		{
 			if ( m_COTMenu == NULL )
 			{
-				m_COTMenu = new ref COTMenu;
+				m_COTMenu = new JMCOTSideBar;
 				m_COTMenu.Init();
 			}
 		}
@@ -37,11 +40,11 @@ class COTModule : Module
 
 	override void RegisterKeyMouseBindings() 
 	{
-		RegisterKeyMouseBinding( new KeyMouseBinding( "ToggleMenu",		"UACOTModuleToggleMenu",	true 	) );
-		RegisterKeyMouseBinding( new KeyMouseBinding( "FocusGame",		"UACOTModuleFocusGame",		true 	) );
-		RegisterKeyMouseBinding( new KeyMouseBinding( "FocusUI",		"UACOTModuleFocusUI",		true 	) );
-		RegisterKeyMouseBinding( new KeyMouseBinding( "ToggleCOT",		"UACOTModuleToggleCOT",		false 	) );
-		RegisterKeyMouseBinding( new KeyMouseBinding( "CloseCOT",		"UAUIBack",					true 	) );
+		RegisterKeyMouseBinding( new JMModuleBinding( "ToggleMenu",		"UACOTModuleToggleMenu",	true 	) );
+		RegisterKeyMouseBinding( new JMModuleBinding( "FocusGame",		"UACOTModuleFocusGame",		true 	) );
+		RegisterKeyMouseBinding( new JMModuleBinding( "FocusUI",		"UACOTModuleFocusUI",		true 	) );
+		RegisterKeyMouseBinding( new JMModuleBinding( "ToggleCOT",		"UACOTModuleToggleCOT",		false 	) );
+		RegisterKeyMouseBinding( new JMModuleBinding( "CloseCOT",		"UAUIBack",					true 	) );
 	}
 
 	override void OnUpdate( float timeslice )
@@ -67,27 +70,37 @@ class COTModule : Module
 		}
 	}
 
-	void ShowMenu( bool force, bool checkForPerms = true )
+	void SetMenuState( bool show )
 	{
-		if ( m_PreventOpening ) 
+		if ( show )
 		{
-			if ( !force )
+			if ( !m_COTMenu.IsVisible() )
 			{
-				return;
+				m_COTMenu.Show();
+			}
+		} else
+		{
+			if ( m_COTMenu.IsVisible() )
+			{
+				m_COTMenu.Hide();
 			}
 		}
+	}
 
+	void ShowMenu( bool force, bool checkForPerms = true )
+	{
 		if ( checkForPerms && !GetPermissionsManager().HasPermission( "COT.View" ) )
 			return;
 			
 		m_COTMenu.Show();
 	}
 
-	void CloseMenu( bool prevent )
+	void CloseCOT( UAInput input )
 	{
-		m_COTMenu.Hide();
+		if ( !( input.LocalPress() ) )
+			return;
 
-		m_PreventOpening = prevent;
+		GetCommunityOnlineToolsBase().SetOpen( false );
 	}
 
 	void ToggleMenu( UAInput input = NULL )
@@ -95,22 +108,7 @@ class COTModule : Module
 		if ( input != NULL && !( input.LocalPress() ) )
 			return;
 
-		if ( !GetPermissionsManager().HasPermission( "COT.View" ) )
-			return;
-
-		if ( !COTIsActive )
-		{
-			CreateLocalAdminNotification( "Community Online Tools is currently toggled off." );
-			return;
-		}
-
-		if ( m_COTMenu.IsVisible() )
-		{
-			CloseMenu( false );
-		} else
-		{
-			ShowMenu( false, false );
-		}
+		GetCommunityOnlineToolsBase().ToggleOpen();
 	}
 
 	void FocusUI( UAInput input )
@@ -159,9 +157,9 @@ class COTModule : Module
 		if ( !GetPermissionsManager().HasPermission( "COT.View" ) )
 			return;
 
-		COTIsActive = !COTIsActive;
+		GetCommunityOnlineToolsBase().ToggleActive();
 
-		if ( COTIsActive )
+		if ( !GetCommunityOnlineToolsBase().IsActive() )
 		{
 			CreateLocalAdminNotification( "Community Online Tools has been toggled on." );
 		} else
@@ -169,35 +167,4 @@ class COTModule : Module
 			CreateLocalAdminNotification( "Community Online Tools has been toggled off." );
 		}
 	}
-
-	void CloseCOT( UAInput input )
-	{
-		if ( !( input.LocalPress() ) )
-			return;
-
-		if ( m_COTMenu.IsVisible() )
-		{
-			CloseMenu( false );
-		}
-	}
-}
-
-static void COTForceHud( bool enable )
-{
-	COTModule.COTInstance.COTForceHud( enable );
-}
-
-static void ShowCOTMenu( bool force = false )
-{
-	COTModule.COTInstance.ShowMenu( force );
-}
-
-static void CloseCOTMenu( bool prevent = false )
-{
-	COTModule.COTInstance.CloseMenu( prevent );
-}
-
-static void ToggleCOTMenu()
-{
-	COTModule.COTInstance.ToggleMenu();
 }
